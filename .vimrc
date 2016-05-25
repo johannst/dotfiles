@@ -3,14 +3,6 @@ runtime! debian.vim
 set nocompatible     " make Vim less Vi 
 
 " +----------------------------+
-" | Source Extrenal Files      |
-" +----------------------------+
-source ~/.vim/vimrc_files/colors.vim
-source ~/.vim/vimrc_files/highlight.vim
-source ~/.vim/vimrc_files/keymaps.vim
-source ~/.vim/vimrc_files/functions.vim
-
-" +----------------------------+
 " | Color Settings             |
 " +----------------------------+
 syntax on
@@ -18,10 +10,10 @@ syntax on
 "set background=light
 set background=dark
 
-colorscheme solarized
+"colorscheme solarized
 "colorscheme scheakur
 "colorscheme pride
-"colorscheme buddy
+colorscheme buddy
 "colorscheme gruvbox
 
 
@@ -49,6 +41,7 @@ set expandtab                 " expand tabs to spaces
 set shiftwidth=4              " but an indent level is 2 spaces wide.
 set softtabstop=4             " <BS> over an autoindent deletes both spaces.
 set shiftround                " rounds indent to a multiple of shiftwidth
+set backspace=2
 
 set nowrap                    " don't wrap text
 set noautowrite               " Never write a file unless I request it.
@@ -83,3 +76,11 @@ set wildignore+=*.o,*.obj,.git,*.pyc,*~
 set noerrorbells
 set novisualbell
 set tm=500
+
+" +----------------------------+
+" | Source Extrenal Files      |
+" +----------------------------+
+source ~/.vim/vimrc_files/colors.vim
+source ~/.vim/vimrc_files/keymaps.vim
+source ~/.vim/vimrc_files/highlights.vim
+source ~/.vim/vimrc_files/functions.vim

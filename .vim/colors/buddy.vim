@@ -9,7 +9,7 @@ if version > 580
 endif
 
 set t_Co=256
-let g:colors_name = "buddy_modified"
+let g:colors_name = "buddy"
 
 "hi IncSearch -- no settings --
 "hi WildMenu -- no settings --
@@ -65,7 +65,7 @@ hi StorageClass guifg=#f0911d guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg
 hi Todo guifg=#a9a9a9 guibg=NONE guisp=NONE gui=italic ctermfg=248 ctermbg=NONE cterm=NONE
 hi Special guifg=#f3cf64 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE cterm=NONE
 hi LineNr guifg=#4d4d4d guibg=#1d1d1d guisp=#1d1d1d gui=NONE ctermfg=239 ctermbg=234 cterm=NONE
-hi StatusLine guifg=#fffcf0 guibg=#444444 guisp=#444444 gui=italic ctermfg=230 ctermbg=238 cterm=NONE
+"hi StatusLine guifg=#fffcf0 guibg=#444444 guisp=#444444 gui=italic ctermfg=230 ctermbg=238 cterm=NONE
 hi Label guifg=#f3cf64 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE cterm=NONE
 hi PMenuSel guifg=#1a1a1a guibg=#e6cd83 guisp=#e6cd83 gui=NONE ctermfg=234 ctermbg=180 cterm=NONE
 hi Delimiter guifg=#f0ffe2 guibg=NONE guisp=NONE gui=NONE ctermfg=194 ctermbg=NONE cterm=NONE
