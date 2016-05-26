@@ -64,3 +64,7 @@ vnoremap <c-e> $
 
 " Shortcut to toggle relative numbering mode
 nnoremap <c-n> :call ToggleRelativeNumber()<CR>
+
+
+" Open BufferExplorer
+nnoremap <C-b> :call BufExplorer()<CR>
