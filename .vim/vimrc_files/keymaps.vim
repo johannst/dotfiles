@@ -68,3 +68,7 @@ nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 
 " Open BufferExplorer
 nnoremap <C-b> :call BufExplorer()<CR>
+
+
+" invoke grep and print output into current buffer
+nnoremap <C-g> :read !grep -nI 
