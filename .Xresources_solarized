@@ -1,3 +1,6 @@
+! dotfiles -- .Xresources_solarized
+! author: johannst
+
 !XTerm*renderFont: true
 !XTerm*faceName: Vera Serif Mono
 !XTerm*faceName: Liberation Mono

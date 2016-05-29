@@ -1,3 +1,6 @@
+" dotfiles -- .vim/vimrc_files/highlights.vim
+" author: johannst
+
 " hi clear CursorLine
 " augroup CLClear
 "     autocmd! ColorScheme * hi clear CursorLine

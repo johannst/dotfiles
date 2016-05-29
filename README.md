@@ -19,3 +19,7 @@
     - not first plugin (.vim/plugin .vim/doc exist):
         # link plugin from .vim/available_plugins into .vim/plugin
         # link doc from .vim/available_plugins into .vim/doc
+
+
+- **.bashrc/**
+    - this files should be sourced from within a .bashrc/.bash_profile file

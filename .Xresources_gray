@@ -1,3 +1,6 @@
+! dotfiles -- .Xresources_gray
+! author: johannst
+
 xterm*font : 9x15
 XTerm*scaleHeight: 1.1
 xterm*metaSendsEscape: true

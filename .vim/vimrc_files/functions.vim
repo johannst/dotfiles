@@ -1,3 +1,6 @@
+" dotfiles -- .vim/vimrc_files/functions.vim
+" author: johannst
+
 " Split Window and scroll down
 fu! SplitScroll()
     :wincmd v

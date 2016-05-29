@@ -1,3 +1,6 @@
+" dotfiles -- .vimrc
+" author: johannst
+
 runtime! debian.vim
 
 set nocompatible     " make Vim less Vi 

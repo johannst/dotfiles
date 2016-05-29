@@ -1,3 +1,6 @@
+" dotfiles -- .vim/vimrc_files/keymaps.vim
+" author: johannst
+
 "remap esc button
 imap jj <Esc>
 
