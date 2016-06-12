@@ -75,3 +75,6 @@ nnoremap <C-b> :call BufExplorer()<CR>
 
 " invoke grep and print output into current buffer
 nnoremap <C-g> :read !grep -nI 
+
+" substituce selection
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
