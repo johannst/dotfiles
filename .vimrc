@@ -1,29 +1,26 @@
 " dotfiles -- .vimrc
 " author: johannst
 
-runtime! debian.vim
-
 set nocompatible     " make Vim less Vi 
+
+
+source ~/.vim/vimrc_files/vundle.vim
+source ~/.vim/vimrc_files/plugin_config.vim
+
 
 " +----------------------------+
 " | Color Settings             |
 " +----------------------------+
 syntax on
 
-"set background=light
+" default colorscheme
 set background=dark
-
-"colorscheme solarized
-"colorscheme scheakur
-"colorscheme pride
 colorscheme buddy
-"colorscheme gruvbox
 
 
 " +----------------------------+
 " | Basic Settings             |
 " +----------------------------+
-filetype on                   " try to detect filetypes
 filetype plugin indent on     " enable loading indent file for filetype
 set ffs=unix,dos,mac          " Try recognizing dos, unix, and mac line endings.
 
@@ -46,6 +43,7 @@ set softtabstop=4             " <BS> over an autoindent deletes both spaces.
 set shiftround                " rounds indent to a multiple of shiftwidth
 set backspace=2
 
+set hidden                    " do not unload abandoned buffers
 set nowrap                    " don't wrap text
 set noautowrite               " Never write a file unless I request it.
 set noautowriteall            " NEVER.
@@ -54,7 +52,7 @@ set shortmess+=a              " Use [+]/[RO]/[w] for modified/readonly/written.
 
 set smarttab                  " Handle tabs more intelligently 
 set smartcase	              " Do smart case matching
-set autoindent                "Copy indent from current line when starting a new line
+set autoindent                " Copy indent from current line when starting a new line
 set smartindent               " use smart indent if there is no indent file
 set showmatch	              " Show matching brackets.
 set mat=2                     " how many tenths of a second to blink when matching brackets

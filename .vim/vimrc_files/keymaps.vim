@@ -1,9 +1,20 @@
 " dotfiles -- .vim/vimrc_files/keymaps.vim
 " author: johannst
 
+" set leader key
+let mapleader=","
+
 "remap esc button
 imap jj <Esc>
 
+" prevent quit accidentlty 
+map :q :close
+map :wq :w
+noremap :qq :q
+noremap <leader>d :bd<CR>
+
+" re-adjust indentation
+map <fi> mzgg=G`z
 
 "let ArrowDisableMessage = "Arrow Keys disabled! Better learn hjkl ;)"
 
@@ -49,11 +60,11 @@ map <c-l>     <c-w>l
 map <c-h>     <c-w>h
 
    
-" navigate between different Tabs
-nnoremap <S-Left>  :tabprev<CR>
-nnoremap <S-Right> :tabnext<CR>
-nnoremap <S-h>     :tabprev<CR>
-nnoremap <S-l>     :tabnext<CR>
+" navigate between different buffers 
+nnoremap <S-Left>  :bprevious<CR>
+nnoremap <S-Right> :bnext<CR>
+nnoremap <S-h>     :bprevious<CR>
+nnoremap <S-l>     :bnext<CR>
 
 
 " ctrl-ae jump to line start/end 
