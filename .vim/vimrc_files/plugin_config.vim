@@ -17,3 +17,8 @@ if !exists('g:airline_symbols')
      let g:airline_symbols = {}
 endif
 
+
+" +----------------------------+
+" | Tagbar                     |
+" +----------------------------+
+let g:tagbar_ctags_bin='/u/jstolp/bin/ctags'

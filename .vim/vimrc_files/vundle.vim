@@ -15,4 +15,7 @@ Plugin 'jlanzarotta/bufexplorer'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
+Plugin 'majutsushi/tagbar'
+
+
 call vundle#end()         

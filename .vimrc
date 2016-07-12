@@ -3,7 +3,6 @@
 
 set nocompatible     " make Vim less Vi 
 
-
 source ~/.vim/vimrc_files/vundle.vim
 source ~/.vim/vimrc_files/plugin_config.vim
 
@@ -21,6 +20,8 @@ colorscheme buddy
 " +----------------------------+
 " | Basic Settings             |
 " +----------------------------+
+set timeoutlen=1234           " time in ms until command are interpreted
+
 filetype plugin indent on     " enable loading indent file for filetype
 set ffs=unix,dos,mac          " Try recognizing dos, unix, and mac line endings.
 
@@ -76,7 +77,6 @@ set wildignore+=*.o,*.obj,.git,*.pyc,*~
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
-set tm=500
 
 " +----------------------------+
 " | Source Extrenal Files      |

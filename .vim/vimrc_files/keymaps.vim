@@ -4,17 +4,20 @@
 " set leader key
 let mapleader=","
 
+" re-source .vimrc
+map <leader>v :source ~/.vimrc<CR>
+
 "remap esc button
 imap jj <Esc>
 
 " prevent quit accidentlty 
-map :q :close
-map :wq :w
-noremap :qq :q
-noremap <leader>d :bd<CR>
+map :q :bd
+map :qa :bd
+map :wq :w<CR>:bd
+noremap <leader>q :q<CR>
 
 " re-adjust indentation
-map <fi> mzgg=G`z
+map <leader>f mzgg=G`z
 
 "let ArrowDisableMessage = "Arrow Keys disabled! Better learn hjkl ;)"
 
@@ -50,30 +53,31 @@ cnoremap <c-l> <Right>
 
 
 " navigate between different splits 
-map <c-Down>  <c-w>j
-map <c-Up>    <c-w>k
-map <c-Right> <c-w>l
-map <c-Left>  <c-w>h
-map <c-j>     <c-w>j
-map <c-k>     <c-w>k
-map <c-l>     <c-w>l
-map <c-h>     <c-w>h
+map <C-Down>  <c-w>j
+map <C-Up>    <c-w>k
+map <C-Right> <c-w>l
+map <C-Left>  <c-w>h
+
+
+" resize splits
+map <C-j>     <C-w>5-
+map <C-k>     <C-w>5+
+map <C-l>     <C-w>5<
+map <C-h>     <C-w>5>
 
    
 " navigate between different buffers 
 nnoremap <S-Left>  :bprevious<CR>
 nnoremap <S-Right> :bnext<CR>
-nnoremap <S-h>     :bprevious<CR>
-nnoremap <S-l>     :bnext<CR>
 
 
 " ctrl-ae jump to line start/end 
-nnoremap <c-a> 0
-nnoremap <c-e> $
-inoremap <c-a> <c-o>0
-inoremap <c-e> <c-o>$
-vnoremap <c-a> 0
-vnoremap <c-e> $
+nnoremap <C-a> 0
+nnoremap <C-e> $
+inoremap <C-a> <c-o>0
+inoremap <C-e> <c-o>$
+vnoremap <C-a> 0
+vnoremap <C-e> $
 
 
 " Shortcut to toggle relative numbering mode
@@ -82,6 +86,9 @@ nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 
 " Open BufferExplorer
 nnoremap <C-b> :call BufExplorer()<CR>
+
+" Toggle Tagbar 
+nnoremap <leader>t :TagbarToggle<CR>
 
 
 " invoke grep and print output into current buffer
