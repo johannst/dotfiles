@@ -84,9 +84,10 @@ vnoremap <C-e> $
 nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 
 " add a marker fold snippet (for C/C++)
-vnoremap <C-f> VV'<O//{{{ <Esc>'>o//}}}<Esc>'<<ESC><Up>A
 nnoremap <C-f> o//{{{ <Esc>o//}}}<Esc><Up>A
 imap <C-f> <ESC><C-f>
+"only works with v-block (not v-line)
+vnoremap <C-f> VV'<O//{{{ <Esc>'>o//}}}<Esc>'<<ESC><Up>A 
 
 " Open BufferExplorer
 nnoremap <C-b> :call BufExplorer()<CR>
