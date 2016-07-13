@@ -2,14 +2,14 @@
 " author: johannst
 
 " Split Window and scroll down
-fu! SplitScroll()
+function! SplitScroll()
     :wincmd v
     :wincmd w
     execute "normal! \<C-d>"
     :set scrollbind
     :wincmd w
     :set scrollbind
-endfu
+endfunc
 
 " toggle relative line number mode
 function! ToggleRelativeNumber()           

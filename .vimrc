@@ -43,6 +43,9 @@ set shiftwidth=4              " but an indent level is 2 spaces wide.
 set softtabstop=4             " <BS> over an autoindent deletes both spaces.
 set shiftround                " rounds indent to a multiple of shiftwidth
 set backspace=2
+set formatoptions-=cro        " disable auto-comment
+
+set foldmethod=marker         " set fold method
 
 set hidden                    " do not unload abandoned buffers
 set nowrap                    " don't wrap text

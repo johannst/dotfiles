@@ -83,6 +83,10 @@ vnoremap <C-e> $
 " Shortcut to toggle relative numbering mode
 nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 
+" add a marker fold snippet (for C/C++)
+vnoremap <C-f> VV'<O//{{{ <Esc>'>o//}}}<Esc>'<<ESC><Up>A
+nnoremap <C-f> o//{{{ <Esc>o//}}}<Esc><Up>A
+imap <C-f> <ESC><C-f>
 
 " Open BufferExplorer
 nnoremap <C-b> :call BufExplorer()<CR>
@@ -90,9 +94,5 @@ nnoremap <C-b> :call BufExplorer()<CR>
 " Toggle Tagbar 
 nnoremap <leader>t :TagbarToggle<CR>
 
-
-" invoke grep and print output into current buffer
-nnoremap <C-g> :read !grep -nI 
-
-" substituce selection
+" substitute selection
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
