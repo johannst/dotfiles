@@ -86,14 +86,20 @@ nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 " add a marker fold snippet (for C/C++)
 nnoremap <C-f> o//{{{ <Esc>o//}}}<Esc><Up>A
 imap <C-f> <ESC><C-f>
-"only works with v-block (not v-line)
+" only works with v-block (not v-line)
 vnoremap <C-f> VV'<O//{{{ <Esc>'>o//}}}<Esc>'<<ESC><Up>A 
 
+" substitute selection
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+" +-----------------+
+" | Plugin specific |
+" +-----------------+
 " Open BufferExplorer
 nnoremap <C-b> :call BufExplorer()<CR>
 
 " Toggle Tagbar 
 nnoremap <leader>t :TagbarToggle<CR>
 
-" substitute selection
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+" build tags of your own project with Ctrl-F12
+map <C-F12> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q --language-force=C++ .<CR>

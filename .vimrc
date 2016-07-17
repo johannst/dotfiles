@@ -3,6 +3,11 @@
 
 set nocompatible     " make Vim less Vi 
 
+
+
+
+
+
 source ~/.vim/vimrc_files/vundle.vim
 source ~/.vim/vimrc_files/plugin_config.vim
 
