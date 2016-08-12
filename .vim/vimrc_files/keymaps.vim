@@ -78,6 +78,8 @@ inoremap <C-a> <c-o>0
 inoremap <C-e> <c-o>$
 vnoremap <C-a> 0
 vnoremap <C-e> $
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
 
 
 " Shortcut to toggle relative numbering mode
@@ -87,7 +89,7 @@ nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 nnoremap <C-f> o//{{{ <Esc>o//}}}<Esc><Up>A
 imap <C-f> <ESC><C-f>
 " only works with v-block (not v-line)
-vnoremap <C-f> VV'<O//{{{ <Esc>'>o//}}}<Esc>'<<ESC><Up>A 
+vnoremap <C-f> VV'<O//{{{<Esc>'>o//}}}<Esc>'<<ESC><Up>A 
 
 " substitute selection
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
@@ -102,4 +104,4 @@ nnoremap <C-b> :call BufExplorer()<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 
 " build tags of your own project with Ctrl-F12
-map <C-F12> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q --language-force=C++ .<CR>
+map <C-t> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q --language-force=C++ .<CR>

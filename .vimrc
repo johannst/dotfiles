@@ -25,7 +25,8 @@ colorscheme buddy
 " +----------------------------+
 " | Basic Settings             |
 " +----------------------------+
-set timeoutlen=1234           " time in ms until command are interpreted
+set timeoutlen=1234           " time in ms until keymap interpreted
+set ttimeoutlen=1             " time in ms for key code delay, NEVER USE 0 again!!!
 
 filetype plugin indent on     " enable loading indent file for filetype
 set ffs=unix,dos,mac          " Try recognizing dos, unix, and mac line endings.
@@ -41,14 +42,14 @@ set mouse=a		              " Enable mouse usage (all modes)
 set encoding=utf-8            " Set default encoding to UTF-8.
 set history=1000              " Sets how many lines of history VIM has to remember
 set tabpagemax=100            " Sets how many tabs will be opened
-set scrolloff=7               " set vertical scroll distance to 7 lines
+set scrolloff=2               " set vertical scroll distance to 7 lines
 set tabstop=4                 " set Tab-length
 set expandtab                 " expand tabs to spaces
 set shiftwidth=4              " but an indent level is 2 spaces wide.
 set softtabstop=4             " <BS> over an autoindent deletes both spaces.
 set shiftround                " rounds indent to a multiple of shiftwidth
 set backspace=2
-set formatoptions-=cro        " disable auto-comment
+autocmd BufNewFile,BufRead * setlocal formatoptions=ql   " disable auto-comment
 
 set foldmethod=marker         " set fold method
 
@@ -85,6 +86,12 @@ set wildignore+=*.o,*.obj,.git,*.pyc,*~
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
+
+" automatically open Quickfix
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+nnoremap <leader>m :silent make!\|redraw!\|cc<CR>
+nnoremap <leader>g :silent grep! -R \|redraw!\|cc
 
 " +----------------------------+
 " | Source Extrenal Files      |
