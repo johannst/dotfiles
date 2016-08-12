@@ -1,7 +1,10 @@
 ! dotfiles -- .Xresources_gray
 ! author: johannst
 
-xterm*font : 9x15
+!xterm*font: 9x15
+xterm*faceName: Terminess Powerline
+xterm*faceSize: 12
+
 XTerm*scaleHeight: 1.1
 xterm*metaSendsEscape: true
 xterm*saveLines: 16384

@@ -1,0 +1,6 @@
+function vimgrep()
+{
+    if [ -z $1 ]; then echo -e "vimgrep PATTERN PATH"; return 1; fi 
+    if [ -z $2 ]; then echo -e "vimgrep PATTERN PATH"; return 1; fi 
+    \grep -IRn $1 $2 | vim -
+}
