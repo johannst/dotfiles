@@ -3,11 +3,6 @@
 
 set nocompatible     " make Vim less Vi 
 
-
-
-
-
-
 source ~/.vim/vimrc_files/vundle.vim
 source ~/.vim/vimrc_files/plugin_config.vim
 
@@ -26,7 +21,7 @@ colorscheme buddy
 " | Basic Settings             |
 " +----------------------------+
 set timeoutlen=1234           " time in ms until keymap interpreted
-set ttimeoutlen=1             " time in ms for key code delay, NEVER USE 0 again!!!
+set ttimeoutlen=100           " time in ms for key code delay, NEVER USE 0 again!!!
 
 filetype plugin indent on     " enable loading indent file for filetype
 set ffs=unix,dos,mac          " Try recognizing dos, unix, and mac line endings.
@@ -43,10 +38,10 @@ set encoding=utf-8            " Set default encoding to UTF-8.
 set history=1000              " Sets how many lines of history VIM has to remember
 set tabpagemax=100            " Sets how many tabs will be opened
 set scrolloff=2               " set vertical scroll distance to 7 lines
-set tabstop=4                 " set Tab-length
+set tabstop=8                 " set Tab-length
 set expandtab                 " expand tabs to spaces
-set shiftwidth=4              " but an indent level is 2 spaces wide.
-set softtabstop=4             " <BS> over an autoindent deletes both spaces.
+set shiftwidth=3              " but an indent level is 2 spaces wide.
+set softtabstop=3             " <BS> over an autoindent deletes both spaces.
 set shiftround                " rounds indent to a multiple of shiftwidth
 set backspace=2
 autocmd BufNewFile,BufRead * setlocal formatoptions=ql   " disable auto-comment
@@ -60,7 +55,7 @@ set noautowriteall            " NEVER.
 set noautoread                " Don't automatically re-read changed files.
 set shortmess+=a              " Use [+]/[RO]/[w] for modified/readonly/written.
 
-set smarttab                  " Handle tabs more intelligently 
+"set smarttab                  " Handle tabs more intelligently 
 set smartcase	              " Do smart case matching
 set autoindent                " Copy indent from current line when starting a new line
 set smartindent               " use smart indent if there is no indent file

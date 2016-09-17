@@ -21,7 +21,7 @@ endif
 " +----------------------------+
 " | Tagbar                     |
 " +----------------------------+
-let g:tagbar_ctags_bin='/u/jstolp/apps/bin/ctags'
+let g:tagbar_ctags_bin='/u/jstolp/bin/ctags'
 "let g:tagbar_ctags_bin='/home/johannst/apps/bin/ctags'
 
 
