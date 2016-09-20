@@ -1,0 +1,93 @@
+# dotfiles -- .conkyrc
+# author: johannst
+
+background yes 
+use_xft yes
+xftfont Bitstream Vera Sans Mono:size=9
+xftalpha 0.8
+update_interval 2.0
+total_run_times 0
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_colour black
+own_window_hints undecorated,skip_pager,skip_taskbar
+double_buffer yes
+minimum_size 260 5
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+stippled_borders 0
+border_margin 4
+border_width 0
+default_color white
+default_shade_color black
+default_outline_color black
+alignment top_right
+gap_x 0
+gap_y 25
+no_buffers yes
+uppercase no
+cpu_avg_samples 1
+net_avg_samples 1
+override_utf8_locale no
+use_spacer yes
+mpd_host localhost 
+mpd_portPort 6060
+#mpd_password 
+
+TEXT
+#############################################################
+# CPU                                                       #
+#############################################################
+${font Verdana:style=Bold:size=16}${color #75C8ff}${alignc}${time %a %d. %b %k:%M}
+$font$color${alignc}Kernel: $kernel
+${color #75C8ff}$stippled_hr
+
+#############################################################
+# POWER                                                     #
+#############################################################
+${color lightgrey}Power: ${battery_short BAT0} ${battery_time BAT0} ${battery_bar BAT0}
+
+#############################################################
+# CPU                                                       #
+#############################################################
+${color lightgrey}Processes:$color $processes  ${color grey}Running:$color $running_processes ${color lightgrey}Up:$color $uptime 
+#(cpu 0)=total util (cpuX)=util core X [here X=1,2,3,4]
+${color #75C8ff}CPU: ${cpu cpu0}% ${cpubar}
+${color}Name              PID     CPU%   MEM%
+${font Monospace:size=8}${color lightgrey}${top name 1}     ${top pid 1}  ${top cpu 1}  ${top mem 1}
+${color lightgrey}${top name 2}     ${top pid 2}  ${top cpu 2}  ${top mem 2}
+${color lightgrey}${top name 3}     ${top pid 3}  ${top cpu 3}  ${top mem 3}
+
+${font Monospace:size=8}${color}core0                       core1   
+${cpugraph cpu1 30,160 0032bc 75C8ff} ${cpugraph cpu2 30,160 0032bc 75C8ff}
+${font Monospace:size=8}${color}core2                       core3
+${cpugraph cpu3 30,160 0032bc 75C8ff} ${cpugraph cpu4 30,160 0032bc 75C8ff}
+
+#############################################################
+# MEMORY                                                    #
+#############################################################
+$font${color #75C8ff}RAM: $mem/$memmax - $memperc% ${membar}
+${color lightgrey}Swap: $swap/$swapmax - $swapperc% ${swapbar}
+${color}Name              PID     CPU%   MEM%
+${font Monospace:size=8}${color lightgrey}${top_mem name 1}     ${top_mem pid 1}  ${top_mem cpu 1}  ${top_mem mem 1}
+${color lightgrey}${top_mem name 2}     ${top_mem pid 2}  ${top_mem cpu 2}  ${top_mem mem 2}
+${color lightgrey}${top_mem name 3}     ${top_mem pid 3}  ${top_mem cpu 3}  ${top_mem mem 3}
+
+#############################################################
+# NETWORK                                                   #
+#############################################################
+$font${color #75C8ff}Connections${alignr}${color #75C8ff}In:$color ${tcp_portmon 1 32767 count}  ${color #75C8ff}Out:$color ${tcp_portmon 32768 61000 count}   ${color #75C8ff}ALL:$color ${tcp_portmon 1 65535 count}
+${color lightgrey}$stippled_hr
+${color lightgrey}Down:$color ${downspeedf wlp3s0} k/s${color lightgrey} ${offset 40}Up:$color ${upspeedf wlp3s0} k/s
+${downspeedgraph wlp3s0 32,120 75C8ff ffffff} ${offset 40} ${upspeedgraph wlp3s0 32,120 75C8ff ffffff}
+#${color #75C8ff}IPs:$color ${addr wlp3s0} ${offset 40} ${execi 7200 ~/.conky/publicip.sh}
+${color lightgrey}$stippled_hr
+
+#############################################################
+# HDD                                                       #
+#############################################################
+${color lightgrey}system:  ${fs_used /}/${fs_size /} free:${fs_free_perc /}% ${fs_bar /}
+${color lightgrey}home: ${fs_used /home}/${fs_size /home}  free:${fs_free_perc /home}% ${fs_bar /home}

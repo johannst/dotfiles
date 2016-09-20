@@ -19,45 +19,11 @@ noremap <leader>q :q<CR>
 " re-adjust indentation
 map <leader>f mzgg=G`z
 
-"let ArrowDisableMessage = "Arrow Keys disabled! Better learn hjkl ;)"
-
-" Disable arrow keys -- train jklh
-" nnoremap <Left>  :echo ArrowDisableMessage<CR>
-" nnoremap <Right> :echo ArrowDisableMessage<CR>
-" nnoremap <Up>    :echo ArrowDisableMessage<CR>
-" nnoremap <Down>  :echo ArrowDisableMessage<CR>
-" 
-" vnoremap <Left>  :<c-u>echo ArrowDisableMessage<CR>
-" vnoremap <Right> :<c-u>echo ArrowDisableMessage<CR>
-" vnoremap <Up>    :<c-u>echo ArrowDisableMessage<CR>
-" vnoremap <Down>  :<c-u>echo ArrowDisableMessage<CR>
-" 
-" inoremap <Left>  <c-o>:echo ArrowDisableMessage<CR>
-" inoremap <Right> <c-o>:echo ArrowDisableMessage<CR>
-" inoremap <Up>    <c-o>:echo ArrowDisableMessage<CR>
-" inoremap <Down>  <c-o>:echo ArrowDisableMessage<CR>
-
-
-" ctrl-hjkl move in insert mode
-inoremap <c-h> <Left>
-inoremap <c-j> <Down>
-inoremap <c-k> <Up>
-inoremap <c-l> <Right>
-
-
-" ctrl-jk movement in command window
-cnoremap <c-h> <Left>
-cnoremap <c-j> <Down>
-cnoremap <c-k> <Up>
-cnoremap <c-l> <Right>
-
-
 " navigate between different splits 
 map <C-Down>  <c-w>j
 map <C-Up>    <c-w>k
 map <C-Right> <c-w>l
 map <C-Left>  <c-w>h
-
 
 " resize splits
 map <C-j>     <C-w>5-
@@ -65,11 +31,9 @@ map <C-k>     <C-w>5+
 map <C-l>     <C-w>5<
 map <C-h>     <C-w>5>
 
-   
 " navigate between different buffers 
 nnoremap <S-Left>  :bprevious<CR>
 nnoremap <S-Right> :bnext<CR>
-
 
 " ctrl-ae jump to line start/end 
 nnoremap <C-a> 0
@@ -81,7 +45,6 @@ vnoremap <C-e> $
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
-
 " Shortcut to toggle relative numbering mode
 nnoremap <c-n> :call ToggleRelativeNumber()<CR>
 
@@ -92,7 +55,12 @@ imap <C-f> <ESC><C-f>
 vnoremap <C-f> VV'<O//{{{<Esc>'>o//}}}<Esc>'<<ESC><Up>A 
 
 " substitute selection
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <C-r> "hy:%s/<C-r>h/<C-r>h/gc<left><left><left>
+
+" yank/paste into/from register
+vnoremap <C-c> "ay
+inoremap <C-v> <C-r>a
+cnoremap <C-v> <C-r>a
 
 " +-----------------+
 " | Plugin specific |

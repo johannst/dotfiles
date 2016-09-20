@@ -1,4 +1,5 @@
-# dotfiles
+# dotfiles -- README
+# author: johannst
 
 - **.vim/colors**:
 	- solarized: https://github.com/altercation/solarized

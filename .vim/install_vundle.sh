@@ -11,3 +11,6 @@ fi
 if [ ! -d $INSTALL_DIR/Vundle.vim ]; then 
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
+
+# install plugins
+vim +PluginInstall +qall 
