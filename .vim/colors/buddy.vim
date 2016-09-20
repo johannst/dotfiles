@@ -55,7 +55,16 @@ hi Include guifg=#c25643 guibg=NONE guisp=NONE gui=NONE ctermfg=167 ctermbg=NONE
 hi Float guifg=#e66450 guibg=NONE guisp=NONE gui=NONE ctermfg=167 ctermbg=NONE cterm=NONE
 hi StatusLineNC guifg=#9f9385 guibg=#444444 guisp=#444444 gui=NONE ctermfg=144 ctermbg=238 cterm=NONE
 hi NonText guifg=#9a9a9a guibg=#303030 guisp=#303030 gui=NONE ctermfg=247 ctermbg=236 cterm=NONE
-hi DiffText guifg=NONE guibg=#575757 guisp=#575757 gui=NONE ctermfg=NONE ctermbg=240 cterm=NONE
+
+"hi DiffText guifg=NONE guibg=#575757 guisp=#575757 gui=NONE ctermfg=NONE ctermbg=240 cterm=NONE
+"hi DiffChange guifg=NONE guibg=#575757 guisp=#575757 gui=NONE ctermfg=NONE ctermbg=DarkMagenta cterm=NONE
+"hi DiffAdd guifg=NONE guibg=#5b802c guisp=#5b802c gui=NONE ctermfg=NONE ctermbg=2 cterm=NONE
+"hi DiffDelete guifg=NONE guibg=#8a3636 guisp=#8a3636 gui=NONE ctermfg=NONE ctermbg=95 cterm=NONE
+hi DiffChange cterm=NONE ctermfg=10 ctermbg=17 
+hi DiffText   cterm=NONE ctermfg=10 ctermbg=88 
+hi DiffAdd    cterm=NONE ctermfg=10 ctermbg=17 
+hi DiffDelete cterm=NONE ctermfg=10 ctermbg=17 
+
 hi Debug guifg=#f0ffe2 guibg=NONE guisp=NONE gui=NONE ctermfg=194 ctermbg=NONE cterm=NONE
 hi PMenuSbar guifg=NONE guibg=#000000 guisp=#000000 gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
 hi Identifier guifg=#f3cf64 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE cterm=NONE
@@ -76,7 +85,6 @@ hi Number guifg=#e66450 guibg=NONE guisp=NONE gui=NONE ctermfg=167 ctermbg=NONE 
 hi Boolean guifg=#fff200 guibg=NONE guisp=NONE gui=NONE ctermfg=11 ctermbg=NONE cterm=NONE
 hi Operator guifg=#fff200 guibg=NONE guisp=NONE gui=NONE ctermfg=11 ctermbg=NONE cterm=NONE
 hi CursorLine guifg=NONE guibg=#2d2d2d guisp=#2d2d2d gui=NONE ctermfg=NONE ctermbg=236 cterm=NONE
-hi DiffDelete guifg=NONE guibg=#8a3636 guisp=#8a3636 gui=NONE ctermfg=NONE ctermbg=95 cterm=NONE
 hi CursorColumn guifg=NONE guibg=#2d2d2d guisp=#2d2d2d gui=NONE ctermfg=NONE ctermbg=236 cterm=NONE
 hi Define guifg=#c25643 guibg=NONE guisp=NONE gui=NONE ctermfg=167 ctermbg=NONE cterm=NONE
 hi Function guifg=#f0811f guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE
@@ -97,4 +105,3 @@ hi MatchParen guifg=#fffcf0 guibg=#857b6f guisp=#857b6f gui=bold ctermfg=230 cte
 hi Repeat guifg=#fff200 guibg=NONE guisp=NONE gui=NONE ctermfg=11 ctermbg=NONE cterm=NONE
 hi Structure guifg=#ffb700 guibg=NONE guisp=NONE gui=NONE ctermfg=214 ctermbg=NONE cterm=NONE
 hi Macro guifg=#c25643 guibg=NONE guisp=NONE gui=NONE ctermfg=167 ctermbg=NONE cterm=NONE
-hi DiffAdd guifg=NONE guibg=#5b802c guisp=#5b802c gui=NONE ctermfg=NONE ctermbg=2 cterm=NONE

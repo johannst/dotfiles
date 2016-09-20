@@ -18,4 +18,5 @@ hi StatusLine ctermbg=38 ctermfg=0 cterm=NONE term=NONE gui=NONE
 
 " matching brackets
 "hi MatchParen cterm=underline ctermbg=141 ctermfg=yellow
-hi MatchParen cterm=underline ctermbg=141 ctermfg=yellow
+hi MatchParen cterm=underline ctermbg=89 ctermfg=208
+"hi MatchParen cterm=underline ctermbg=DarkMagenta ctermfg=12

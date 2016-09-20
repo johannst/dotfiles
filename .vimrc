@@ -17,53 +17,57 @@ colorscheme buddy
 " | Basic Settings             |
 " +----------------------------+
 set timeoutlen=1000           " time in ms until keymap interpreted
-set ttimeoutlen=100           " time in ms for key code delay, NEVER USE 0 again!!!
+set ttimeoutlen=100           " time in ms for key code delay, NEVER USE 0 again!!! if random numbers/letters occur, maybe change this value
 
 filetype plugin indent on     " enable loading indent file for filetype
-set ffs=unix,dos,mac          " Try recognizing dos, unix, and mac line endings.
+set ffs=unix,dos,mac          " try recognizing dos, unix, and mac line endings.
+set encoding=utf-8            " set default encoding to UTF-8.
 
-set number                    " Display line numbers
-set relativenumber            " Display relative line numbers
+" Basic settings
 set title                     " show title in console title bar
-set cursorline                " cursor line highlighting
-set cursorcolumn              " cursor column highlighting 
-set confirm                   " Y-N-C prompt if closing with unsaved changes.
-set ruler                     " display cursor position
+set confirm                   " prompt if closing with unsaved changes.
 set laststatus=2              " always show status line
 set shortmess+=a              " Use [+]/[RO]/[w] for modified/readonly/written.
-set showcmd                   " Show (partial) command in status line.
-
-set mouse=a                   " Enable mouse usage (all modes)
-set encoding=utf-8            " Set default encoding to UTF-8.
-set history=1000              " Sets how many lines of history VIM has to remember
-set tabpagemax=100            " Sets how many tabs will be opened
+set showcmd                   " show command in status line.
+set mouse=a                   " enable mouse usage (all modes)
+set history=1000              " sets how many lines of history VIM has to remember
+set tabpagemax=100            " sets how many tabs will be opened
 set scrolloff=3               " set vertical scroll distance to 7 lines
+set backspace=2               " had some issues with BS on empty line didn't deleted line
+set noautowrite               " never write a file unless I request it.
+set noautowriteall            " NEVER.
+set noautoread                " don't automatically re-read changed files.
 
-" Tab/Indentation settings
+" Line/Column settings
+set number                    " Display line numbers
+set relativenumber            " Display relative line numbers
+set ruler                     " display cursor position
+set cursorline                " cursor line highlighting
+set cursorcolumn              " cursor column highlighting 
+
+" buffer settings
+set hidden                    " do not unload abandoned buffers
+
+" Tab settings 
 set expandtab                 " expand tabs to spaces
 set tabstop=8                 " number of columns a tab counts
 set shiftwidth=3              " number of columns text is indented 
 set softtabstop=3             " number of columns tab counts in insert mode
 set shiftround                " rounds indent to a multiple of shiftwidth
 "set smarttab                  " Handle tabs more intelligently 
-set autoindent                " Copy indent from current line when starting a new line
-set smartindent               " use smart indent if there is no indent file
 
-"set list                     " show invisible character
-set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
-
-set backspace=2
-autocmd BufRead,BufNewFile *.h,*.hh,*.hpp,*.c,*.cc,*.cpp set cinoptions=:1,=2,g1,h2  " switch-case/class-lable indentation
-"autocmd BufRead,BufNewFile *.h,*.hh,*.hpp,*.c,*.cc,*.cpp setlocal formatoptions=ql   " disable auto-comment
-autocmd BufRead,BufNewFile * setlocal formatoptions-=cro   " disable auto-comment
-
+" Fold settings
 set foldmethod=marker         " set fold method
 
-set hidden                    " do not unload abandoned buffers
-set nowrap                    " don't wrap text
-set noautowrite               " Never write a file unless I request it.
-set noautowriteall            " NEVER.
-set noautoread                " Don't automatically re-read changed files.
+" Indentation settings
+set autoindent                " copy indent from current line when starting a new line
+set smartindent               " use smart indent if there is no indent file
+autocmd BufRead,BufNewFile *.h,*.hh,*.hpp,*.c,*.cc,*.cpp set cinoptions=:1,=2,g1,h2  " switch-case/class-lable indentation
+autocmd BufRead,BufNewFile * setlocal formatoptions-=cro   " disable auto-comment
+
+" Invisible character settings
+"set list                     " show invisible character
+set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
 
 " Search settings
 set ignorecase                " case insensitive matching
