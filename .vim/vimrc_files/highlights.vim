@@ -6,10 +6,14 @@
 "     autocmd! ColorScheme * hi clear CursorLine
 " augroup END
 
+"hi LineNr ctermfg=208
+
 " Highlight color of current line 
-hi CursorLineNR cterm=bold ctermfg=226 
+hi CursorLineNR cterm=bold ctermfg=255 ctermbg=208
+"hi CursorLineNR cterm=bold ctermfg=226 
 augroup CLNRSet
-    autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=226
+   autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=255 ctermbg=208
+   "autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=226
 augroup END
 
 " Highlight status line
