@@ -18,6 +18,8 @@ Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'majutsushi/tagbar'
 
+Plugin 'kien/ctrlp.vim'
+
 " c++ modifief headers: http://www.vim.org/scripts/script.php?script_id=2358
 "Plugin 'vim-scripts/OmniCppComplete'
 

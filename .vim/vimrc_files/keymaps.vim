@@ -2,7 +2,8 @@
 " author: johannst
 
 " set leader key
-let mapleader=","
+"execute "set <M-s>=\es"
+let mapleader="S"
 
 " re-source .vimrc
 map <leader>v :source ~/.vimrc<CR>
@@ -20,33 +21,39 @@ noremap <leader>q :q<CR>
 map <leader>f mzgg=G`z
 
 " navigate between different splits 
-map <C-Down>  <c-w>j
-map <C-Up>    <c-w>k
-map <C-Right> <c-w>l
-map <C-Left>  <c-w>h
+map <C-Down>  <C-w>j
+map <C-Up>    <C-w>k
+map <C-Right> <C-w>l
+map <C-Left>  <C-w>h
+map <C-j>     <C-w>j
+map <C-k>     <C-w>k
+map <C-l>     <C-w>l
+map <C-h>     <C-w>h
 
 " resize splits
-map <C-j>     <C-w>5-
-map <C-k>     <C-w>5+
-map <C-l>     <C-w>5<
-map <C-h>     <C-w>5>
+"map <C-j>     <C-w>5-
+"map <C-k>     <C-w>5+
+"map <C-l>     <C-w>5<
+"map <C-h>     <C-w>5>
 
 " navigate between different buffers 
 nnoremap <S-Left>  :bprevious<CR>
 nnoremap <S-Right> :bnext<CR>
+nnoremap <S-h>  :bprevious<CR>
+nnoremap <S-l>  :bnext<CR>
 
 " ctrl-ae jump to line start/end 
 nnoremap <C-a> 0
 nnoremap <C-e> $
-inoremap <C-a> <c-o>0
-inoremap <C-e> <c-o>$
+inoremap <C-a> <C-o>0
+inoremap <C-e> <C-o>$
 vnoremap <C-a> 0
 vnoremap <C-e> $
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
 " Shortcut to toggle relative numbering mode
-nnoremap <c-n> :call ToggleRelativeNumber()<CR>
+nnoremap <C-n> :call ToggleRelativeNumber()<CR>
 
 " add a marker fold snippet (for C/C++)
 nnoremap <C-f> o//{{{ <Esc>o//}}}<Esc><Up>A

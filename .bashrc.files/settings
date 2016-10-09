@@ -1,0 +1,5 @@
+# dotfiles -- .bashrc/settings
+# author: johannst
+
+# disable sticky mode
+stty -ixon
