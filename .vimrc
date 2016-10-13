@@ -36,6 +36,10 @@ set nocompatible     " make vim less vi
    " tagbar
    let g:tagbar_ctags_bin='~/.vim/bin/ctags'
 
+   " CtrlP
+    let g:ctrlp_buftag_ctags_bin='~/.vim/bin/ctags'
+    let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
+
    " omni complete
    " add tags
    " set tags+=~/.vim/tags/cpp_tags
@@ -52,6 +56,14 @@ set nocompatible     " make vim less vi
    "set completeopt=menuone,menu,longest,preview
 
 "}}}
+
+function! TriggerSCons(arg_string)
+   let base_cmd = "scons -u "
+   let &makeprg=base_cmd.a:arg_string
+   make
+endfunction
+" use like :SCons -j20 ...
+command! -nargs=1 SCons call TriggerSCons(<f-args>)
 
 " +----------------------------+
 " | Color Settings             |
