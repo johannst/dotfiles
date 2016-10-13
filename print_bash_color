@@ -1,0 +1,39 @@
+#!/bin/bash
+# dotfiles -- print_bash_color
+# author: johannst
+
+#{{{ print colors 0-15 fg/bg 
+#    (colors can be generated with http://ciembor.github.io/4bit)
+
+fg=(' ' '1' '30' '1;30' '31' '1;31' '32' '1;32' '33' '1;33' '34' '1;34' '35' '1;35' '36' '1;36' '37' '1;37')
+bg=(' ' '40' '41' '42' '43' '44' '45' '46' '47')
+
+printf '%10s ' ""
+color_line="    m\e[m TEST \e[m"
+for b in ${bg[@]}; do
+   printf '%6s ' "${b}m"
+   color_line=$color_line" \e[${b}m TEST \e[m"
+done
+printf '\n'
+echo -e $"$color_line"
+for f in ${fg[@]}; do
+   printf '%5s' "${f}m"
+   color_line="\e[${f}m TEST \e[m"
+   for b in ${bg[@]}; do
+      color_line=$color_line" \e[${f};${b}m TEST \e[m"
+   done
+   echo -e "$color_line"
+done
+
+#}}}
+#{{{ print colors 0-255 fg
+
+for i in $(seq 0 255); do
+   color_line="color${i}"
+   color_line="\\e[38;5;${i}"
+   printf "\e[38;5;${i}m%11s " $color_line;
+   if [ $((((i+1)) % 16)) == 0 ]; then printf '\n'; fi
+   #printf "\x1b[38;5;${i}mcolour${i}\n"; 
+done
+
+#}}}
