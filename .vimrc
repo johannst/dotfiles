@@ -14,8 +14,9 @@ set nocompatible     " make vim less vi
    call vundle#begin()
    Plugin 'VundleVim/Vundle.vim'
    Plugin 'jlanzarotta/bufexplorer'
-   Plugin 'vim-airline/vim-airline'
-   Plugin 'vim-airline/vim-airline-themes'
+   Plugin 'ap/vim-buftabline'
+"   Plugin 'vim-airline/vim-airline'
+"   Plugin 'vim-airline/vim-airline-themes'
    Plugin 'majutsushi/tagbar'
    Plugin 'kien/ctrlp.vim'
    " c++ modifief headers: http://www.vim.org/scripts/script.php?script_id=2358
