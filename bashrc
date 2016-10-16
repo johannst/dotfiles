@@ -1,7 +1,6 @@
 # dotfiles -- bashrc
 # author: johannst
 
-
 #{{{ general bash settings
 
 export TERM=xterm-256color
@@ -38,6 +37,6 @@ export PS1="${BCol_DarkRed}::${BCol_DarkOrange}\u${BCol_DarkRed}::${BCol_LightOr
 #}}}
 #{{{ ls colors
 
-export LS_COLORS='di=34:ln=96:or=4;96;41:so=0:pi=0:ex=01;92:bd=0;42:cd=0;42:su=0:sg=0:tw=30;44:ow=30;44'
+export LS_COLORS='di=34:ln=96:or=96;41:so=0:pi=0:ex=01;92:bd=0;42:cd=0;42:su=0:sg=0:tw=30;44:ow=30;44'
 
 #}}}
