@@ -1,5 +1,0 @@
-hi Type ctermbg=#00ff00
-hi Arrow ctermbg=129
-hi SelectedLineNr ctermbg=160
-
-set ignorecase

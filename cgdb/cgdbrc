@@ -1,0 +1,17 @@
+set ignorecase
+set arrowstyle=long
+set tabstop=3
+
+# colorscheme
+hi Type      ctermfg=214 
+hi Statement ctermfg=220
+hi Constant  ctermfg=167
+hi Comment   ctermfg=144
+hi PreProc   ctermfg=167
+hi Normal    ctermfg=253 
+
+hi StatusLine         ctermbg=0 ctermfg=38 
+hi SelectedLineNr     ctermbg=208 ctermfg=255 cterm=bold
+hi Arrow              ctermbg=208 ctermfg=255 cterm=bold
+hi Breakpoint         ctermbg=70 ctermfg=255 cterm=bold
+hi DisabledBreakpoint ctermbg=160 ctermfg=255 cterm=bold
