@@ -1,3 +1,6 @@
+# dotfiles -- gitconfig
+# author: johannst
+
 [user]
    email = stoelp@eit.uni-kl.de
    name = johannst

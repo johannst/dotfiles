@@ -1,3 +1,6 @@
+# dotfiles -- cgdb/cgdbrc 
+# author: johannst
+
 set ignorecase
 set arrowstyle=long
 set tabstop=3
