@@ -29,11 +29,9 @@ done
 #{{{ print colors 0-255 fg
 
 for i in $(seq 0 255); do
-   color_line="color${i}"
    color_line="\\e[38;5;${i}"
    printf "\e[38;5;${i}m%11s " $color_line;
    if [ $((((i+1)) % 16)) == 0 ]; then printf '\n'; fi
-   #printf "\x1b[38;5;${i}mcolour${i}\n"; 
 done
 
 #}}}
