@@ -1,14 +1,14 @@
-[alias]
-   lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
-   d = difftool
 [user]
    email = stoelp@eit.uni-kl.de
    name = johannst
-[core]
-   editor = vim
 [diff]
    tool = vimdiff
 [difftool]
    prompt = false
+[alias]
+   lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+   d = difftool
+[core]
+   editor = vim
 [color]
    ui = true

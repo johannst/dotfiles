@@ -1,20 +1,30 @@
 ! dotfiles -- .Xresources_gray
 ! author: johannst
 
-#include ".Xcommon"
+!XTerm*font: 9x15
+!XTerm*renderFont: true
+!XTerm*faceName: Vera Serif Mono
+!XTerm*faceName: Liberation Mono
+!XTerm*faceName: Droid Sans Mono 
+XTerm*faceName: Terminess Powerline
+XTerm*faceSize: 12
 
-! ------------------------------------------------------------------------------
-! --- generated with 4bit Terminal Color Scheme Designer -----------------------
-! --- http://ciembor.github.com/4bit -------------------------------------------
-! ------------------------------------------------------------------------------
+XTerm*scaleHeight: 1.1
+XTerm*metaSendsEscape: true
+XTerm*saveLines: 16384
+XTerm*loginShell: true
+XTerm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+XTerm*termName: xterm-256color
+XTerm*eightBitInput: false
+XTerm*selectToClipboard: true
+XTerm*visualBell: false
 
+! --- generated with http://ciembor.github.com/4bit
 ! --- special colors ---
-
 *background: #262626
 *foreground: #d9d9d9
 
 ! --- standard colors ---
-
 ! black
 *color0: #000000
 
