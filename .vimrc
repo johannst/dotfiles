@@ -41,6 +41,9 @@ set nocompatible     " make vim less vi
     let g:ctrlp_buftag_ctags_bin='~/.vim/bin/ctags'
     let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
 
+   " buftabline
+   let g:buftabline_indicators = 1
+
    " omni complete
    " add tags
    " set tags+=~/.vim/tags/cpp_tags
@@ -248,10 +251,6 @@ autocmd QuickFixCmdPost    l* nested lwindow
       autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=255 ctermbg=208
       "autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=226
    augroup END
-
-   " Highlight status line
-   hi StatusLine ctermbg=38 ctermfg=0 cterm=NONE term=NONE gui=NONE
-   "hi StatusLineNC ctermbg=81 ctermfg=0
 
    " matching brackets
    "hi MatchParen cterm=underline ctermbg=141 ctermfg=yellow
