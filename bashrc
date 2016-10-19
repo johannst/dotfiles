@@ -6,10 +6,15 @@
 if [ "$TERM" == "screen" ]; then export TERM=screen-256color; fi
 if [ "$TERM" == "xterm" ]; then export TERM=xterm-256color; fi
 
-# enable vi mode (use 'bind -P' to see bindings)
+# enable vi mode (use 'bind -p' to see bindings)
 set -o vi
 bind -m vi-insert '"jj":vi-movement-mode'
 bind -m vi-insert 'Control-l:clear-screen'
+bind -m vi-command '"diw":"bdw"'
+#bind -m vi-command 'Control-a:beginning-of-line'
+#bind -m vi-command 'Control-e:end-of-line'
+bind 'Control-a:beginning-of-line'
+bind 'Control-e:end-of-line'
 
 # disable sticky mode
 stty -ixon
