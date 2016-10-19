@@ -8,6 +8,8 @@ if [ "$TERM" == "xterm" ]; then export TERM=xterm-256color; fi
 
 # enable vi mode (use 'bind -P' to see bindings)
 set -o vi
+bind -m vi-insert '"jj":vi-movement-mode'
+bind -m vi-insert 'Control-l:clear-screen'
 
 # disable sticky mode
 stty -ixon
