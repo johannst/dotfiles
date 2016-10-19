@@ -1,0 +1,5 @@
+# dotfiles -- inputrc
+# author: johannst
+
+set keymap vi-insert
+"jj": vi-movement-mode

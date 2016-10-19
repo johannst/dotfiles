@@ -61,6 +61,9 @@ set nocompatible     " make vim less vi
 
 "}}}
 
+"autocmd VimEnter * silent! source .vim_last_session
+"autocmd QuitPre * mksession! .vim_last_session
+
 function! TriggerSCons(arg_string)
    let base_cmd = "scons -u "
    let &makeprg=base_cmd.a:arg_string
@@ -100,6 +103,7 @@ set backspace=2               " had some issues with BS on empty line didn't del
 set noautowrite               " never write a file unless I request it.
 set noautowriteall            " NEVER.
 set noautoread                " don't automatically re-read changed files.
+set nowrap
 
 " Line/Column settings
 set number                    " Display line numbers
@@ -152,36 +156,39 @@ set noerrorbells
 set novisualbell
 
 " automatically open Quickfix
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
+autocmd QuickFixCmdPost [^l]* nested botright cwindow
+autocmd QuickFixCmdPost    l* nested botright lwindow
 
 "{{{ Keymaps
 
+   " unset .
+"   noremap . <nop>
    " set leader key
    "execute "set <M-s>=\es"
    let mapleader=";"
 
    " re-source .vimrc
-   map <leader>v :source ~/.vimrc<CR>
+   nnoremap <leader>v :source ~/.vimrc<CR>
 
    "remap esc button
-   imap jj <Esc>
+"   inoremap <Esc> <nop>
+   inoremap jj <Esc>
 
    " quit buffer
    noremap <leader>q :bd
 
    " re-adjust indentation
-   map <leader>f mzgg=G`z
+   nnoremap <leader>f mzgg=G`z
 
    " navigate between different splits 
-   map <C-Down>  <C-w>j
-   map <C-Up>    <C-w>k
-   map <C-Right> <C-w>l
-   map <C-Left>  <C-w>h
-   map <C-j>     <C-w>j
-   map <C-k>     <C-w>k
-   map <C-l>     <C-w>l
-   map <C-h>     <C-w>h
+   nnoremap <C-Down>  <C-w>j
+   nnoremap <C-Up>    <C-w>k
+   nnoremap <C-Right> <C-w>l
+   nnoremap <C-Left>  <C-w>h
+   nnoremap <C-j>     <C-w>j
+   nnoremap <C-k>     <C-w>k
+   nnoremap <C-l>     <C-w>l
+   nnoremap <C-h>     <C-w>h
 
    " resize splits
    "map <C-j>     <C-w>5-
@@ -210,7 +217,7 @@ autocmd QuickFixCmdPost    l* nested lwindow
 
    " add a marker fold snippet (for C/C++)
    nnoremap <C-f> o//{{{ <Esc>o//}}}<Esc><Up>A
-   imap <C-f> <ESC><C-f>
+   inoremap <C-f> <ESC>o//{{{ <Esc>o//}}}<Esc><Up>A
    " only works with v-block (not v-line)
    vnoremap <C-f> VV'<O//{{{<Esc>'>o//}}}<Esc>'<<ESC><Up>A 
 
