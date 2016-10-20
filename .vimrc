@@ -61,8 +61,12 @@ set nocompatible     " make vim less vi
 
 "}}}
 
-"autocmd VimEnter * silent! source .vim_last_session
-"autocmd QuitPre * mksession! .vim_last_session
+augroup aug:AutoSaveResore
+   autocmd!
+   "autocmd VimEnter * silent! source .vim_last_session
+   autocmd QuitPre * mksession! .vim_last_session
+augroup end
+
 
 function! TriggerSCons(arg_string)
    let base_cmd = "scons -u "
@@ -129,8 +133,12 @@ set foldmethod=marker         " set fold method
 " Indentation settings
 set autoindent                " copy indent from current line when starting a new line
 set smartindent               " use smart indent if there is no indent file
-autocmd BufRead,BufNewFile *.h,*.hh,*.hpp,*.c,*.cc,*.cpp set cinoptions=:1,=2,g1,h2  " switch-case/class-lable indentation
-autocmd BufRead,BufNewFile * setlocal formatoptions-=cro   " disable auto-comment
+
+augroup aug:CLangStyle
+   autocmd!
+   autocmd BufRead,BufNewFile *.h,*.hh,*.hpp,*.c,*.cc,*.cpp set cinoptions=:1,=2,g1,h2  " switch-case/class-lable indentation
+   autocmd BufRead,BufNewFile * setlocal formatoptions-=cro   " disable auto-comment
+augroup end
 
 " Invisible character settings
 "set list                     " show invisible character
@@ -156,8 +164,11 @@ set noerrorbells
 set novisualbell
 
 " automatically open Quickfix
-autocmd QuickFixCmdPost [^l]* nested botright cwindow
-autocmd QuickFixCmdPost    l* nested botright lwindow
+augroup aug:QuickFixConfig
+   autocmd!
+   autocmd QuickFixCmdPost [^l]* nested botright cwindow
+   autocmd QuickFixCmdPost    l* nested botright lwindow
+augroup end
 
 "{{{ Keymaps
 
@@ -245,19 +256,19 @@ autocmd QuickFixCmdPost    l* nested botright lwindow
 "{{{ Global Highlighting
 
    " hi clear CursorLine
-   " augroup CLClear
+   " augroup aug:CLClear
    "     autocmd! ColorScheme * hi clear CursorLine
-   " augroup END
+   " augroup end
 
    "hi LineNr ctermfg=208
 
    " Highlight color of current line 
    hi CursorLineNR cterm=bold ctermfg=255 ctermbg=208
    "hi CursorLineNR cterm=bold ctermfg=226 
-   augroup CLNRSet
+   augroup aug:CLNRSet
       autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=255 ctermbg=208
       "autocmd! ColorScheme * hi CursorLineNR cterm=bold ctermfg=226
-   augroup END
+   augroup end
 
    " matching brackets
    "hi MatchParen cterm=underline ctermbg=141 ctermfg=yellow

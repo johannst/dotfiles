@@ -68,6 +68,10 @@ hi DiffText   cterm=NONE ctermfg=10 ctermbg=88
 hi DiffAdd    cterm=NONE ctermfg=10 ctermbg=17 
 hi DiffDelete cterm=NONE ctermfg=10 ctermbg=17 
 
+
+hi PMenu ctermfg=NONE ctermbg=235 cterm=NONE
+hi PMenuSel ctermfg=255 ctermbg=208 cterm=NONE
+
 hi Debug guifg=#f0ffe2 guibg=NONE guisp=NONE gui=NONE ctermfg=194 ctermbg=NONE cterm=NONE
 hi PMenuSbar guifg=NONE guibg=#000000 guisp=#000000 gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
 hi Identifier guifg=#f3cf64 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE cterm=NONE
@@ -79,7 +83,6 @@ hi Special guifg=#f3cf64 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE
 hi LineNr guifg=#4d4d4d guibg=#1d1d1d guisp=#1d1d1d gui=NONE ctermfg=239 ctermbg=234 cterm=NONE
 hi StatusLine ctermbg=38 ctermfg=0 cterm=NONE term=NONE gui=NONE
 hi Label guifg=#f3cf64 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE cterm=NONE
-hi PMenuSel guifg=#1a1a1a guibg=#e6cd83 guisp=#e6cd83 gui=NONE ctermfg=234 ctermbg=180 cterm=NONE
 hi Delimiter guifg=#f0ffe2 guibg=NONE guisp=NONE gui=NONE ctermfg=194 ctermbg=NONE cterm=NONE
 hi Statement guifg=#ffdd00 guibg=NONE guisp=NONE gui=NONE ctermfg=220 ctermbg=NONE cterm=NONE
 hi Comment guifg=#b3b0a3 guibg=NONE guisp=NONE gui=italic ctermfg=144 ctermbg=NONE cterm=NONE
