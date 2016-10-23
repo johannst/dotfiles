@@ -47,8 +47,9 @@ endif
 "}}}
 "{{{ Statusline 
 
-hi StatusLine   ctermfg=0   ctermbg=38  cterm=NONE 
-hi StatusLineNC ctermfg=144 ctermbg=238 cterm=NONE
+"hi StatusLine   ctermfg=0   ctermbg=38  cterm=NONE 
+hi StatusLine   ctermfg=NONE ctermbg=125 cterm=NONE
+hi StatusLineNC ctermfg=144  ctermbg=238 cterm=NONE
 
 "}}}
 "{{{ Diff 

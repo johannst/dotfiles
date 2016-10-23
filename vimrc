@@ -212,7 +212,73 @@ nnoremap <C-h>     <C-w>h
 "{{{ Statusline 
 
 set laststatus=2              " always show status line
-set ruler                     " display cursor position in status line
+
+let g:ModeMap={
+         \ 'n'  : 'Normal',
+         \ 'no' : 'N-Operator Pending',
+         \ 'v'  : 'Visual',
+         \ 'V'  : 'V-Line',
+         \ '' : 'V-Block',
+         \ 's'  : 'Select',
+         \ 'S'  : 'S-Line',
+         \ '' : 'S-Block',
+         \ 'i'  : 'Insert',
+         \ 'R'  : 'Replace',
+         \ 'Rv' : 'V-Replace',
+         \ 'c'  : 'Command',
+         \ 'cv' : 'Vim Ex',
+         \ 'ce' : 'Ex',
+         \ 'r'  : 'Prompt',
+         \ 'rm' : 'More',
+         \ 'r?' : 'Confirm',
+         \ '!'  : 'Shell',
+         \}
+
+" TODO: find nice colors for different modes
+function! DynamicStatuslineHighlighting()
+   if (mode() ==# 'n' || mode() ==# 'no')
+      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=125 cterm=NONE'
+   elseif (mode() ==# 'i')
+      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=38  cterm=NONE'
+   elseif (mode() ==# 'v' || mode() ==# 'V' || g:ModeMap[mode()] ==# 'V-Block')
+      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=33  cterm=NONE'
+   else
+      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=226  cterm=NONE'
+   endif
+   return ''
+endfunction 
+
+let &statusline=''        
+let &statusline.='%{DynamicStatuslineHighlighting()}'
+let &statusline.='[%{g:ModeMap[mode()]}]'
+let &statusline.=' '      
+let &statusline.='%t'     " file name
+let &statusline.=' '      
+let &statusline.='{'      
+let &statusline.='%M'     " modified flag
+let &statusline.='%R'     " read-only flag
+let &statusline.='%H'     " is help page flag
+let &statusline.='}'      
+let &statusline.=' '      
+let &statusline.='['      
+let &statusline.='%{&ft!=""?&ft.",":""}'           "filetype
+let &statusline.='%{&fenc!=""?&fenc.",":&enc.","}' " file encoding
+let &statusline.='%{&ff}'                          " file format
+let &statusline.=']'             
+
+let &statusline.='%='     " seperator between left and right alignment
+let &statusline.=' '      
+let &statusline.='[%b'    " decimal ascii value of char under cursor
+let &statusline.=':'      
+let &statusline.='0x%B]'  " hexadecimal ascii value of char under cursor
+let &statusline.=' '      
+let &statusline.='[L%l'   " current line
+let &statusline.='/'      
+let &statusline.='%L'     " num of lines
+let &statusline.=':'      
+let &statusline.='C%c]'   " current column
+let &statusline.=' '      
+let &statusline.='(%p%%)' " current line in percent
 
 "}}}
 "{{{ Indentation 
