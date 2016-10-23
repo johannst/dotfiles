@@ -1,18 +1,10 @@
 # dotfiles -- README
 # author: johannst
 
-- **.vim/colors**:
-   - solarized: https://github.com/altercation/solarized
-   - buddy    : https://github.com/DrSpatula/vim-buddy
-   - gruvbox  : https://github.com/morhetz/gruvbox
-   - pride    : https://github.com/lyxell/pride.vim
-   - scheakur : https://github.com/scheakur/vim-scheakur
+Currently no installer available!
 
-- **.vim/install_vundle.sh**:
-   - Installs Vim Bundle package manager
+- **print_bash_color**
+   - display available colors
 
-- **.bashrc/**
-   - this files should be sourced from within a ~/.bashrc ~/.bash_profile file
-
-- **.Xresources_solarized**
-   - https://github.com/solarized/xresources
+- **vim/install_vundle.sh**:
+   - install Vundle vim package manager
