@@ -20,23 +20,23 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-let g:bufexplorer_enable="-"
+let s:bufexplorer_enable="-"
 Plugin 'jlanzarotta/bufexplorer'
 
-let g:buftabline_enable="-"
+let s:buftabline_enable="-"
 Plugin 'ap/vim-buftabline'
 
-"let g:airline_enable="-"
+"let s:airline_enable="-"
 "Plugin 'vim-airline/vim-airline'
 "Plugin 'vim-airline/vim-airline-themes'
 
-let g:tagbar_enable="-"
+let s:tagbar_enable="-"
 Plugin 'majutsushi/tagbar'
 
-let g:ctrlp_enable="-"
+let s:ctrlp_enable="-"
 Plugin 'kien/ctrlp.vim'
 
-"let g:omnicppcomplete_enable="-"
+"let s:omnicppcomplete_enable="-"
 "Plugin 'vim-scripts/OmniCppComplete'
 
 call vundle#end()         
@@ -44,11 +44,11 @@ call vundle#end()
 "}}}
 "{{{ Plugin Config 
 
-if exists('g:bufexplorer_enable')
+if exists('s:bufexplorer_enable')
    nnoremap <leader>be :call BufExplorer()<CR>
 endif
 
-if exists('g:airline_enable')
+if exists('s:airline_enable')
    let g:airline#extensions#tabline#enabled = 1
    let g:airline#extensions#tabline#fnamemod = ':t'
    let g:airline_powerline_fonts = 1
@@ -57,7 +57,7 @@ if exists('g:airline_enable')
    endif
 endif
 
-if exists('g:tagbar_enable')
+if exists('s:tagbar_enable')
    let g:tagbar_ctags_bin='~/.vim/bin/ctags'
    if !empty(glob(g:tagbar_ctags_bin))
       augroup aug:TagbarKeymaps
@@ -69,16 +69,16 @@ if exists('g:tagbar_enable')
    endif
 endif
 
-if exists('g:ctrlp_enable')
+if exists('s:ctrlp_enable')
    let g:ctrlp_buftag_ctags_bin='~/.vim/bin/ctags'
    let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
 endif
 
-if exists('g:buftabline_enable')
+if exists('s:buftabline_enable')
    let g:buftabline_indicators = 1
 endif
 
-if exists('g:omnicppcomplete_enable')
+if exists('s:omnicppcomplete_enable')
    set tags+=~/.vim/tags/cpp_tags
    let OmniCpp_NamespaceSearch = 1
    let OmniCpp_GlobalScopeSearch = 1
@@ -148,7 +148,7 @@ augroup aug:FileTypeCommentString
    autocmd!
    autocmd FileType vim execute "let b:comment_symbol=\"\\\"\""
    autocmd FileType c,cpp execute "let b:comment_symbol=\"//\""
-   autocmd FileType sh,make,python  execute "let b:comment_symbol=\"#\""
+   autocmd FileType sh,config,make,python  execute "let b:comment_symbol=\"#\""
 augroup end
 
 augroup aug:FoldMarkerKeymaps
@@ -236,7 +236,7 @@ let g:ModeMap={
 
 " TODO: find nice colors for different modes
 function! DynamicStatuslineHighlighting()
-   if (mode() ==# 'n' || mode() ==# 'no')
+   if (mode() ==# 'n' || mode() ==# 'no' || mode() ==# 'c')
       execute 'hi! StatusLine   ctermfg=NONE   ctermbg=125 cterm=NONE'
    elseif (mode() ==# 'i')
       execute 'hi! StatusLine   ctermfg=NONE   ctermbg=38  cterm=NONE'
@@ -252,18 +252,14 @@ let &statusline=''
 let &statusline.='%{DynamicStatuslineHighlighting()}'
 let &statusline.='[%{g:ModeMap[mode()]}]'
 let &statusline.=' '      
-let &statusline.='%t'     " file name
+let &statusline.='%t'        " file name
 let &statusline.=' '      
-let &statusline.='{'      
-let &statusline.='%M'     " modified flag
-let &statusline.='%R'     " read-only flag
-let &statusline.='%H'     " is help page flag
-let &statusline.='}'      
+let &statusline.='{%M%R%H}'  " modified/read-only/help-page
 let &statusline.=' '      
-let &statusline.='['      
-let &statusline.='%{&ft!=""?&ft.",":""}'           "filetype
-let &statusline.='%{&fenc!=""?&fenc.",":&enc.","}' " file encoding
-let &statusline.='%{&ff}'                          " file format
+let &statusline.='[%{&ft}'                          "filetype
+"let &statusline.='%{&ft!=""?&ft.",":""}'           "filetype
+"let &statusline.='%{&fenc!=""?&fenc.",":&enc.","}' " file encoding
+"let &statusline.='%{&ff}'                          " file format
 let &statusline.=']'             
 
 let &statusline.='%='     " seperator between left and right alignment
@@ -272,11 +268,11 @@ let &statusline.='[%b'    " decimal ascii value of char under cursor
 let &statusline.=':'      
 let &statusline.='0x%B]'  " hexadecimal ascii value of char under cursor
 let &statusline.=' '      
-let &statusline.='[L%l'   " current line
+let &statusline.='[%l'    " current line
 let &statusline.='/'      
 let &statusline.='%L'     " num of lines
-let &statusline.=':'      
-let &statusline.='C%c]'   " current column
+let &statusline.=' -- '      
+let &statusline.='%c]'    " current column
 let &statusline.=' '      
 let &statusline.='(%p%%)' " current line in percent
 
@@ -327,13 +323,18 @@ augroup end
 "}}}
 "{{{ SCons Integration 
 
-function! TriggerSCons(arg_string)
-   let base_cmd = "scons -u "
-   let &makeprg=base_cmd.a:arg_string
+function! TriggerSCons(...)
+   let l:base_cmd = 'scons'
+   "let base_cmd = "scons -u"
+   let l:arg_str = ''
+   for k in a:000
+      let l:arg_str = l:arg_str . ' ' . k
+   endfor
+   let &makeprg = l:base_cmd . l:arg_str
    make
 endfunction
 " use like :SCons -j20 ...
-command! -nargs=1 SCons call TriggerSCons(<f-args>)
+command! -nargs=* SCons call TriggerSCons(<f-args>)
 
 "}}}
 "{{{ Tmux Specific 
