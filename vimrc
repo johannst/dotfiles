@@ -348,3 +348,41 @@ command! -nargs=* SCons call TriggerSCons(<f-args>)
 "endif
 
 "}}}
+"{{{ Sandbox 
+let s:sandbox_enable = 1
+if s:sandbox_enable
+   function! StdOutCB(job, message)
+   endfunction
+
+   function! JobExitCB(job, status)
+      "unlet g:stdout_buffer
+      "unlet g:stderr_buffer
+      "execute 'cbuffer ' . g:stderr_buffer
+   endfunction
+
+   " TODO: need to debug why stdout_buffer/stdout_buffer are not shown 
+   "       and why output is not correctly written to these buffers?!
+   "       when running AsyncCmdProcessor, line 1 of currently open buffer is overwritten
+   function! AsyncCmdProcessor(cmd)
+      let l:current_buffer = bufnr('')
+      " create & delete buffer for stdout
+      let g:stdout_buffer = bufnr('stdout_buffer', 1)
+      execute g:stdout_buffer . 'bufdo %d'
+      " create & delete buffer for stderr
+      let g:stderr_buffer = bufnr('stderr_buffer', 1)
+      execute g:stderr_buffer . 'bufdo %d'
+
+      "execute 'sbuffer' . g:stdout_buffer
+
+      " switch to current buffer
+      execute 'b ' . l:current_buffer
+
+      let job = job_start(a:cmd, { 'out_io': 'buffer',
+               \ 'out_name': 'stdout_buffer',
+               \ 'out_cb': 'StdOutCB',
+               \ 'err_io': 'buffer',
+               \ 'err_name': 'stderr_buffer',
+               \ 'exit_cb': 'JobExitCB'})
+   endfunction
+endif
+"}}}
