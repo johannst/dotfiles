@@ -351,38 +351,60 @@ command! -nargs=* SCons call TriggerSCons(<f-args>)
 "{{{ Sandbox 
 let s:sandbox_enable = 1
 if s:sandbox_enable
-   function! StdOutCB(job, message)
+   function! s:StdOutCB(job, message)
    endfunction
 
-   function! JobExitCB(job, status)
-      "unlet g:stdout_buffer
-      "unlet g:stderr_buffer
-      "execute 'cbuffer ' . g:stderr_buffer
+   function! s:StdErrCB(job, message)
    endfunction
 
-   " TODO: need to debug why stdout_buffer/stdout_buffer are not shown 
-   "       and why output is not correctly written to these buffers?!
-   "       when running AsyncCmdProcessor, line 1 of currently open buffer is overwritten
-   function! AsyncCmdProcessor(cmd)
-      let l:current_buffer = bufnr('')
+   function! s:JobExitCB(job, status)
+      "execute 'cbuffer! ' . g:stderr_buffer
+      execute "echom \'Job Exited!\'"
+   endfunction
+
+   function! AsyncCmdProcessor(...)
+      let l:current_buffer = bufnr('%')
+
       " create & delete buffer for stdout
-      let g:stdout_buffer = bufnr('stdout_buffer', 1)
-      execute g:stdout_buffer . 'bufdo %d'
+      " TODO: create buffer on first call to stdout cb
+      let g:stdout_buffer = s:CreateLogBuffer('stdout_buffer')
+
       " create & delete buffer for stderr
-      let g:stderr_buffer = bufnr('stderr_buffer', 1)
-      execute g:stderr_buffer . 'bufdo %d'
+      " TODO: create buffer on first call to stderr cb
+      let g:stderr_buffer = s:CreateLogBuffer('stderr_buffer')
 
-      "execute 'sbuffer' . g:stdout_buffer
-
-      " switch to current buffer
       execute 'b ' . l:current_buffer
 
-      let job = job_start(a:cmd, { 'out_io': 'buffer',
-               \ 'out_name': 'stdout_buffer',
-               \ 'out_cb': 'StdOutCB',
+      " concatenate command string
+      let l:cmd = ''
+      for arg in a:000
+         let l:cmd = l:cmd. ' ' . arg
+      endfor
+      echom l:cmd
+
+      let job = job_start(l:cmd, { 
+               \ 'out_io': 'buffer',
+               \ 'out_buf': g:stdout_buffer,
+               \ 'out_cb': function('s:StdOutCB'),
+               \ 'out_msg': '0',
                \ 'err_io': 'buffer',
-               \ 'err_name': 'stderr_buffer',
-               \ 'exit_cb': 'JobExitCB'})
+               \ 'err_buf': g:stderr_buffer,
+               \ 'err_cb': function('s:StdErrCB'),
+               \ 'err_msg': '0',
+               \ 'exit_cb': function('s:JobExitCB')
+               \})
    endfunction
+
+   function! s:CreateLogBuffer(buffer_name)
+      let l:buffer_num = bufnr(a:buffer_name, 1)
+      execute 'b ' . l:buffer_num
+      execute '%d'
+      execute 'setlocal buflisted'
+      execute 'setlocal buftype=nofile'
+      return l:buffer_num
+   endfunction
+
+   command! -nargs=* Async call AsyncCmdProcessor(<f-args>)
+   nnoremap <leader>a :Async 
 endif
 "}}}
