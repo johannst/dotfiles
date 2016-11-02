@@ -149,6 +149,7 @@ augroup aug:FileTypeCommentString
    autocmd FileType vim execute "let b:comment_symbol=\"\\\"\""
    autocmd FileType c,cpp execute "let b:comment_symbol=\"//\""
    autocmd FileType sh,config,make,python  execute "let b:comment_symbol=\"#\""
+   autocmd FileType tex,bib  execute "let b:comment_symbol=\"%\""
 augroup end
 
 augroup aug:FoldMarkerKeymaps
