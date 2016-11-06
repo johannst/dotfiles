@@ -251,30 +251,15 @@ endfunction
 let &statusline=''        
 let &statusline.='%{DynamicStatuslineHighlighting()}'
 let &statusline.='[%{g:ModeMap[mode()]}]'
-let &statusline.=' '      
-let &statusline.='%t'        " file name
-let &statusline.=' '      
-let &statusline.='{%M%R%H}'  " modified/read-only/help-page
-let &statusline.=' '      
-let &statusline.='[%{&ft}'                          "filetype
-"let &statusline.='%{&ft!=""?&ft.",":""}'           "filetype
-"let &statusline.='%{&fenc!=""?&fenc.",":&enc.","}' " file encoding
-"let &statusline.='%{&ff}'                          " file format
-let &statusline.=']'             
+let &statusline.=' %t'        " file name
+let &statusline.=' {%M%R%H}'  " modified/read-only/help-page
+let &statusline.=' [%{&ft}]'  "filetype
 
-let &statusline.='%='     " seperator between left and right alignment
-let &statusline.=' '      
-let &statusline.='[%b'    " decimal ascii value of char under cursor
-let &statusline.=':'      
-let &statusline.='0x%B]'  " hexadecimal ascii value of char under cursor
-let &statusline.=' '      
-let &statusline.='[%l'    " current line
-let &statusline.='/'      
-let &statusline.='%L'     " num of lines
-let &statusline.=' -- '      
-let &statusline.='%c]'    " current column
-let &statusline.=' '      
-let &statusline.='(%p%%)' " current line in percent
+let &statusline.='%='             " seperator between left and right alignment
+let &statusline.=' [A:%{GetAsyncJobStatus()}]' 
+let &statusline.=' [%b:0x%B]'     " dec:hex ascii value of char under cursor
+let &statusline.=' [%l/%L -- %c]' " current line/num of lines -- current columen
+let &statusline.=' (%p%%)'        " current line in percent
 
 "}}}
 "{{{ Indentation 
@@ -359,19 +344,26 @@ if s:sandbox_enable
 
    function! s:JobExitCB(job, status)
       "execute 'cbuffer! ' . g:stderr_buffer
-      execute "echom \'Job Exited!\'"
+      echom 'AsyncCmdProcessor: Job exited'
+      let s:async_job_running=0
    endfunction
 
-   function! AsyncCmdProcessor(...)
+   let s:async_job_running=0
+   function! s:AsyncCmdProcessor(...)
+      if a:0 == 0
+         echom 'AsyncCmdProcessor: no cmd specified'
+         return 
+      endif
+
+      if s:async_job_running == 1
+         echom 'AsyncCmdProcessor: currently only one job at a time supported'
+         return
+      endif
+      let s:async_job_running=1
+
       let l:current_buffer = bufnr('%')
 
-      " create & delete buffer for stdout
-      " TODO: create buffer on first call to stdout cb
-      let g:stdout_buffer = s:CreateLogBuffer('stdout_buffer')
-
-      " create & delete buffer for stderr
-      " TODO: create buffer on first call to stderr cb
-      let g:stderr_buffer = s:CreateLogBuffer('stderr_buffer')
+      let s:async_buffer = s:CreateLogBuffer('async_buffer')
 
       execute 'b ' . l:current_buffer
 
@@ -382,17 +374,24 @@ if s:sandbox_enable
       endfor
       echom l:cmd
 
-      let job = job_start(l:cmd, { 
+      let s:async_job = job_start(l:cmd, { 
                \ 'out_io': 'buffer',
-               \ 'out_buf': g:stdout_buffer,
+               \ 'out_buf': s:async_buffer,
                \ 'out_cb': function('s:StdOutCB'),
                \ 'out_msg': '0',
                \ 'err_io': 'buffer',
-               \ 'err_buf': g:stderr_buffer,
+               \ 'err_buf': s:async_buffer,
                \ 'err_cb': function('s:StdErrCB'),
                \ 'err_msg': '0',
                \ 'exit_cb': function('s:JobExitCB')
                \})
+   endfunction
+
+   function! GetAsyncJobStatus()
+      if exists('s:async_job')
+         return job_status(s:async_job)
+      endif
+      return '*'
    endfunction
 
    function! s:CreateLogBuffer(buffer_name)
@@ -404,7 +403,7 @@ if s:sandbox_enable
       return l:buffer_num
    endfunction
 
-   command! -nargs=* Async call AsyncCmdProcessor(<f-args>)
+   command! -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
    nnoremap <leader>a :Async 
 endif
 "}}}
