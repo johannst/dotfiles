@@ -345,21 +345,21 @@ if s:sandbox_enable
    function! s:JobExitCB(job, status)
       "execute 'cbuffer! ' . g:stderr_buffer
       echom 'AsyncCmdProcessor: Job exited'
-      let s:async_job_running=0
+      let s:gAsyncJobRunning=0
    endfunction
 
-   let s:async_job_running=0
+   let s:gAsyncJobRunning=0
    function! s:AsyncCmdProcessor(...)
       if a:0 == 0
          echom 'AsyncCmdProcessor: no cmd specified'
          return 
       endif
 
-      if s:async_job_running == 1
+      if s:gAsyncJobRunning == 1
          echom 'AsyncCmdProcessor: currently only one job at a time supported'
          return
       endif
-      let s:async_job_running=1
+      let s:gAsyncJobRunning=1
 
       let l:current_buffer = bufnr('%')
 
@@ -374,7 +374,7 @@ if s:sandbox_enable
       endfor
       echom l:cmd
 
-      let s:async_job = job_start(l:cmd, { 
+      let s:gAsyncJob = job_start(l:cmd, { 
                \ 'out_io': 'buffer',
                \ 'out_buf': s:async_buffer,
                \ 'out_cb': function('s:StdOutCB'),
@@ -387,11 +387,22 @@ if s:sandbox_enable
                \})
    endfunction
 
+   " can not be script local because used in statusline
    function! GetAsyncJobStatus()
-      if exists('s:async_job')
-         return job_status(s:async_job)
+      if exists('s:gAsyncJob')
+         return job_status(s:gAsyncJob)
       endif
       return '*'
+   endfunction
+
+   function! s:KillAsyncJob()
+      if exists('s:gAsyncJob')
+         let l:dudel = job_stop(s:gAsyncJob)
+         execute 'sleep 200ms'
+         if job_status(s:gAsyncJob) !=? 'dead'
+            echom 'Failed to kill AsyncJob'
+         endif
+      endif
    endfunction
 
    function! s:CreateLogBuffer(buffer_name)
@@ -400,10 +411,12 @@ if s:sandbox_enable
       execute '%d'
       execute 'setlocal buflisted'
       execute 'setlocal buftype=nofile'
+      execute 'setlocal wrap'
       return l:buffer_num
    endfunction
 
    command! -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
    nnoremap <leader>a :Async 
+   nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
 endif
 "}}}
