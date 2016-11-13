@@ -178,7 +178,7 @@ set showmatch                 " show matching brackets.
 set matchtime=5               " how many tenths of a second to blink when matching brackets
 set matchpairs+=<:>           " show matching <> as well
 
-vnoremap <leader>r "hy:%s/<C-r>h/<C-r>h/gc<left><left><left>
+vnoremap <leader>r "hy:%s/<C-r>h/<C-r>h/gc<Left><Left><Left>
 
 "}}}
 "{{{ Buffer & Splits 
@@ -344,6 +344,7 @@ if s:sandbox_enable
 
    function! s:JobExitCB(job, status)
       "execute 'cbuffer! ' . g:stderr_buffer
+      "execute 'caddbuffer ' . s:async_buffer
       echom 'AsyncCmdProcessor: Job exited'
       let s:gAsyncJobRunning=0
    endfunction
@@ -405,6 +406,35 @@ if s:sandbox_enable
       endif
    endfunction
 
+   let s:fname_filters = [ '\(.\{-}\):\%(\(\d\+\)\%(:\(\d\+\):\)\?\)\?' ]
+   " matches current line(from beginning indep of cursor position) against fname_filters
+   " the first file name found from beginning of line is opened in window evaluated by 'wincmd w'
+   function! s:OpenFirstFNameMatch()
+      let l:line = getline('.')
+
+      " TODO: experimenting with cutting line from cursor to end
+      "let l:cur_col_pos = getcurpos()[2]
+      "echo l:line[l:cur_col_pos-1:]
+
+      let l:file_info = []
+      let l:file_info =  matchlist(line, s:fname_filters[0])
+
+      if !empty(l:file_info)
+         for path in split(&path, ',')    " take first match from path
+            if ( empty(path) && !empty(glob(l:file_info[1])) ) || !empty(glob(path . '/' . l:file_info[1]))
+               let l:fname = l:file_info[1]
+               let l:lnum  = l:file_info[2] == ''? '1' : l:file_info[2]
+               let l:cnum  = l:file_info[3] == ''? '1' : l:file_info[3]
+               execute 'wincmd w'
+               execute 'open ' . l:fname
+               call cursor(l:lnum, l:cnum)
+               execute 'wincmd p'
+               break
+            endif
+         endfor
+      endif
+   endfunction
+
    function! s:CreateLogBuffer(buffer_name)
       let l:buffer_num = bufnr(a:buffer_name, 1)
       execute 'b ' . l:buffer_num
@@ -412,11 +442,14 @@ if s:sandbox_enable
       execute 'setlocal buflisted'
       execute 'setlocal buftype=nofile'
       execute 'setlocal wrap'
+      nnoremap <buffer> <CR> :call <SID>OpenFirstFNameMatch()<CR>
       return l:buffer_num
    endfunction
 
    command! -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
    nnoremap <leader>a :Async 
    nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
+
+   nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +<Left><Left><Left><Left><Left>
 endif
 "}}}
