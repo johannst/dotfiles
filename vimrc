@@ -22,23 +22,12 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-let s:bufexplorer_enable="-"
 Plugin 'jlanzarotta/bufexplorer'
-
-let s:buftabline_enable="-"
 Plugin 'ap/vim-buftabline'
-
-"let s:airline_enable="-"
 "Plugin 'vim-airline/vim-airline'
 "Plugin 'vim-airline/vim-airline-themes'
-
-let s:tagbar_enable="-"
 Plugin 'majutsushi/tagbar'
-
-let s:ctrlp_enable="-"
-Plugin 'kien/ctrlp.vim'
-
-"let s:omnicppcomplete_enable="-"
+Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 
 call vundle#end()         
@@ -46,11 +35,26 @@ call vundle#end()
 "}}}
 "{{{ Plugin Config 
 
-if exists('s:bufexplorer_enable')
-   nnoremap <leader>be :call BufExplorer()<CR>
+let s:gEnabledPlugins = []
+function! s:ParseVimrcForEnabledPlugins() 
+   let l:vimrc = readfile($MYVIMRC, '', 100)
+   let l:i = 0
+   while 1
+      let l:i = match(l:vimrc, '^Plugin', l:i+1)
+      if l:i == -1 
+         break
+      endif
+      call add(s:gEnabledPlugins, split(l:vimrc[l:i], "'")[1])
+   endwhile
+endfunction
+call s:ParseVimrcForEnabledPlugins()
+
+if index(s:gEnabledPlugins, 'jlanzarotta/bufexplorer')!=-1
+   nnoremap <leader>be :call ToggleBufExplorer()<CR>
+   let g:bufExplorerDisableDefaultKeyMapping=1
 endif
 
-if exists('s:airline_enable')
+if index(s:gEnabledPlugins, 'vim-airline/vim-airline')!=-1
    let g:airline#extensions#tabline#enabled = 1
    let g:airline#extensions#tabline#fnamemod = ':t'
    let g:airline_powerline_fonts = 1
@@ -59,7 +63,7 @@ if exists('s:airline_enable')
    endif
 endif
 
-if exists('s:tagbar_enable')
+if index(s:gEnabledPlugins, 'majutsushi/tagbar')!=-1
    let g:tagbar_ctags_bin=$VIMHOME . '/bin/ctags'
    if !empty(glob(g:tagbar_ctags_bin))
       augroup aug:TagbarKeymaps
@@ -71,16 +75,16 @@ if exists('s:tagbar_enable')
    endif
 endif
 
-if exists('s:ctrlp_enable')
+if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
    let g:ctrlp_buftag_ctags_bin=$VIMHOME . '/bin/ctags'
    let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
 endif
 
-if exists('s:buftabline_enable')
+if index(s:gEnabledPlugins, 'ap/vim-buftabline')!=-1
    let g:buftabline_indicators = 1
 endif
 
-if exists('s:omnicppcomplete_enable')
+if index(s:gEnabledPlugins, 'vim-scripts/OmniCppComplete')!=-1
    set tags+=$VIMHOME/tags/cpp_tags
    let OmniCpp_NamespaceSearch = 1
    let OmniCpp_GlobalScopeSearch = 1
