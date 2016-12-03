@@ -8,35 +8,26 @@ let mapleader=";"
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
 
+let $VIMHOME='~/.vim'
+
 "{{{ Plugin Management 
 
 " to install plugins open vim and run :PluginInstall from within vim OR
 " vim +PluginInstall +qall from cmd line
 
 filetype off         " necessary for vundle!!!
-set runtimepath+=~/.vim/bundle/Vundle.vim
+set runtimepath+=$VIMHOME/bundle/Vundle.vim
 
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-let s:bufexplorer_enable="-"
 Plugin 'jlanzarotta/bufexplorer'
-
-let s:buftabline_enable="-"
 Plugin 'ap/vim-buftabline'
-
-"let s:airline_enable="-"
 "Plugin 'vim-airline/vim-airline'
 "Plugin 'vim-airline/vim-airline-themes'
-
-let s:tagbar_enable="-"
 Plugin 'majutsushi/tagbar'
-
-let s:ctrlp_enable="-"
-Plugin 'kien/ctrlp.vim'
-
-"let s:omnicppcomplete_enable="-"
+Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 
 call vundle#end()         
@@ -44,11 +35,26 @@ call vundle#end()
 "}}}
 "{{{ Plugin Config 
 
-if exists('s:bufexplorer_enable')
-   nnoremap <leader>be :call BufExplorer()<CR>
+let s:gEnabledPlugins = []
+function! s:ParseVimrcForEnabledPlugins() 
+   let l:vimrc = readfile($MYVIMRC)
+   let l:i = 0
+   while 1
+      let l:i = match(l:vimrc, '^Plugin', l:i+1)
+      if l:i == -1 
+         break
+      endif
+      call add(s:gEnabledPlugins, split(l:vimrc[l:i], "'")[1])
+   endwhile
+endfunction
+call s:ParseVimrcForEnabledPlugins()
+
+if index(s:gEnabledPlugins, 'jlanzarotta/bufexplorer')!=-1
+   nnoremap <leader>be :call ToggleBufExplorer()<CR>
+   let g:bufExplorerDisableDefaultKeyMapping=1
 endif
 
-if exists('s:airline_enable')
+if index(s:gEnabledPlugins, 'vim-airline/vim-airline')!=-1
    let g:airline#extensions#tabline#enabled = 1
    let g:airline#extensions#tabline#fnamemod = ':t'
    let g:airline_powerline_fonts = 1
@@ -57,8 +63,8 @@ if exists('s:airline_enable')
    endif
 endif
 
-if exists('s:tagbar_enable')
-   let g:tagbar_ctags_bin='~/.vim/bin/ctags'
+if index(s:gEnabledPlugins, 'majutsushi/tagbar')!=-1
+   let g:tagbar_ctags_bin=$VIMHOME . '/bin/ctags'
    if !empty(glob(g:tagbar_ctags_bin))
       augroup aug:TagbarKeymaps
          autocmd!
@@ -69,17 +75,25 @@ if exists('s:tagbar_enable')
    endif
 endif
 
-if exists('s:ctrlp_enable')
-   let g:ctrlp_buftag_ctags_bin='~/.vim/bin/ctags'
-   let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
+if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
+   let g:ctrlp_buftag_ctags_bin=$VIMHOME . '/bin/ctags'
+   let g:ctrlp_extensions = ['buffertag']
+   let g:ctrlp_working_path_mode = 'a'
+   let g:ctrlp_use_caching = 1
+   let g:ctrlp_clear_cache_on_exit = 1
+   let g:ctrlp_cache_dir = $VIMHOME . '/cache/ctrlp'
+
+   nnoremap <leader>t :CtrlPBufTagAll<CR>
+   nnoremap <leader>f :CtrlPCurFile<CR>
+   nnoremap <leader>b :CtrlPBuffer<CR>
 endif
 
-if exists('s:buftabline_enable')
+if index(s:gEnabledPlugins, 'ap/vim-buftabline')!=-1
    let g:buftabline_indicators = 1
 endif
 
-if exists('s:omnicppcomplete_enable')
-   set tags+=~/.vim/tags/cpp_tags
+if index(s:gEnabledPlugins, 'vim-scripts/OmniCppComplete')!=-1
+   set tags+=$VIMHOME/tags/cpp_tags
    let OmniCpp_NamespaceSearch = 1
    let OmniCpp_GlobalScopeSearch = 1
    let OmniCpp_ShowAccess = 1
@@ -139,10 +153,18 @@ vnoremap <C-e> $
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+cnoremap <C-h> <Left>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-l> <Right>
+
 "}}}
 "{{{ Folding 
 
+set foldlevel=0
+set foldcolumn=1
 set foldmethod=marker     
+set foldmarker={{{,}}}
 
 augroup aug:FileTypeCommentString
    autocmd!
@@ -179,7 +201,8 @@ set showmatch                 " show matching brackets.
 set matchtime=5               " how many tenths of a second to blink when matching brackets
 set matchpairs+=<:>           " show matching <> as well
 
-vnoremap <leader>r "hy:%s/<C-r>h/<C-r>h/gc<left><left><left>
+nnoremap <leader>n :noh<CR>
+vnoremap <leader>r "hy:%s/<C-r>h/<C-r>h/gc<Left><Left><Left>
 
 "}}}
 "{{{ Buffer & Splits 
@@ -252,30 +275,17 @@ endfunction
 let &statusline=''        
 let &statusline.='%{DynamicStatuslineHighlighting()}'
 let &statusline.='[%{g:ModeMap[mode()]}]'
-let &statusline.=' '      
-let &statusline.='%t'        " file name
-let &statusline.=' '      
-let &statusline.='{%M%R%H}'  " modified/read-only/help-page
-let &statusline.=' '      
-let &statusline.='[%{&ft}'                          "filetype
-"let &statusline.='%{&ft!=""?&ft.",":""}'           "filetype
-"let &statusline.='%{&fenc!=""?&fenc.",":&enc.","}' " file encoding
-"let &statusline.='%{&ff}'                          " file format
-let &statusline.=']'             
+let &statusline.=' %t'        " file name
+let &statusline.=' {%M%R%H}'  " modified/read-only/help-page
+let &statusline.=' [%{&ft}]'  "filetype
 
-let &statusline.='%='     " seperator between left and right alignment
-let &statusline.=' '      
-let &statusline.='[%b'    " decimal ascii value of char under cursor
-let &statusline.=':'      
-let &statusline.='0x%B]'  " hexadecimal ascii value of char under cursor
-let &statusline.=' '      
-let &statusline.='[%l'    " current line
-let &statusline.='/'      
-let &statusline.='%L'     " num of lines
-let &statusline.=' -- '      
-let &statusline.='%c]'    " current column
-let &statusline.=' '      
-let &statusline.='(%p%%)' " current line in percent
+let &statusline.='%='             " seperator between left and right alignment
+if v:version >= 800
+   let &statusline.=' [A:%{GetAsyncJobStatus()}]' 
+endif
+let &statusline.=' [%b:0x%B]'     " dec:hex ascii value of char under cursor
+let &statusline.=' [%l/%L -- %c]' " current line/num of lines -- current columen
+let &statusline.=' (%p%%)'        " current line in percent
 
 "}}}
 "{{{ Indentation 
@@ -347,5 +357,136 @@ command! -nargs=* SCons call TriggerSCons(<f-args>)
 "   execute "set <xRight>=\e[1;*C"
 "   execute "set <xLeft>=\e[1;*D"
 "endif
+
+"}}}
+"{{{ Project Specific vimrc 
+
+if !empty(glob('.local_vimrc'))
+   source .local_vimrc
+endif
+
+"}}}
+"{{{ Async Command Processor 
+
+if v:version>=800
+   " job_start was not working without CB
+   function! s:StdOutCB(job, message)
+   endfunction
+
+   " job_start was not working without CB
+   function! s:StdErrCB(job, message)
+   endfunction
+
+   function! s:JobExitCB(job, status)
+      "execute 'cbuffer! ' . g:stderr_buffer
+      "execute 'caddbuffer ' . s:async_buffer
+      echom 'AsyncCmdProcessor: Job exited'
+      let s:gAsyncJobRunning=0
+   endfunction
+
+   let s:gAsyncJobRunning=0
+   function! s:AsyncCmdProcessor(...)
+      if a:0 == 0
+         echom 'AsyncCmdProcessor: no cmd specified'
+         return 
+      endif
+
+      if s:gAsyncJobRunning == 1
+         echom 'AsyncCmdProcessor: currently only one job at a time supported'
+         return
+      endif
+      let s:gAsyncJobRunning=1
+
+      let l:current_buffer = bufnr('%')
+      let s:async_buffer = s:CreateLogBuffer('async_buffer')
+      execute 'b ' . l:current_buffer
+
+      " concatenate command string
+      let l:cmd = ''
+      for arg in a:000
+         let l:cmd = l:cmd. ' ' . arg
+      endfor
+      echom l:cmd
+
+      let s:gAsyncJob = job_start(l:cmd, { 
+               \ 'out_io': 'buffer',
+               \ 'out_buf': s:async_buffer,
+               \ 'out_cb': function('s:StdOutCB'),
+               \ 'out_msg': '0',
+               \ 'err_io': 'buffer',
+               \ 'err_buf': s:async_buffer,
+               \ 'err_cb': function('s:StdErrCB'),
+               \ 'err_msg': '0',
+               \ 'exit_cb': function('s:JobExitCB')
+               \})
+   endfunction
+
+   " can not be script local because used in statusline
+   function! GetAsyncJobStatus()
+      if exists('s:gAsyncJob')
+         return job_status(s:gAsyncJob)
+      endif
+      return '*'
+   endfunction
+
+   function! s:KillAsyncJob()
+      if exists('s:gAsyncJob')
+         let l:dudel = job_stop(s:gAsyncJob)
+         execute 'sleep 200ms'
+         if job_status(s:gAsyncJob) !=? 'dead'
+            echom 'Failed to kill AsyncJob'
+         endif
+      endif
+   endfunction
+
+   let s:fname_filters = [ '\(.\{-}\):\%(\(\d\+\)\%(:\(\d\+\):\)\?\)\?' ]
+   " matches current line(from beginning indep of cursor position) against fname_filters
+   " the first file name found from beginning of line is opened in window evaluated by 'wincmd w'
+   function! s:OpenFirstFileNameMatch()
+      " TODO: experimenting <cWORD>
+      let l:line = getline('.')
+
+      let l:file_info = []
+      let l:file_info =  matchlist(line, s:fname_filters[0])
+
+      if !empty(l:file_info)
+         for path in split(&path, ',')    " take first match from path
+            if ( empty(path) && !empty(glob(l:file_info[1])) ) || !empty(glob(path . '/' . l:file_info[1]))
+               let l:fname = l:file_info[1]
+               let l:lnum  = l:file_info[2] == ''? '1' : l:file_info[2]
+               let l:cnum  = l:file_info[3] == ''? '1' : l:file_info[3]
+               execute 'wincmd w'
+               execute 'open ' . l:fname
+               call cursor(l:lnum, l:cnum)
+               execute 'wincmd p'
+               break
+            endif
+         endfor
+      endif
+   endfunction
+
+   function! s:CreateLogBuffer(buffer_name)
+      let l:buffer_num = bufnr(a:buffer_name, 1)
+      execute 'b ' . l:buffer_num
+      execute '%d'
+      execute 'setlocal buflisted'
+      execute 'setlocal buftype=nofile'
+      execute 'setlocal wrap'
+      nnoremap <buffer> <CR> :call <SID>OpenFirstFileNameMatch()<CR>
+      return l:buffer_num
+   endfunction
+
+   command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
+   nnoremap <leader>a :Async 
+   nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
+   nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +<Left><Left><Left><Left><Left>
+endif
+
+"}}}
+"{{{ Sandbox 
+
+let s:sandbox_enable = 1
+if s:sandbox_enable 
+endif
 
 "}}}
