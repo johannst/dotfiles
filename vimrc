@@ -8,13 +8,15 @@ let mapleader=";"
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
 
+let $VIMHOME='~/.vim'
+
 "{{{ Plugin Management 
 
 " to install plugins open vim and run :PluginInstall from within vim OR
 " vim +PluginInstall +qall from cmd line
 
 filetype off         " necessary for vundle!!!
-set runtimepath+=~/.vim/bundle/Vundle.vim
+set runtimepath+=$VIMHOME/bundle/Vundle.vim
 
 call vundle#begin()
 
@@ -58,7 +60,7 @@ if exists('s:airline_enable')
 endif
 
 if exists('s:tagbar_enable')
-   let g:tagbar_ctags_bin='~/.vim/bin/ctags'
+   let g:tagbar_ctags_bin=$VIMHOME . '/bin/ctags'
    if !empty(glob(g:tagbar_ctags_bin))
       augroup aug:TagbarKeymaps
          autocmd!
@@ -70,7 +72,7 @@ if exists('s:tagbar_enable')
 endif
 
 if exists('s:ctrlp_enable')
-   let g:ctrlp_buftag_ctags_bin='~/.vim/bin/ctags'
+   let g:ctrlp_buftag_ctags_bin=$VIMHOME . '/bin/ctags'
    let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
 endif
 
@@ -79,7 +81,7 @@ if exists('s:buftabline_enable')
 endif
 
 if exists('s:omnicppcomplete_enable')
-   set tags+=~/.vim/tags/cpp_tags
+   set tags+=$VIMHOME/tags/cpp_tags
    let OmniCpp_NamespaceSearch = 1
    let OmniCpp_GlobalScopeSearch = 1
    let OmniCpp_ShowAccess = 1
