@@ -17,6 +17,7 @@ let g:colors_name = "johannst"
 
 hi Normal ctermfg=253 ctermbg=234 cterm=NONE
 hi Folded ctermfg=146 ctermbg=238 cterm=NONE
+hi FoldColumn ctermfg=122 ctermbg=238 cterm=NONE
 hi Title ctermfg=230 ctermbg=NONE cterm=bold
 hi Todo ctermfg=232 ctermbg=222 cterm=NONE
 hi NonText ctermfg=247 ctermbg=236 cterm=NONE   
@@ -125,7 +126,6 @@ hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 "hi WarningMsg
 "hi VisualNOS
 "hi ModeMsg
-"hi FoldColumn
 "hi EnumerationName
 "hi MoreMsg
 "hi SpellCap
