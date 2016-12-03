@@ -37,7 +37,7 @@ call vundle#end()
 
 let s:gEnabledPlugins = []
 function! s:ParseVimrcForEnabledPlugins() 
-   let l:vimrc = readfile($MYVIMRC, '', 100)
+   let l:vimrc = readfile($MYVIMRC)
    let l:i = 0
    while 1
       let l:i = match(l:vimrc, '^Plugin', l:i+1)
@@ -77,7 +77,15 @@ endif
 
 if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
    let g:ctrlp_buftag_ctags_bin=$VIMHOME . '/bin/ctags'
-   let g:ctrlp_extensions = ['buffertag', 'line', 'changes', 'mixed']
+   let g:ctrlp_extensions = ['buffertag']
+   let g:ctrlp_working_path_mode = 'a'
+   let g:ctrlp_use_caching = 1
+   let g:ctrlp_clear_cache_on_exit = 1
+   let g:ctrlp_cache_dir = $VIMHOME . '/cache/ctrlp'
+
+   nnoremap <leader>t :CtrlPBufTagAll<CR>
+   nnoremap <leader>f :CtrlPCurFile<CR>
+   nnoremap <leader>b :CtrlPBuffer<CR>
 endif
 
 if index(s:gEnabledPlugins, 'ap/vim-buftabline')!=-1
@@ -145,10 +153,18 @@ vnoremap <C-e> $
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+cnoremap <C-h> <Left>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-l> <Right>
+
 "}}}
 "{{{ Folding 
 
+set foldlevel=0
+set foldcolumn=1
 set foldmethod=marker     
+set foldmarker={{{,}}}
 
 augroup aug:FileTypeCommentString
    autocmd!
@@ -184,6 +200,7 @@ set showmatch                 " show matching brackets.
 set matchtime=5               " how many tenths of a second to blink when matching brackets
 set matchpairs+=<:>           " show matching <> as well
 
+nnoremap <leader>n :noh<CR>
 vnoremap <leader>r "hy:%s/<C-r>h/<C-r>h/gc<Left><Left><Left>
 
 "}}}
@@ -262,7 +279,9 @@ let &statusline.=' {%M%R%H}'  " modified/read-only/help-page
 let &statusline.=' [%{&ft}]'  "filetype
 
 let &statusline.='%='             " seperator between left and right alignment
-let &statusline.=' [A:%{GetAsyncJobStatus()}]' 
+if v:version >= 800
+   let &statusline.=' [A:%{GetAsyncJobStatus()}]' 
+endif
 let &statusline.=' [%b:0x%B]'     " dec:hex ascii value of char under cursor
 let &statusline.=' [%l/%L -- %c]' " current line/num of lines -- current columen
 let &statusline.=' (%p%%)'        " current line in percent
@@ -339,12 +358,21 @@ command! -nargs=* SCons call TriggerSCons(<f-args>)
 "endif
 
 "}}}
+"{{{ Project Specific vimrc
+
+if !empty(glob('.local_vimrc'))
+   source .local_vimrc
+endif
+
+"}}}
 "{{{ Sandbox 
 let s:sandbox_enable = 1
-if s:sandbox_enable
+if s:sandbox_enable && v:version>=800
+   " job_start was not working without CB
    function! s:StdOutCB(job, message)
    endfunction
 
+   " job_start was not working without CB
    function! s:StdErrCB(job, message)
    endfunction
 
@@ -452,7 +480,7 @@ if s:sandbox_enable
       return l:buffer_num
    endfunction
 
-   command! -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
+   command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
    nnoremap <leader>a :Async 
    nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
 
