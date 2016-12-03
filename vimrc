@@ -358,16 +358,16 @@ command! -nargs=* SCons call TriggerSCons(<f-args>)
 "endif
 
 "}}}
-"{{{ Project Specific vimrc
+"{{{ Project Specific vimrc 
 
 if !empty(glob('.local_vimrc'))
    source .local_vimrc
 endif
 
 "}}}
-"{{{ Sandbox 
-let s:sandbox_enable = 1
-if s:sandbox_enable && v:version>=800
+"{{{ Async Command Processor 
+
+if v:version>=800
    " job_start was not working without CB
    function! s:StdOutCB(job, message)
    endfunction
@@ -397,9 +397,7 @@ if s:sandbox_enable && v:version>=800
       let s:gAsyncJobRunning=1
 
       let l:current_buffer = bufnr('%')
-
       let s:async_buffer = s:CreateLogBuffer('async_buffer')
-
       execute 'b ' . l:current_buffer
 
       " concatenate command string
@@ -443,12 +441,9 @@ if s:sandbox_enable && v:version>=800
    let s:fname_filters = [ '\(.\{-}\):\%(\(\d\+\)\%(:\(\d\+\):\)\?\)\?' ]
    " matches current line(from beginning indep of cursor position) against fname_filters
    " the first file name found from beginning of line is opened in window evaluated by 'wincmd w'
-   function! s:OpenFirstFNameMatch()
+   function! s:OpenFirstFileNameMatch()
+      " TODO: experimenting <cWORD>
       let l:line = getline('.')
-
-      " TODO: experimenting with cutting line from cursor to end
-      "let l:cur_col_pos = getcurpos()[2]
-      "echo l:line[l:cur_col_pos-1:]
 
       let l:file_info = []
       let l:file_info =  matchlist(line, s:fname_filters[0])
@@ -476,14 +471,21 @@ if s:sandbox_enable && v:version>=800
       execute 'setlocal buflisted'
       execute 'setlocal buftype=nofile'
       execute 'setlocal wrap'
-      nnoremap <buffer> <CR> :call <SID>OpenFirstFNameMatch()<CR>
+      nnoremap <buffer> <CR> :call <SID>OpenFirstFileNameMatch()<CR>
       return l:buffer_num
    endfunction
 
    command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
    nnoremap <leader>a :Async 
    nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
-
    nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +<Left><Left><Left><Left><Left>
 endif
+
+"}}}
+"{{{ Sandbox 
+
+let s:sandbox_enable = 1
+if s:sandbox_enable 
+endif
+
 "}}}
