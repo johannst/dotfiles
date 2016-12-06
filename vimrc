@@ -29,6 +29,7 @@ Plugin 'ap/vim-buftabline'
 Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'vim-scripts/OmniCppComplete'
+Plugin 'vim-scripts/YankRing.vim'
 
 call vundle#end()         
 
@@ -86,6 +87,16 @@ if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
    nnoremap <leader>t :CtrlPBufTagAll<CR>
    nnoremap <leader>f :CtrlPCurFile<CR>
    nnoremap <leader>b :CtrlPBuffer<CR>
+endif
+
+if index(s:gEnabledPlugins, 'vim-scripts/YankRing.vim')!=-1
+   let g:yankring_max_history= 15
+   let g:yankring_persist = 1
+   let g:yankring_history_dir = $VIMHOME
+   let g:yankring_history_file = 'yankring'
+
+   nnoremap <leader>y :YRShow<CR>
+   "nnoremap <leader>ys :YRSearch<CR>
 endif
 
 if index(s:gEnabledPlugins, 'ap/vim-buftabline')!=-1
@@ -377,10 +388,12 @@ if v:version>=800
    function! s:StdErrCB(job, message)
    endfunction
 
+   let s:gAsyncJobReturnStatus='*'
    function! s:JobExitCB(job, status)
       "execute 'cbuffer! ' . g:stderr_buffer
       "execute 'caddbuffer ' . s:async_buffer
       echom 'AsyncCmdProcessor: Job exited'
+      let s:gAsyncJobReturnStatus = a:status
       let s:gAsyncJobRunning=0
    endfunction
 
@@ -395,6 +408,7 @@ if v:version>=800
          echom 'AsyncCmdProcessor: currently only one job at a time supported'
          return
       endif
+      let s:gAsyncJobReturnStatus='*'
       let s:gAsyncJobRunning=1
 
       let l:current_buffer = bufnr('%')
@@ -424,9 +438,9 @@ if v:version>=800
    " can not be script local because used in statusline
    function! GetAsyncJobStatus()
       if exists('s:gAsyncJob')
-         return job_status(s:gAsyncJob)
+         return job_status(s:gAsyncJob) . ':' . s:gAsyncJobReturnStatus
       endif
-      return '*'
+      return '*:*' 
    endfunction
 
    function! s:KillAsyncJob()
