@@ -70,6 +70,11 @@ if index(s:gEnabledPlugins, 'majutsushi/tagbar')!=-1
       augroup aug:TagbarKeymaps
          autocmd!
          autocmd FileType c,cpp nnoremap <buffer> <leader>tb :TagbarToggle<CR>
+         autocmd FileType tagbar nnoremap <buffer> <leader>tb :TagbarToggle<CR>
+         autocmd FileType tagbar nnoremap <buffer> <S-Left> <NOP>
+         autocmd FileType tagbar nnoremap <buffer> <S-Right> <NOP>
+         autocmd FileType tagbar nnoremap <buffer> <S-h> <NOP>
+         autocmd FileType tagbar nnoremap <buffer> <S-l> <NOP>
       augroup end
    else
       echom "[vimrc]: ctags not detected, please link to " g:tagbar_ctags_bin
@@ -153,6 +158,11 @@ set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
 
 "}}}
 "{{{ Basic Movement
+
+augroup aug:HelpPageKeyMaps
+   autocmd!
+   autocmd FileType help nnoremap <buffer> <CR> <C-]>
+augroup end
 
 " ctrl-ae jump to line start/end 
 nnoremap <C-a> 0
@@ -501,6 +511,13 @@ endif
 
 let s:sandbox_enable = 1
 if s:sandbox_enable 
+
+" TODO: backup file creation
+"       when opening file (of given filetype? maybe start with c/c++) create copy in this file in file_path/.bak/file_name
+"       filter file creation somehow, that it does not try to create backups when opening for example /usr/include/*.h
+
 endif
 
 "}}}
+
+"% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1

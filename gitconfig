@@ -10,7 +10,7 @@
    prompt = false
 [alias]
    lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
-   d = difftool
+   vimdiff = difftool
 [core]
    editor = vim
 [color]
