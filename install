@@ -1,0 +1,155 @@
+#!/bin/bash
+# dotfiles -- install
+# author: johannst
+
+gInstallConfigFile=install.config
+
+#"<config_tag>:<dep_binary>:<installer_fct_name>"
+gToolsConfig=(
+"bashrc:bash:bashrcInstaller"
+"cgdb:cgdb:cgdbrcInstaller"
+"conkyrc:conky:conkyrcInstaller"
+"gitconfig:git:gitConfigInstaller"
+"tmux.conf:tmux:tmuxConfigInstaller"
+"vimrc:vim:vimConfigInstaller"
+"Xresources:xterm:xtermConfigInstaller"
+)
+
+#{{{ bashrcInstaller
+
+function bashrcInstaller() {
+   echo "bashInstaller called!"
+}
+
+#}}}
+#{{{ cgdbrcInstaller
+
+function cgdbrcInstaller() {
+   echo "cgdbrcInstaller called"
+}
+
+#}}}
+#{{{ conkyrcInstaller
+
+function conkyrcInstaller() {
+   echo "conkyrcInstaller called"
+}
+
+#}}}
+#{{{ gitConfigInstaller
+
+function gitConfigInstaller() {
+   echo "gitConfigInstaller called"
+}
+
+#}}}
+#{{{ tmuxConfigInstaller 
+
+function tmuxConfigInstaller() {
+   echo "tmuxConfigInstaller called"
+}
+
+#}}}
+#{{{ vimConfigInstaller
+
+function vimConfigInstaller() {
+   echo "vimConfigInstaller called"
+}
+
+#}}}
+#{{{ xtermConfigInstaller
+
+function xtermConfigInstaller() {
+   echo "xtermConfigInstaller called"
+}
+
+#}}}
+
+#{{{ Installer Main Loop
+
+function main() {
+   # parse gInstallConfigFile to see what should be installed
+   configToInstall=()
+   while read line; do
+      if [[ ! $line =~ ^[yYnN][[:blank:]]?- ]]; then 
+         continue
+      fi
+      flag=$(echo $line | cut -d '-' -f 1 | sed 's/ //g')
+      if [[ $flag =~ ^[yY]$ ]]; then
+         config=$(echo $line | cut -d '-' -f 2 | sed 's/ //g')
+         configToInstall+=("$config")
+      fi
+   done < $gInstallConfigFile
+
+   echo "[Info]: List of tags found to install:"
+   for conf in ${configToInstall[@]}; do 
+      echo -e "\t$conf"
+   done
+
+   for conf in ${configToInstall[@]}; do 
+      installConfig $conf
+   done
+}
+
+#}}}
+#{{{ Installer Core
+
+installConfig() {
+   local config=$1
+   local binary=$(getDepenentBinaryName $config)
+   isBinaryInstalled $binary
+   if [[ $? -eq 1 ]]; then 
+      echo "[Warning]: Skipping $config... $config is not installed!"
+      return 
+   fi
+   local installerFctPtr=$(getConfigInstallerFctPtr $config)
+   if [[ -z $installerFctPtr ]]; then 
+      echo "[Warning]: Skipping $config... installer function pointer loopup error!"
+      return
+   fi
+   isInstallerDefined $installerFctPtr
+   if [[ $? -eq 1 ]]; then 
+      echo "[Warning]: Skipping $config... $installerFctPtr not defined!"
+      return
+   fi
+   echo "[Info]: Intalling config for $binary using $installerFctPtr!"
+   $installerFctPtr
+}
+
+getValue() {
+   local search_key=$1
+   for k in ${gToolsConfig[@]}; do 
+      local key=$(echo $k | cut -d ':' -f 1)
+      if [[ "$key" == "$search_key" ]]; then 
+         local entry=$(echo $k | cut -d ':' -f 2,3)
+         echo ${entry}
+         break
+      fi
+   done
+}
+
+getDepenentBinaryName() {
+   local result=$(echo $(getValue $1) | cut -d ':' -f 1)
+   echo $result
+}
+
+getConfigInstallerFctPtr() {
+   local result=$(echo $(getValue $1) | cut -d ':' -f 2)
+   echo $result
+}
+
+isBinaryInstalled() {
+   local binary=$1
+   type $binary >/dev/null 2>&1 || { return 1; }
+   return 0
+}
+
+isInstallerDefined () {
+   local func=$1
+   declare -F $func >/dev/null 2>&1 || { return 1; }
+   return 0
+}
+
+#}}}
+
+main
