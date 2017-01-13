@@ -2,20 +2,20 @@
 " author: johannst
 " derived from buddy 
 
-set background=dark
-if version > 580
-   hi clear
-   if exists("syntax_on")
-      syntax reset
-   endif
-endif
-
-set t_Co=256
 let g:colors_name = "johannst"
+
+set background=dark
+syntax on
+if exists("syntax_on")
+   syntax reset
+endif
+hi clear
 
 "{{{ Vim Basic 
 
 hi Normal ctermfg=253 ctermbg=234 cterm=NONE
+hi Search ctermfg=0 ctermbg=11 cterm=NONE
+hi IncSearch ctermfg=0 ctermbg=11 cterm=NONE
 hi Folded ctermfg=146 ctermbg=238 cterm=NONE
 hi FoldColumn ctermfg=122 ctermbg=238 cterm=NONE
 hi Title ctermfg=230 ctermbg=NONE cterm=bold
@@ -109,7 +109,6 @@ hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 "}}}
 "{{{ not classified yet 
 "hi Debug ctermfg=194 ctermbg=NONE cterm=NONE
-"hi IncSearch
 "hi WildMenu
 "hi SignColumn
 "hi CTagsMember
@@ -117,7 +116,6 @@ hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 "hi ErrorMsg
 "hi Ignore
 "hi CTagsImport
-"hi Search
 "hi CTagsGlobalVariable
 "hi SpellRare
 "hi EnumerationValue
@@ -141,3 +139,5 @@ hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 "hi clear
 "hi SpecialComment 
 "}}}
+
+"% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1

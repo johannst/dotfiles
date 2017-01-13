@@ -126,8 +126,6 @@ endif
 "}}}
 "{{{ Vim Basic
 
-syntax on
-"set background=dark
 colorscheme johannst
 
 filetype plugin indent on       " enable loading indent file for filetype
