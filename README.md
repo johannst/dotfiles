@@ -1,6 +1,6 @@
 # dotfiles
 
-Installer framework only availabl in bash.
+Installer framework only available in bash.
 
 ### Control installation 
 Installation of the config files is controlled with the `install.config` file. The format of a line in the file is as follows:
@@ -25,4 +25,4 @@ First add an entry in the `gToolsConfig` map in the `install` file. Entries have
 ```
 Then create and implement the installer function with the name provided in the newly created entry.
 
-Then create an entry in the `install.config` file with the tag that matches the tag provided in the `gToolsConfig`.
+To enable installion create an entry in the `install.config` file with the tag that matches the tag provided in the `gToolsConfig`.
