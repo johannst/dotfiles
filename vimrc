@@ -8,7 +8,7 @@ let mapleader=";"
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
 
-let $VIMHOME='~/.vim'
+"let $VIMHOME='~/.vim'
 
 "{{{ Plugin Management 
 

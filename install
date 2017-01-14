@@ -15,10 +15,21 @@ gToolsConfig=(
 "Xresources:xterm:xtermConfigInstaller"
 )
 
+gMagicNumber=e2718281
+ABS_BASE_DIR=$(readlink -f $(dirname $0))
+
 #{{{ bashrcInstaller
 
 function bashrcInstaller() {
-   echo "bashInstaller called!"
+   local bashrc=~/.bashrc
+   touch $bashrc
+   grep $gMagicNumber $bashrc > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return
+   fi
+   echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $bashrc
+   echo -e "source $ABS_BASE_DIR/bashrc" >> $bashrc
+   echo "[Info]: bashrc sucessfully installed!"
 }
 
 #}}}
@@ -39,7 +50,16 @@ function conkyrcInstaller() {
 #{{{ gitConfigInstaller
 
 function gitConfigInstaller() {
-   echo "gitConfigInstaller called"
+   local gitconf=~/.gitconfig
+   touch $gitconf
+   grep $gMagicNumber $gitconf > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return
+   fi
+   echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $gitconf
+   echo -e "[include]" >> $gitconf
+   echo -e "   path = $ABS_BASE_DIR/gitconfig" >> $gitconf
+   echo "[Info]: gitconfig sucessfully installed!"
 }
 
 #}}}
@@ -53,7 +73,21 @@ function tmuxConfigInstaller() {
 #{{{ vimConfigInstaller
 
 function vimConfigInstaller() {
-   echo "vimConfigInstaller called"
+   local vimrc=~/.vimrc
+   local vim_home=~/.vim
+   touch $vimrc
+   grep $gMagicNumber $vimrc > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return
+   fi
+   mkdir $vim_home > /dev/null 2>&1
+   ln -s $ABS_BASE_DIR/vim/* $vim_home
+   echo -e "\n\" $gMagicNumber - Auto generated, do not delete or modify!" >> $vimrc
+   echo -e "let \$VIMHOME='$vim_home'" >> $vimrc
+   echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
+   git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim
+   vim +PluginInstall +qall
+   echo "[Info]: vim config sucessfully installed!"
 }
 
 #}}}
