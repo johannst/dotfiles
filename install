@@ -103,14 +103,14 @@ function xtermConfigInstaller() {
 
 function main() {
    # parse gInstallConfigFile to see what should be installed
-   configToInstall=()
+   local configToInstall=()
    while read line; do
       if [[ ! $line =~ ^[yYnN][[:blank:]]?- ]]; then 
          continue
       fi
-      flag=$(echo $line | cut -d '-' -f 1 | sed 's/ //g')
+      local flag=$(echo $line | cut -d '-' -f 1 | sed 's/ //g')
       if [[ $flag =~ ^[yY]$ ]]; then
-         config=$(echo $line | cut -d '-' -f 2 | sed 's/ //g')
+         local config=$(echo $line | cut -d '-' -f 2 | sed 's/ //g')
          configToInstall+=("$config")
       fi
    done < $gInstallConfigFile

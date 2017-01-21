@@ -20,6 +20,7 @@ bind -m vi-command 'Control-a:beginning-of-line'
 bind -m vi-command 'Control-e:end-of-line'
 bind -m vi-insert 'Control-a:beginning-of-line'
 bind -m vi-insert 'Control-e:end-of-line'
+bind -m vi-command '"v":""'   # disable opening tmp file
 
 #}}}
 #{{{ alias 
@@ -45,7 +46,7 @@ BCol_YellowOrange='\e[38;5;214m'
 #}}}
 #{{{ bash prompt  
 
-export PS1="\[${BCol_DarkRed}\]::\[${BCol_DarkOrange}\]\u\[${BCol_DarkRed}\]::\[${BCol_LightOrange}\]\H\[${BCol_LightGray}\] - \[${BCol_Yellow}\]\t\[${BCol_LightGray}\] - \[${BCol_LightBlue}\]\w\n\[${BCol_NoColor}\][\[${BCol_YellowOrange}\]$?\[${BCol_NoColor}\]] \[${BCol_BlueGray}\]>>\[${BCol_NoColor}\] "
+export PS1="\[${BCol_DarkRed}\]::\[${BCol_DarkOrange}\]\u\[${BCol_DarkRed}\]::\[${BCol_LightOrange}\]\H\[${BCol_LightGray}\] - \[${BCol_Yellow}\]\t\[${BCol_LightGray}\] - \[${BCol_LightBlue}\]\w\n\[${BCol_NoColor}\][\[${BCol_YellowOrange}\]\${?}\[${BCol_NoColor}\]] \[${BCol_BlueGray}\]>>\[${BCol_NoColor}\] "
 
 #}}}
 #{{{ ls colors 
