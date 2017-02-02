@@ -83,6 +83,7 @@ function vimConfigInstaller() {
    mkdir $vim_home > /dev/null 2>&1
    ln -s $ABS_BASE_DIR/vim/* $vim_home
    echo -e "\n\" $gMagicNumber - Auto generated, do not delete or modify!" >> $vimrc
+   echo -e "let \$MYVIMRC='$ABS_BASE_DIR/vimrc'" >> $vimrc
    echo -e "let \$VIMHOME='$vim_home'" >> $vimrc
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
    git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim
