@@ -25,11 +25,11 @@ function bashrcInstaller() {
    touch $bashrc
    grep $gMagicNumber $bashrc > /dev/null 2>&1
    if [[ $? = 0 ]]; then
-      return
+      return 1
    fi
    echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $bashrc
    echo -e "source $ABS_BASE_DIR/bashrc" >> $bashrc
-   echo "[Info]: bashrc sucessfully installed!"
+   return 0
 }
 
 #}}}
@@ -54,19 +54,21 @@ function gitConfigInstaller() {
    touch $gitconf
    grep $gMagicNumber $gitconf > /dev/null 2>&1
    if [[ $? = 0 ]]; then
-      return
+      return 1
    fi
    echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $gitconf
    echo -e "[include]" >> $gitconf
    echo -e "   path = $ABS_BASE_DIR/gitconfig" >> $gitconf
-   echo "[Info]: gitconfig sucessfully installed!"
+   return 0
 }
 
 #}}}
 #{{{ tmuxConfigInstaller 
 
 function tmuxConfigInstaller() {
-   echo "tmuxConfigInstaller called"
+   local tmuxconf=~/.tmux.conf
+   ln -s $ABS_BASE_DIR/tmux.conf $tmuxconf
+   return 0
 }
 
 #}}}
@@ -78,7 +80,7 @@ function vimConfigInstaller() {
    touch $vimrc
    grep $gMagicNumber $vimrc > /dev/null 2>&1
    if [[ $? = 0 ]]; then
-      return
+      return 1
    fi
    mkdir $vim_home > /dev/null 2>&1
    ln -s $ABS_BASE_DIR/vim/* $vim_home
@@ -88,7 +90,7 @@ function vimConfigInstaller() {
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
    git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim
    vim +PluginInstall +qall
-   echo "[Info]: vim config sucessfully installed!"
+   return 0
 }
 
 #}}}
@@ -134,12 +136,12 @@ installConfig() {
    local binary=$(getDepenentBinaryName $config)
    isBinaryInstalled $binary
    if [[ $? -eq 1 ]]; then 
-      echo "[Warning]: Skipping $config... $config is not installed!"
+      echo "[Warning]: Skipping $config... $binary is not installed!"
       return 
    fi
    local installerFctPtr=$(getConfigInstallerFctPtr $config)
    if [[ -z $installerFctPtr ]]; then 
-      echo "[Warning]: Skipping $config... installer function pointer loopup error!"
+      echo "[Warning]: Skipping $config... installer function pointer lookup error!"
       return
    fi
    isInstallerDefined $installerFctPtr
@@ -149,6 +151,11 @@ installConfig() {
    fi
    echo "[Info]: Intalling config for $binary using $installerFctPtr!"
    $installerFctPtr
+   if [[ $? -eq 1 ]]; then 
+      echo "[Info]: $config already installed!"
+      return
+   fi
+   echo "[Info]: $config sucessfully installed!"
 }
 
 getValue() {
