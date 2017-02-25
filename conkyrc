@@ -57,7 +57,8 @@ ${color lightgrey}Processes:$color $processes  ${color grey}Running:$color $runn
 #(cpu 0)=total util (cpuX)=util core X [here X=1,2,3,4]
 ${color #75C8ff}CPU: ${cpu cpu0}% ${cpubar}
 ${color}Name                  PID     CPU%    MEM%
-${font Monospace:size=8}${color lightgrey}${top name 1}     ${top pid 1}  ${top cpu 1}  ${top mem 1}
+${font Monospace:size=8}
+${color lightgrey}${top name 1}     ${top pid 1}  ${top cpu 1}  ${top mem 1}
 ${color lightgrey}${top name 2}     ${top pid 2}  ${top cpu 2}  ${top mem 2}
 ${color lightgrey}${top name 3}     ${top pid 3}  ${top cpu 3}  ${top mem 3}
 
@@ -71,8 +72,9 @@ ${cpugraph cpu3 30,160 0032bc 75C8ff} ${cpugraph cpu4 30,160 0032bc 75C8ff}
 #############################################################
 $font${color #75C8ff}RAM: $mem/$memmax - $memperc% ${membar}
 ${color lightgrey}Swap: $swap/$swapmax - $swapperc% ${swapbar}
-${color}Name              PID     CPU%   MEM%
-${font Monospace:size=8}${color lightgrey}${top_mem name 1}     ${top_mem pid 1}  ${top_mem cpu 1}  ${top_mem mem 1}
+${color}Name                  PID     CPU%    MEM%
+${font Monospace:size=8}
+${color lightgrey}${top_mem name 1}     ${top_mem pid 1}  ${top_mem cpu 1}  ${top_mem mem 1}
 ${color lightgrey}${top_mem name 2}     ${top_mem pid 2}  ${top_mem cpu 2}  ${top_mem mem 2}
 ${color lightgrey}${top_mem name 3}     ${top_mem pid 3}  ${top_mem cpu 3}  ${top_mem mem 3}
 
@@ -92,3 +94,8 @@ ${color lightgrey}$stippled_hr
 ${color lightgrey}system:  ${fs_used /}/${fs_size /} free:${fs_free_perc /}% ${fs_bar /}
 ${color lightgrey}home: ${fs_used /home}/${fs_size /home}  free:${fs_free_perc /home}% ${fs_bar /home}
 DiskIO: ${diskiograph /dev/sda 32,280 104E8B 0077ff 750}
+${color}Name                IO%    W      R 
+${font Monospace:size=8}
+${color lightgrey}${top_io name 1} ${top_io io_perc 1}   ${top_io io_write 1}   ${top_io io_read 1}
+${color lightgrey}${top_io name 2} ${top_io io_perc 2}   ${top_io io_write 2}   ${top_io io_read 2}
+${color lightgrey}${top_io name 3} ${top_io io_perc 3}   ${top_io io_write 3}   ${top_io io_read 3}
