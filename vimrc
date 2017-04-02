@@ -1,7 +1,7 @@
 " dotfiles -- vimrc
 " author: johannst
 
-set nocompatible     
+set nocompatible
 inoremap jj <Esc>
 
 let mapleader=";"
@@ -30,8 +30,9 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/YankRing.vim'
+Plugin 'vim-scripts/Clever-Tabs'
 
-call vundle#end()         
+call vundle#end()
 
 "}}}
 "{{{ Plugin Config 
@@ -150,12 +151,21 @@ set relativenumber              " display relative line numbers
 
 set cursorline                  " cursor line highlighting
 set cursorcolumn                " cursor column highlighting 
+set virtualedit=block
 
-"set list                        " show invisible character
-set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
+set list                        " show invisible character
+set listchars=tab:>-,trail:-,precedes:<,extends:>
 
 "}}}
-"{{{ Basic Movement
+"{{{ Default Keymap Shadow 
+
+" lookup word under cursor in man pages
+nnoremap <S-k> <NOP>
+" move current lint at the end of previous line
+nnoremap <S-j> <NOP>
+
+"}}}
+"{{{ Basic Movement 
 
 augroup aug:HelpPageKeyMaps
    autocmd!
@@ -182,14 +192,14 @@ cnoremap <C-l> <Right>
 
 set foldlevel=0
 set foldcolumn=1
-set foldmethod=marker     
+set foldmethod=marker
 set foldmarker={{{,}}}
 
 augroup aug:FileTypeCommentString
    autocmd!
    autocmd FileType vim execute "let b:comment_symbol=\"\\\"\""
    autocmd FileType c,cpp execute "let b:comment_symbol=\"//\""
-   autocmd FileType sh,config,make,python  execute "let b:comment_symbol=\"#\""
+   autocmd FileType sh,config,make,python,tcl  execute "let b:comment_symbol=\"#\""
    autocmd FileType tex,bib  execute "let b:comment_symbol=\"%\""
 augroup end
 
@@ -203,8 +213,8 @@ augroup end
 "}}}
 "{{{ Tabwidth 
 
-set expandtab                 " expand tabs to spaces
-set tabstop=8                 " number of columns a tab counts
+"set expandtab                 " expand tabs to spaces
+set tabstop=3                 " number of columns a tab counts
 set shiftwidth=3              " number of columns text is indented 
 set softtabstop=3             " number of columns tab counts in insert mode
 set shiftround                " rounds indent to a multiple of shiftwidth
@@ -221,7 +231,7 @@ set matchtime=5               " how many tenths of a second to blink when matchi
 set matchpairs+=<:>           " show matching <> as well
 
 nnoremap <leader>n :noh<CR>
-vnoremap <leader>r "hy:%s/<C-r>h/<C-r>h/gc<Left><Left><Left>
+execute "vnoremap <leader>r \"hy:%s/<C-r>h/<C-r>h/gc"repeat('<Left>', 4)
 
 "}}}
 "{{{ Buffer & Splits 
@@ -291,7 +301,7 @@ function! DynamicStatuslineHighlighting()
    return ''
 endfunction 
 
-let &statusline=''        
+let &statusline=''
 let &statusline.='%{DynamicStatuslineHighlighting()}'
 let &statusline.='[%{g:ModeMap[mode()]}]'
 let &statusline.=' %t'        " file name
@@ -406,10 +416,11 @@ if v:version>=800
    endfunction
 
    let s:gAsyncJobRunning=0
+   let g:gAsyncBuffer=0
    function! s:AsyncCmdProcessor(...)
       if a:0 == 0
          echom 'AsyncCmdProcessor: no cmd specified'
-         return 
+         return
       endif
 
       if s:gAsyncJobRunning == 1
@@ -420,7 +431,7 @@ if v:version>=800
       let s:gAsyncJobRunning=1
 
       let l:current_buffer = bufnr('%')
-      let s:async_buffer = s:CreateLogBuffer('async_buffer')
+      let g:gAsyncBuffer = s:CreateLogBuffer('async_buffer')
       execute 'b ' . l:current_buffer
 
       " concatenate command string
@@ -432,11 +443,11 @@ if v:version>=800
 
       let s:gAsyncJob = job_start(l:cmd, { 
                \ 'out_io': 'buffer',
-               \ 'out_buf': s:async_buffer,
+               \ 'out_buf': g:gAsyncBuffer,
                \ 'out_cb': function('s:StdOutCB'),
                \ 'out_msg': '0',
                \ 'err_io': 'buffer',
-               \ 'err_buf': s:async_buffer,
+               \ 'err_buf': g:gAsyncBuffer,
                \ 'err_cb': function('s:StdErrCB'),
                \ 'err_msg': '0',
                \ 'exit_cb': function('s:JobExitCB')
@@ -448,7 +459,7 @@ if v:version>=800
       if exists('s:gAsyncJob')
          return job_status(s:gAsyncJob) . ':' . s:gAsyncJobReturnStatus
       endif
-      return '*:*' 
+      return '*:*'
    endfunction
 
    function! s:KillAsyncJob()
@@ -493,6 +504,7 @@ if v:version>=800
       execute '%d'
       execute 'setlocal buflisted'
       execute 'setlocal buftype=nofile'
+      execute 'setlocal noswapfile'
       execute 'setlocal wrap'
       nnoremap <buffer> <CR> :call <SID>OpenFirstFileNameMatch()<CR>
       return l:buffer_num
@@ -500,8 +512,9 @@ if v:version>=800
 
    command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
    nnoremap <leader>a :Async 
+   nnoremap <leader>ab :execute ':buffer ' . g:gAsyncBuffer<CR>
    nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
-   nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +<Left><Left><Left><Left><Left>
+   execute "nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +"repeat('<Left>', 6)
 endif
 
 "}}}
