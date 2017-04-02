@@ -26,7 +26,7 @@ bind -m vi-command '"v":""'   # disable opening tmp file
 #{{{ alias 
 
 alias ls='ls --color=auto -h'
-alias ll='ls -alF'
+alias ll='ls -lF'
 alias la='ls -AF'
 alias grep='grep --color=auto'
 
