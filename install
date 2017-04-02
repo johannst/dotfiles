@@ -98,12 +98,14 @@ function vimConfigInstaller() {
       return 1
    fi
    mkdir $vim_home > /dev/null 2>&1
-   ln -s $ABS_BASE_DIR/vim/* $vim_home
+   ln -s $ABS_BASE_DIR/vim/* $vim_home > /dev/null 2>&1
    echo -e "\n\" $gMagicNumber - Auto generated, do not delete or modify!" >> $vimrc
    echo -e "let \$MYVIMRC='$ABS_BASE_DIR/vimrc'" >> $vimrc
    echo -e "let \$VIMHOME='$vim_home'" >> $vimrc
+   # link ctags
+   type ctags >/dev/null 2>&1 && { echo -e "let \$MYCTAGS='$(which ctags)'" >> $vimrc; }
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
-   git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim
+   git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim || { echo "Vundle not cloned, using existing!"; }
    vim +PluginInstall +qall
    return 0
 }

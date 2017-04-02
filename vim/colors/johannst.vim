@@ -13,17 +13,18 @@ hi clear
 
 "{{{ Vim Basic 
 
-hi Normal ctermfg=253 ctermbg=234 cterm=NONE
-hi Search ctermfg=0 ctermbg=11 cterm=NONE
-hi IncSearch ctermfg=0 ctermbg=11 cterm=NONE
-hi Folded ctermfg=146 ctermbg=238 cterm=NONE
-hi FoldColumn ctermfg=122 ctermbg=238 cterm=NONE
-hi Title ctermfg=230 ctermbg=NONE cterm=bold
-hi Todo ctermfg=232 ctermbg=222 cterm=NONE
-hi NonText ctermfg=247 ctermbg=236 cterm=NONE   
-hi SpecialKey ctermfg=247 ctermbg=236 cterm=NONE
-hi Visual ctermfg=230 ctermbg=238 cterm=NONE
-hi VertSplit ctermfg=59 ctermbg=238 cterm=NONE
+hi Normal     ctermfg=253 ctermbg=234  cterm=NONE
+hi Search     ctermfg=0   ctermbg=11   cterm=NONE
+hi IncSearch  ctermfg=0   ctermbg=11   cterm=NONE
+hi Folded     ctermfg=146 ctermbg=238  cterm=NONE
+hi FoldColumn ctermfg=122 ctermbg=238  cterm=NONE
+hi Title      ctermfg=230 ctermbg=NONE cterm=bold
+hi Todo       ctermfg=232 ctermbg=222  cterm=NONE
+hi NonText    ctermfg=247 ctermbg=236  cterm=NONE   
+hi SpecialKey ctermfg=247 ctermbg=236  cterm=NONE
+hi Visual     ctermfg=230 ctermbg=238  cterm=NONE
+hi VertSplit  ctermfg=59  ctermbg=238  cterm=NONE
+hi Directory  ctermfg=39  ctermbg=NONE cterm=NONE
 
 "}}}
 "{{{ Cursor & LineNumber 
@@ -134,7 +135,6 @@ hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 "hi LocalVariable
 "hi SpellBad
 "hi CTagsClass
-"hi Directory
 "hi Underlined
 "hi clear
 "hi SpecialComment 

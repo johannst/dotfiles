@@ -65,7 +65,7 @@ if index(s:gEnabledPlugins, 'vim-airline/vim-airline')!=-1
 endif
 
 if index(s:gEnabledPlugins, 'majutsushi/tagbar')!=-1
-   let g:tagbar_ctags_bin=$VIMHOME . '/bin/ctags'
+   let g:tagbar_ctags_bin=$MYCTAGS
    if !empty(glob(g:tagbar_ctags_bin))
       augroup aug:TagbarKeymaps
          autocmd!
