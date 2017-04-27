@@ -9,6 +9,9 @@ if [ "$TERM" == "xterm" ]; then export TERM=xterm-256color; fi
 # disable sticky mode
 stty -ixon
 
+# disable ctrl-d logoff
+set -o ignoreeof on
+
 #}}}
 #{{{  vi mode 
 
