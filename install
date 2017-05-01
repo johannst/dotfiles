@@ -78,11 +78,17 @@ function gitConfigInstaller() {
 }
 
 #}}}
-#{{{ tmuxConfigInstaller 
+#{{{ tmuxConfigInstaller
 
 function tmuxConfigInstaller() {
    local tmuxconf=~/.tmux.conf
-   ln -s $ABS_BASE_DIR/tmux.conf $tmuxconf
+   touch $tmuxconf
+   grep $gMagicNumber $tmuxconf > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return 1
+   fi
+   echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $tmuxconf
+   echo -e "source-file $ABS_BASE_DIR/tmux.conf" >> $tmuxconf
    return 0
 }
 
