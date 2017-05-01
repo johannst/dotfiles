@@ -1,6 +1,6 @@
 " dotfiles -- vim/colors/johannst
 " author: johannst
-" derived from buddy 
+" derived from buddy
 
 let g:colors_name = "johannst"
 
@@ -20,8 +20,8 @@ hi Folded     ctermfg=146 ctermbg=238  cterm=NONE
 hi FoldColumn ctermfg=122 ctermbg=238  cterm=NONE
 hi Title      ctermfg=230 ctermbg=NONE cterm=bold
 hi Todo       ctermfg=232 ctermbg=222  cterm=NONE
-hi NonText    ctermfg=247 ctermbg=236  cterm=NONE   
-hi SpecialKey ctermfg=247 ctermbg=236  cterm=NONE
+hi NonText    ctermfg=247 ctermbg=236  cterm=NONE
+hi SpecialKey ctermfg=238 ctermbg=NONE cterm=NONE
 hi Visual     ctermfg=230 ctermbg=238  cterm=NONE
 hi VertSplit  ctermfg=59  ctermbg=238  cterm=NONE
 hi Directory  ctermfg=39  ctermbg=NONE cterm=NONE
@@ -31,17 +31,17 @@ hi Directory  ctermfg=39  ctermbg=NONE cterm=NONE
 
 "hi Cursor       ctermfg=NONE  ctermbg=241  cterm=NONE
 hi LineNr       ctermfg=239  ctermbg=234  cterm=NONE
-hi CursorLineNR ctermfg=255  ctermbg=208  cterm=bold 
+hi CursorLineNR ctermfg=255  ctermbg=208  cterm=bold
 hi CursorLine   ctermfg=NONE ctermbg=236  cterm=NONE
 hi CursorColumn ctermfg=NONE ctermbg=236  cterm=NONE
-hi MatchParen   ctermfg=208  ctermbg=89   cterm=underline 
+hi MatchParen   ctermfg=208  ctermbg=89   cterm=underline
 
 "}}}
 "{{{ Tabline 
 
 hi TabLine     ctermbg=235 ctermfg=244 cterm=none
 hi TabLineSel  ctermbg=208 ctermfg=255 cterm=bold
-hi TabLineFill ctermbg=235 ctermfg=0 cterm=NONE 
+hi TabLineFill ctermbg=235 ctermfg=0 cterm=NONE
 if exists('g:buftabline_enable')
    hi BufTabLineActive ctermbg=69
 endif
@@ -49,17 +49,17 @@ endif
 "}}}
 "{{{ Statusline 
 
-"hi StatusLine   ctermfg=0   ctermbg=38  cterm=NONE 
+"hi StatusLine   ctermfg=0   ctermbg=38  cterm=NONE
 hi StatusLine   ctermfg=NONE ctermbg=125 cterm=NONE
 hi StatusLineNC ctermfg=144  ctermbg=238 cterm=NONE
 
 "}}}
 "{{{ Diff 
 
-hi DiffChange ctermfg=10 ctermbg=17 cterm=NONE 
-hi DiffText   ctermfg=10 ctermbg=88 cterm=NONE 
-hi DiffAdd    ctermfg=10 ctermbg=17 cterm=NONE 
-hi DiffDelete ctermfg=10 ctermbg=17 cterm=NONE 
+hi DiffChange ctermfg=10 ctermbg=17 cterm=NONE
+hi DiffText   ctermfg=10 ctermbg=88 cterm=NONE
+hi DiffAdd    ctermfg=10 ctermbg=17 cterm=NONE
+hi DiffDelete ctermfg=10 ctermbg=17 cterm=NONE
 
 "}}}
 "{{{ Popup Menu 
@@ -137,7 +137,7 @@ hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 "hi CTagsClass
 "hi Underlined
 "hi clear
-"hi SpecialComment 
+"hi SpecialComment
 "}}}
 
 "% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1

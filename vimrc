@@ -38,12 +38,12 @@ call vundle#end()
 "{{{ Plugin Config 
 
 let s:gEnabledPlugins = []
-function! s:ParseVimrcForEnabledPlugins() 
+function! s:ParseVimrcForEnabledPlugins()
    let l:vimrc = readfile($MYVIMRC)
    let l:i = 0
    while 1
       let l:i = match(l:vimrc, '^Plugin', l:i+1)
-      if l:i == -1 
+      if l:i == -1
          break
       endif
       call add(s:gEnabledPlugins, split(l:vimrc[l:i], "'")[1])
@@ -149,12 +149,17 @@ set noautoread                  " don't automatically re-read changed files.
 set number                      " display line numbers
 set relativenumber              " display relative line numbers
 
-set cursorline                  " cursor line highlighting
-set cursorcolumn                " cursor column highlighting 
+"set cursorline                  " cursor line highlighting
+"set cursorcolumn                " cursor column highlighting
 set virtualedit=block
 
 set list                        " show invisible character
 set listchars=tab:>-,trail:-,precedes:<,extends:>
+augroup aug:HighlightTrailingWhitespace
+   autocmd!
+   autocmd BufEnter * 2match Error /\s\+$/
+   autocmd BufLeave * 2match none
+augroup end
 
 "}}}
 "{{{ Default Keymap Shadow 
@@ -215,7 +220,7 @@ augroup end
 
 "set expandtab                 " expand tabs to spaces
 set tabstop=3                 " number of columns a tab counts
-set shiftwidth=3              " number of columns text is indented 
+set shiftwidth=3              " number of columns text is indented
 set softtabstop=3             " number of columns tab counts in insert mode
 set shiftround                " rounds indent to a multiple of shiftwidth
 
@@ -239,7 +244,7 @@ execute "vnoremap <leader>r \"hy:%s/<C-r>h/<C-r>h/gc"repeat('<Left>', 4)
 set hidden                    " do not unload abandoned buffers
 noremap <leader>q :bd
 
-" navigate between different buffers 
+" navigate between different buffers
 nnoremap <S-Left>  :bprevious<CR>
 nnoremap <S-Right> :bnext<CR>
 nnoremap <S-h>  :bprevious<CR>
@@ -299,7 +304,7 @@ function! DynamicStatuslineHighlighting()
       execute 'hi! StatusLine   ctermfg=NONE   ctermbg=226  cterm=NONE'
    endif
    return ''
-endfunction 
+endfunction
 
 let &statusline=''
 let &statusline.='%{DynamicStatuslineHighlighting()}'
@@ -310,7 +315,7 @@ let &statusline.=' [%{&ft}]'  "filetype
 
 let &statusline.='%='             " seperator between left and right alignment
 if v:version >= 800
-   let &statusline.=' [A:%{GetAsyncJobStatus()}]' 
+   let &statusline.=' [A:%{GetAsyncJobStatus()}]'
 endif
 let &statusline.=' [%b:0x%B]'     " dec:hex ascii value of char under cursor
 let &statusline.=' [%l/%L -- %c]' " current line/num of lines -- current columen
@@ -441,7 +446,7 @@ if v:version>=800
       endfor
       echom l:cmd
 
-      let s:gAsyncJob = job_start(l:cmd, { 
+      let s:gAsyncJob = job_start(l:cmd, {
                \ 'out_io': 'buffer',
                \ 'out_buf': g:gAsyncBuffer,
                \ 'out_cb': function('s:StdOutCB'),
@@ -511,7 +516,7 @@ if v:version>=800
    endfunction
 
    command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
-   nnoremap <leader>a :Async 
+   nnoremap <leader>a :Async
    nnoremap <leader>ab :execute ':buffer ' . g:gAsyncBuffer<CR>
    nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
    execute "nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +"repeat('<Left>', 6)
@@ -521,7 +526,7 @@ endif
 "{{{ Sandbox 
 
 let s:sandbox_enable = 1
-if s:sandbox_enable 
+if s:sandbox_enable
 
 " TODO: backup file creation
 "       when opening file (of given filetype? maybe start with c/c++) create copy in this file in file_path/.bak/file_name
