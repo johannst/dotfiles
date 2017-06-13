@@ -516,10 +516,11 @@ if v:version>=800
    endfunction
 
    command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
-   nnoremap <leader>a :Async
+   " Space after :Async explicitly wanted ;)
+   nnoremap <leader>a :Async 
    nnoremap <leader>ab :execute ':buffer ' . g:gAsyncBuffer<CR>
    nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
-   execute "nnoremap <leader>fg :Async find . -type f -exec grep -nH  {} +"repeat('<Left>', 6)
+   execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
 endif
 
 "}}}
