@@ -512,6 +512,9 @@ if v:version>=800
       execute 'setlocal noswapfile'
       execute 'setlocal wrap'
       nnoremap <buffer> <CR> :call <SID>OpenFirstFileNameMatch()<CR>
+      " go line by line in wrapped lines
+      nnoremap <buffer> j gj
+      nnoremap <buffer> k gk
       return l:buffer_num
    endfunction
 
