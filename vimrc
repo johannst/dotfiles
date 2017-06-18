@@ -344,7 +344,7 @@ augroup end
 
 " Vim command completion settings
 set wildmenu                  " turn on the wild menu
-set wildmode=longest:full     " <Tab> cycles between all matching choices.
+set wildmode=list:longest     " <Tab> print list of all matches and complete till longest common string
 set wildignore+=*.o,*.obj,.git,*.pyc,*~ " Ignore these files when completing
 
 "}}}
