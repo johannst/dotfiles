@@ -30,7 +30,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/YankRing.vim'
-Plugin 'vim-scripts/Clever-Tabs'
+Plugin 'johannst/Clever-Tabs'
 
 call vundle#end()
 
