@@ -250,6 +250,8 @@ nnoremap <S-Right> :bnext<CR>
 nnoremap <S-h>  :bprevious<CR>
 nnoremap <S-l>  :bnext<CR>
 
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>s :split<CR>
 " move between splits
 nnoremap <C-Down>  <C-w>j
 nnoremap <C-Up>    <C-w>k
