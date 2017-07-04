@@ -538,6 +538,39 @@ if s:sandbox_enable
 "       when opening file (of given filetype? maybe start with c/c++) create copy in this file in file_path/.bak/file_name
 "       filter file creation somehow, that it does not try to create backups when opening for example /usr/include/*.h
 
+	function! s:LineClearPureBlank()
+		execute 'silent! %s#\m^\s\+$##g'
+	endfunction
+	function! s:LineClearTrailingBlank()
+		execute 'silent! %s#\m\s\+$##g'
+	endfunction
+	function! s:ReduceConsecutiveEmptyLines()
+		execute 'silent! %s/\m\(^\n\)\+/\r/g'
+	endfunction
+
+	"function! s:LineDeleteCStyleComment()
+		"execute 'silent! g#\m^\s\{-}//#d'
+	"endfunction
+
+	function! s:LineClearCStyleComment()
+		execute 'silent! %s#\m\(.\{-\}\)//.*#\1#g'
+	endfunction
+
+	function! s:BlockClearCStyleComment()
+		" hack to keep copyright header
+		execute 'silent! 2,$s#\m\s\{-\}\/\*[[:alnum:][:blank:][:graph:]\n]\{-\}\*\/\s*##g'
+		"execute 'silent! %s#\m^\/\*[[:alnum:][:blank:][:graph:]\n]\{-\}\*\/##g'
+	endfunction
+
+	function! s:RemoveCStyleComments()
+		call s:LineClearCStyleComment()
+		call s:BlockClearCStyleComment()
+		call s:LineClearPureBlank()
+		call s:LineClearTrailingBlank()
+		call s:ReduceConsecutiveEmptyLines()
+	endfunction
+	command! CC call s:RemoveCStyleComments()
+
 endif
 
 "}}}
