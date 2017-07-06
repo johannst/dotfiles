@@ -157,7 +157,7 @@ set list                        " show invisible character
 set listchars=tab:>-,trail:-,precedes:<,extends:>
 augroup aug:HighlightTrailingWhitespace
    autocmd!
-   autocmd BufEnter * 2match Error /\s\+$/
+   autocmd BufEnter * 2match Error /\m\(\s\+$\|\([^\t]\)\@<=\t\)/
    autocmd BufLeave * 2match none
 augroup end
 
