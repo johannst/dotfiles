@@ -38,11 +38,13 @@ function bashrcInstaller() {
 
 function gdbrcInstaller() {
    local gdbinit=~/.gdbinit
+   local gdbdir=~/.gdb
    touch $gdbinit
    grep $gMagicNumber $gdbinit > /dev/null 2>&1
    if [[ $? = 0 ]]; then
       return
    fi
+	if [ ! -d $gdbdir ]; then mkdir $gdbdir; fi
    echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $gdbinit
    echo -e "source $ABS_BASE_DIR/gdbinit" >> $gdbinit
 }
