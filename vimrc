@@ -352,11 +352,13 @@ set wildignore+=*.o,*.obj,.git,*.pyc,*~ " Ignore these files when completing
 "}}}
 "{{{ Save & Restore 
 
-augroup aug:AutoSaveResore
+augroup aug:AutoSaveLastSession
    autocmd!
    "autocmd VimEnter * silent! source .vim_last_session
-   "autocmd QuitPre * mksession! .vim_last_session
+   autocmd QuitPre * execute "mksession! " . $VIMHOME . "/session.last_quit"
 augroup end
+
+nnoremap <F2> :execute "source " . $VIMHOME . "/session.last_quit"<CR>
 
 "}}}
 "{{{ QuickFix 
@@ -571,8 +573,30 @@ if s:sandbox_enable
 	endfunction
 	command! CC call s:RemoveCStyleComments()
 
+	" TODO: correctly save/restore open/closed folds
+	let s:gIsFullScreen = 0
+	let s:gSessionFile = $VIMHOME . "/session." . getpid()
+	function! s:ToggelFullScreen()
+		if s:gIsFullScreen
+			let s:gIsFullScreen = 0
+			execute "source" s:gSessionFile
+		else
+			execute "mksession! " s:gSessionFile
+			execute "only"
+			let s:gIsFullScreen = 1
+		endif
+	endfunction
+	nnoremap <C-f> :call <SID>ToggelFullScreen()<CR>
+
+	augroup aug:CleanUpSessionFile
+		autocmd!
+		autocmd QuitPre * call delete(s:gSessionFile)
+	augroup end
+
+
 endif
 
 "}}}
 
 "% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
+
