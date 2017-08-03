@@ -91,7 +91,8 @@ if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
    let g:ctrlp_cache_dir = $VIMHOME . '/cache/ctrlp'
 
    nnoremap <leader>t :CtrlPBufTagAll<CR>
-   nnoremap <leader>f :CtrlPCurFile<CR>
+   nnoremap <leader>f :CtrlPCurWD<CR>
+   "nnoremap <leader>f :CtrlPCurFile<CR>
    nnoremap <leader>b :CtrlPBuffer<CR>
 endif
 
