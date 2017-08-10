@@ -162,6 +162,8 @@ augroup aug:HighlightTrailingWhitespace
    autocmd BufLeave * 2match none
 augroup end
 
+set clipboard=unnamed           " additionally use (") register as clipboard to (+) register
+
 "}}}
 "{{{ Default Keymap Shadow 
 
