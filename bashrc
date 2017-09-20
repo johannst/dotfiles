@@ -32,6 +32,7 @@ alias ls='ls --color=auto -h'
 alias ll='ls -lF'
 alias la='ls -AF'
 alias grep='grep --color=auto'
+alias pstree="pstree -achpG ${USER}"
 
 #}}}
 #{{{ color definition 
