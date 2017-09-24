@@ -1,7 +1,7 @@
 # dotfiles -- bashrc
 # author: johannst
 
-#{{{ general 
+#{{{ general
 
 if [ "$TERM" == "screen" ]; then export TERM=screen-256color; fi
 if [ "$TERM" == "xterm" ]; then export TERM=xterm-256color; fi
@@ -12,21 +12,33 @@ stty -ixon
 # disable ctrl-d logoff
 set -o ignoreeof on
 
-#}}}
-#{{{  vi mode 
-
-set -o vi
-bind -m vi-insert '"jj":vi-movement-mode'
-bind -m vi-insert 'Control-l:clear-screen'
-bind -m vi-command '"diw":"bdw"'
-bind -m vi-command 'Control-a:beginning-of-line'
-bind -m vi-command 'Control-e:end-of-line'
-bind -m vi-insert 'Control-a:beginning-of-line'
-bind -m vi-insert 'Control-e:end-of-line'
-bind -m vi-command '"v":""'   # disable opening tmp file
+# remove permissions for others when creating file/folder
+umask 0027
 
 #}}}
-#{{{ alias 
+#{{{  bash mode
+
+function vimode {
+	set -o vi
+	bind -m vi-insert '"jj":vi-movement-mode'
+	bind -m vi-insert 'Control-l:clear-screen'
+	bind -m vi-command '"diw":"bdw"'
+	bind -m vi-command 'Control-a:beginning-of-line'
+	bind -m vi-command 'Control-e:end-of-line'
+	bind -m vi-insert 'Control-a:beginning-of-line'
+	bind -m vi-insert 'Control-e:end-of-line'
+	bind -m vi-command '"v":""'   # disable opening tmp file
+}
+
+function normalmode {
+	set -o emacs
+}
+
+# default mode
+vimode
+
+#}}}
+#{{{ alias
 
 alias ls='ls --color=auto -h'
 alias ll='ls -lF'
@@ -35,7 +47,7 @@ alias grep='grep --color=auto'
 alias pstree="pstree -achpG ${USER}"
 
 #}}}
-#{{{ color definition 
+#{{{ color definition
 
 BCol_NoColor='\e[m'
 BCol_DarkRed='\e[38;5;88m'
@@ -48,12 +60,12 @@ BCol_BlueGray='\e[38;5;67m'
 BCol_YellowOrange='\e[38;5;214m'
 
 #}}}
-#{{{ bash prompt  
+#{{{ bash prompt
 
 export PS1="\[${BCol_DarkRed}\]::\[${BCol_DarkOrange}\]\u\[${BCol_DarkRed}\]::\[${BCol_LightOrange}\]\H\[${BCol_LightGray}\] - \[${BCol_Yellow}\]\t\[${BCol_LightGray}\] - \[${BCol_LightBlue}\]\w\n\[${BCol_NoColor}\][\[${BCol_YellowOrange}\]\${?}\[${BCol_NoColor}\]] \[${BCol_BlueGray}\]>>\[${BCol_NoColor}\] "
 
 #}}}
-#{{{ ls colors 
+#{{{ ls colors
 
 export LS_COLORS='di=94:ln=96:or=96;41:so=0:pi=0:ex=01;92:bd=0;42:cd=0;42:su=0:sg=0:tw=30;44:ow=30;44'
 
