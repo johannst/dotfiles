@@ -14,6 +14,8 @@ gToolsConfig=(
 "tmux.conf:tmux:tmuxConfigInstaller"
 "vimrc:vim:vimConfigInstaller"
 "Xresources:xterm:xtermConfigInstaller"
+"i3config:i3:i3ConfigInstaller"
+"i3status:i3status:i3statusConfigInstaller"
 )
 
 gMagicNumber=e2718281
@@ -123,6 +125,35 @@ function vimConfigInstaller() {
 
 function xtermConfigInstaller() {
    echo "xtermConfigInstaller called"
+	return 0
+}
+
+#}}}
+#{{{ i3ConfigInstaller
+
+function i3ConfigInstaller() {
+   local i3_home=~/.i3
+   local i3_conf=$i3_home/config
+	mkdir $i3_home 2> /dev/null
+	if [ -f $i3_conf ]; then
+		return 1
+	fi
+	cp i3wm.conf $i3_conf
+	return 0
+}
+
+#}}}
+#{{{ i3statusConfigInstaller
+
+function i3statusConfigInstaller() {
+   local i3_home=~/.i3
+   local i3_status_conf=$i3_home/i3status.conf
+	mkdir $i3_home 2> /dev/null
+	if [ -f $i3_status_conf ]; then
+		return 1
+	fi
+	cp i3status.conf $i3_status_conf
+	return 0
 }
 
 #}}}
