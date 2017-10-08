@@ -15,8 +15,19 @@ set -o ignoreeof on
 # remove permissions for others when creating file/folder
 umask 0027
 
+function kbus {
+	setxkbmap us
+}
+
+function kbde {
+	setxkbmap de
+}
+
 #}}}
 #{{{  bash mode
+
+# list current readline mappings
+# bind -p
 
 function vimode {
 	set -o vi
