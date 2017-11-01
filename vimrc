@@ -4,7 +4,11 @@
 set nocompatible
 inoremap jj <Esc>
 
-let mapleader=";"
+if !exists('&mapleader')
+	"let mapleader=";"
+	" map <Space> as leader
+	let mapleader=" "
+endif
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
 
