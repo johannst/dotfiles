@@ -168,6 +168,8 @@ augroup end
 
 set clipboard=unnamed           " additionally use (") register as clipboard to (+) register
 
+nnoremap <leader>w :set wrap!<CR>
+
 "}}}
 "{{{ Default Keymap Shadow 
 
