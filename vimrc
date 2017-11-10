@@ -169,6 +169,8 @@ augroup end
 set clipboard=unnamed           " additionally use (") register as clipboard to (+) register
 
 nnoremap <leader>w :set wrap!<CR>
+nnoremap <leader>dw :windo diffthis<CR>
+nnoremap <leader>dn :diffoff!<CR>
 
 "}}}
 "{{{ Default Keymap Shadow 
@@ -317,11 +319,19 @@ function! DynamicStatuslineHighlighting()
    return ''
 endfunction
 
+function! GetDiffStatus()
+	if (&diff)
+		return 'diff'
+	else
+		return ''
+endfunction
+
 let &statusline=''
 let &statusline.='%{DynamicStatuslineHighlighting()}'
 let &statusline.='[%{g:ModeMap[mode()]}]'
 let &statusline.=' %t'        " file name
 let &statusline.=' {%M%R%H}'  " modified/read-only/help-page
+let &statusline.=' [%{GetDiffStatus()}]'
 let &statusline.=' [%{&ft}]'  "filetype
 
 let &statusline.='%='             " seperator between left and right alignment
