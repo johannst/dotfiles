@@ -54,14 +54,19 @@ function! s:ParseVimrcForEnabledPlugins()
       call add(s:gEnabledPlugins, split(l:vimrc[l:i], "'")[1])
    endwhile
 endfunction
+
+function! s:IsPluginEnabled(plugin)
+	return index(s:gEnabledPlugins, a:plugin)!=-1
+endfunction
+
 call s:ParseVimrcForEnabledPlugins()
 
-if index(s:gEnabledPlugins, 'jlanzarotta/bufexplorer')!=-1
+if s:IsPluginEnabled('jlanzarotta/bufexplorer')
    nnoremap <leader>be :call ToggleBufExplorer()<CR>
    let g:bufExplorerDisableDefaultKeyMapping=1
 endif
 
-if index(s:gEnabledPlugins, 'vim-airline/vim-airline')!=-1
+if s:IsPluginEnabled('vim-airline/vim-airline')
    let g:airline#extensions#tabline#enabled = 1
    let g:airline#extensions#tabline#fnamemod = ':t'
    let g:airline_powerline_fonts = 1
@@ -70,7 +75,7 @@ if index(s:gEnabledPlugins, 'vim-airline/vim-airline')!=-1
    endif
 endif
 
-if index(s:gEnabledPlugins, 'majutsushi/tagbar')!=-1
+if s:IsPluginEnabled('majutsushi/tagbar')
    let g:tagbar_ctags_bin=$MYCTAGS
    if !empty(glob(g:tagbar_ctags_bin))
       augroup aug:TagbarKeymaps
@@ -87,7 +92,7 @@ if index(s:gEnabledPlugins, 'majutsushi/tagbar')!=-1
    endif
 endif
 
-if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
+if s:IsPluginEnabled('ctrlpvim/ctrlp.vim')
    let g:ctrlp_buftag_ctags_bin=$VIMHOME . '/bin/ctags'
    let g:ctrlp_extensions = ['buffertag']
    let g:ctrlp_working_path_mode = 'a'
@@ -101,7 +106,7 @@ if index(s:gEnabledPlugins, 'ctrlpvim/ctrlp.vim')!=-1
    nnoremap <leader>b :CtrlPBuffer<CR>
 endif
 
-if index(s:gEnabledPlugins, 'vim-scripts/YankRing.vim')!=-1
+if s:IsPluginEnabled('vim-scripts/YankRing.vim')
    let g:yankring_max_history= 15
    let g:yankring_persist = 1
    let g:yankring_history_dir = $VIMHOME
@@ -111,11 +116,11 @@ if index(s:gEnabledPlugins, 'vim-scripts/YankRing.vim')!=-1
    "nnoremap <leader>ys :YRSearch<CR>
 endif
 
-if index(s:gEnabledPlugins, 'ap/vim-buftabline')!=-1
+if s:IsPluginEnabled('ap/vim-buftabline')
    let g:buftabline_indicators = 1
 endif
 
-if index(s:gEnabledPlugins, 'vim-scripts/OmniCppComplete')!=-1
+if s:IsPluginEnabled('vim-scripts/OmniCppComplete')
    set tags+=$VIMHOME/tags/cpp_tags
    let OmniCpp_NamespaceSearch = 1
    let OmniCpp_GlobalScopeSearch = 1
@@ -130,7 +135,7 @@ if index(s:gEnabledPlugins, 'vim-scripts/OmniCppComplete')!=-1
    set completeopt=menuone,menu,longest,preview
 endif
 
-if index(s:gEnabledPlugins, 'johannst/AsyncCmdProcessor.vim')!=-1
+if s:IsPluginEnabled('johannst/AsyncCmdProcessor.vim')
 	execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
 endif
 
@@ -340,7 +345,7 @@ let &statusline.=' [%{GetDiffStatus()}]'
 let &statusline.=' [%{&ft}]'  "filetype
 
 let &statusline.='%='             " seperator between left and right alignment
-if v:version >= 800
+if v:version >= 800 && s:IsPluginEnabled('johannst/AsyncCmdProcessor.vim')
    let &statusline.=' [A:%{GetAsyncJobStatus()}]'
 endif
 let &statusline.=' [%b:0x%B]'     " dec:hex ascii value of char under cursor
