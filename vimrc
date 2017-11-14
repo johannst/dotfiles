@@ -36,6 +36,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'johannst/Clever-Tabs'
 Plugin 'johannst/AsyncCmdProcessor.vim'
+Plugin 'w0rp/ale'
 
 call vundle#end()
 
@@ -137,6 +138,17 @@ endif
 
 if s:IsPluginEnabled('johannst/AsyncCmdProcessor.vim')
 	execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
+endif
+
+if s:IsPluginEnabled('w0rp/ale')
+	let g:ale_sign_column_always = 1
+	let g:ale_sign_error = '>>'
+	let g:ale_sign_warning = '--'
+	let g:ale_set_highlights = 1
+	"let g:ale_open_list = 1
+	let g:ale_change_sign_column_color = 1
+	hi link ALESignColumnWithoutErrors LineNr
+	hi link ALESignColumnWithErrors LineNr
 endif
 
 "}}}
