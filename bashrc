@@ -83,11 +83,33 @@ BCol_BrightGreen='\e[38;5;40m'
 
 #export PS1="[\s] \[${BCol_DarkRed}\]::\[${BCol_DarkOrange}\]\u\[${BCol_DarkRed}\]::\[${BCol_LightOrange}\]\H\[${BCol_LightGray}\]:$(tty) - \[${BCol_Yellow}\]\t\[${BCol_LightGray}\] - \[${BCol_LightBlue}\]\w\n\[${BCol_NoColor}\][\[${BCol_YellowOrange}\]\${?}\[${BCol_NoColor}\]] \[${BCol_BlueGray}\]>>\[${BCol_NoColor}\] "
 # \s shell type
-export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
-\[${BCol_NoColor}\][\[${BCol_BrightGreen}\]\${?}\[${BCol_NoColor}\]] \$>\[${BCol_NoColor}\] "
+#export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
+#\[${BCol_NoColor}\][\[${BCol_BrightGreen}\]\${?}\[${BCol_NoColor}\]] \$>\[${BCol_NoColor}\] "
+
 #✓
 #✗
+function return_val_formater() {
+	local ret=$1
+	local ret_str
+	if [[ $ret == 0 ]]; then
+		ret_str="${BCol_BrightGreen}";
+	else
+		ret_str="${BCol_BrightRed}";
+	fi
+	ret_str+="$ret${BCol_NoColor}"
+	echo -e "$ret_str";
+}
 
+function pwd_formater() {
+	local pwd=$1
+	local ret_str=$(echo $pwd | sed "s#[^A-Za-z]\+#\\${BCol_BrightRed}/\\${BCol_DarkBlue}#")
+	echo -e "$ret_str";
+}
+
+export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\$(pwd_formater \w)\n\
+\[${BCol_NoColor}\][\$(return_val_formater \$?)\[${BCol_NoColor}\]] \$>\[${BCol_NoColor}\] "
+
+export PROMPT_COMMAND="echo -e ''"
 
 #}}}
 #{{{ ls colors
