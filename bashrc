@@ -64,16 +64,30 @@ BCol_NoColor='\e[m'
 BCol_DarkRed='\e[38;5;88m'
 BCol_DarkOrange='\e[38;5;202m'
 BCol_LightOrange='\e[38;5;208m'
-BCol_LightGray='\e[38;5;7m'
+#BCol_LightGray='\e[38;5;7m'
 BCol_Yellow='\e[38;5;226m'
 BCol_LightBlue='\e[38;5;74m'
 BCol_BlueGray='\e[38;5;67m'
 BCol_YellowOrange='\e[38;5;214m'
 
+BCol_BrightRed='\e[38;5;196m'
+BCol_DarkGray='\e[38;5;242m'
+BCol_MediumGray='\e[38;5;246m'
+BCol_LightGray='\e[38;5;252m'
+BCol_DarkBlue='\e[38;5;26m'
+
+BCol_BrightGreen='\e[38;5;40m'
+
 #}}}
 #{{{ bash prompt
 
-export PS1="\[${BCol_DarkRed}\]::\[${BCol_DarkOrange}\]\u\[${BCol_DarkRed}\]::\[${BCol_LightOrange}\]\H\[${BCol_LightGray}\] - \[${BCol_Yellow}\]\t\[${BCol_LightGray}\] - \[${BCol_LightBlue}\]\w\n\[${BCol_NoColor}\][\[${BCol_YellowOrange}\]\${?}\[${BCol_NoColor}\]] \[${BCol_BlueGray}\]>>\[${BCol_NoColor}\] "
+#export PS1="[\s] \[${BCol_DarkRed}\]::\[${BCol_DarkOrange}\]\u\[${BCol_DarkRed}\]::\[${BCol_LightOrange}\]\H\[${BCol_LightGray}\]:$(tty) - \[${BCol_Yellow}\]\t\[${BCol_LightGray}\] - \[${BCol_LightBlue}\]\w\n\[${BCol_NoColor}\][\[${BCol_YellowOrange}\]\${?}\[${BCol_NoColor}\]] \[${BCol_BlueGray}\]>>\[${BCol_NoColor}\] "
+# \s shell type
+export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
+\[${BCol_NoColor}\][\[${BCol_BrightGreen}\]\${?}\[${BCol_NoColor}\]] \$>\[${BCol_NoColor}\] "
+#✓
+#✗
+
 
 #}}}
 #{{{ ls colors
