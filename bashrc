@@ -92,9 +92,9 @@ function return_val_formater() {
 	local ret=$1
 	local ret_str
 	if [[ $ret == 0 ]]; then
-		ret_str="${BCol_BrightGreen}";
+		ret_str='${BCol_BrightGreen}';
 	else
-		ret_str="${BCol_BrightRed}";
+		ret_str='${BCol_BrightRed}';
 	fi
 	ret_str+="$ret${BCol_NoColor}"
 	echo -e "$ret_str";
@@ -107,7 +107,7 @@ function pwd_formater() {
 }
 
 export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
-\[${BCol_NoColor}\][\$(return_val_formater \$?)\[${BCol_NoColor}\]] \$>\[${BCol_NoColor}\] "
+\[${BCol_NoColor}\][\$(ret=\$?; if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
 
 export PROMPT_COMMAND="echo -e ''"
 
