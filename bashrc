@@ -106,7 +106,7 @@ function pwd_formater() {
 	echo -e "$ret_str";
 }
 
-export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\$(pwd_formater \w)\n\
+export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
 \[${BCol_NoColor}\][\$(return_val_formater \$?)\[${BCol_NoColor}\]] \$>\[${BCol_NoColor}\] "
 
 export PROMPT_COMMAND="echo -e ''"
