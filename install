@@ -153,6 +153,29 @@ function i3statusConfigInstaller() {
 		return 1
 	fi
 	cp i3status.conf $i3_status_conf
+
+	local nif=$(ip link show | grep ^[1-9] | grep -v LOOPBACK | sed 's/ //g' | cut -d ':' -f 2)
+
+	local num_wlanif=$(echo -e $nif | tr ' ' '\n' | grep wl | wc -l)
+	local wlanif=$(echo -e $nif | tr ' ' '\n' | grep wl)
+	if [[ $num_wlanif != 1 || -z $wlanif ]]; then
+      echo "[Warning]: i3statusConfigInstaller couldn't find name of WIFI IF!"
+		sed -i '/__DEF__WIFI_START__/,/__DEF__WIFI_END__/d' $i3_status_conf
+	else
+		sed -i "s/__NIF_WIFI__/$wlanif/g" $i3_status_conf
+	fi
+
+	local num_ethif=$(echo -e $nif | tr ' ' '\n' | grep en | wc -l)
+	local ethif=$(echo -e $nif | tr ' ' '\n' | grep en)
+	if [[ $num_ethif != 1 || -z $ethif ]]; then
+      echo "[Warning]: i3statusConfigInstaller couldn't find name of ETH IF!"
+		sed -i '/__DEF__ETH_START__/,/__DEF__ETH_END__/d' $i3_status_conf
+	else
+		sed -i "s/__NIF_ETH__/$ethif/g" $i3_status_conf
+	fi
+
+	sed -i '/__DEF__.*__/d' $i3_status_conf
+
 	return 0
 }
 
