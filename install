@@ -16,6 +16,7 @@ gToolsConfig=(
 "Xresources:xterm:xtermConfigInstaller"
 "i3config:i3:i3ConfigInstaller"
 "i3status:i3status:i3statusConfigInstaller"
+"i3blocks:i3blocks:i3blocksConfigInstaller"
 )
 
 gMagicNumber=e2718281
@@ -175,6 +176,21 @@ function i3statusConfigInstaller() {
 	fi
 
 	sed -i '/__DEF__.*__/d' $i3_status_conf
+
+	return 0
+}
+
+#}}}
+#{{{ i3blocksConfigInstaller
+
+function i3blocksConfigInstaller() {
+   local i3_home=~/.i3
+   local i3_blocks_conf=$i3_home/i3blocks.conf
+	mkdir $i3_home 2> /dev/null
+	if [ -f $i3_blocks_conf ]; then
+		return 1
+	fi
+	cp i3blocks.conf $i3_blocks_conf
 
 	return 0
 }
