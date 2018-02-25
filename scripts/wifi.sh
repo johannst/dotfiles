@@ -23,7 +23,7 @@ done
 
 AP_NAME=$(iwgetid -r $if)
 AP_MAC=$(iwgetid -a $if | sed 's/.*\(\([0-9A-F]\{2\}:\)\{5\}[0-9A-F]\{2\}\).*/\1/')
-AP_QUALITY=$(grep $if /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')%
+AP_QUALITY=$(printf '%3s' $(grep $if /proc/net/wireless | awk '{ print int($3 * 100 / 70) }'))%
 
 # first ipv4 addr
 IP_ADDR=$(ip address show $if | grep 'inet ' | sed 's/\s\+inet \([0-9.]\+\)\/.*/\1/')
