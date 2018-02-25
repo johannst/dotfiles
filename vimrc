@@ -94,7 +94,7 @@ if s:IsPluginEnabled('majutsushi/tagbar')
 endif
 
 if s:IsPluginEnabled('ctrlpvim/ctrlp.vim')
-   let g:ctrlp_buftag_ctags_bin=$VIMHOME . '/bin/ctags'
+   let g:ctrlp_buftag_ctags_bin=$MYCTAGS
    let g:ctrlp_extensions = ['buffertag']
    let g:ctrlp_working_path_mode = 'a'
    let g:ctrlp_use_caching = 1
