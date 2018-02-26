@@ -5,6 +5,9 @@
 if="${BLOCK_INSTANCE:-wlp3s0}"
 [[ ! -d /sys/class/net/${if} ]] && exit 0
 
+# operstate: down, up
+[[ "$(cat /sys/class/net/$if/operstate)" = 'down' ]] && exit 0
+
 show_ap_mac=0
 show_ap_quality=0
 show_ap_name=0
