@@ -17,6 +17,7 @@ gToolsConfig=(
 "i3config:i3:i3ConfigInstaller"
 "i3status:i3status:i3statusConfigInstaller"
 "i3blocks:i3blocks:i3blocksConfigInstaller"
+"termite:termite:termiteConfigInstaller"
 )
 
 gMagicNumber=e2718281
@@ -193,6 +194,24 @@ function i3blocksConfigInstaller() {
 		return 1
 	fi
 	cp i3blocks.conf $i3_blocks_conf
+
+	return 0
+}
+
+#}}}
+#{{{ termiteConfigInstaller
+
+function termiteConfigInstaller() {
+	local tm_dir=~/.config/termite
+   local tm_conf=$tm_dir/config
+	[[ ! -d $tm_dir ]] && mkdir -p $tm_dir
+   touch $tm_conf
+   grep $gMagicNumber $tm_conf > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return 1
+   fi
+   echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $tm_conf
+	echo -e "$(cat termite)" >> $tm_conf
 
 	return 0
 }
