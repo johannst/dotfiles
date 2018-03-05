@@ -5,8 +5,9 @@
 !XTerm*renderFont: true
 !XTerm*faceName: Vera Serif Mono
 !XTerm*faceName: Liberation Mono
-!XTerm*faceName: Droid Sans Mono 
-XTerm*faceName: Terminess Powerline
+!XTerm*faceName: Droid Sans Mono
+!XTerm*faceName: Terminess Powerline
+XTerm*faceName: xos4 Terminus
 XTerm*faceSize: 12
 
 XTerm*scaleHeight: 1.1
