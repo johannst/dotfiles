@@ -45,7 +45,7 @@ function gdbrcInstaller() {
    touch $gdbinit
    grep $gMagicNumber $gdbinit > /dev/null 2>&1
    if [[ $? = 0 ]]; then
-      return
+      return 1
    fi
 	if [ ! -d $gdbdir ]; then mkdir $gdbdir; fi
    echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $gdbinit
@@ -57,6 +57,7 @@ function gdbrcInstaller() {
 
 function cgdbrcInstaller() {
    echo "cgdbrcInstaller called"
+   return 1
 }
 
 #}}}
@@ -64,6 +65,7 @@ function cgdbrcInstaller() {
 
 function conkyrcInstaller() {
    echo "conkyrcInstaller called"
+   return 1
 }
 
 #}}}
@@ -126,7 +128,7 @@ function vimConfigInstaller() {
 
 function xtermConfigInstaller() {
    echo "xtermConfigInstaller called"
-	return 0
+   return 1
 }
 
 #}}}
