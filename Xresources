@@ -22,54 +22,54 @@ XTerm*visualBell: false
 
 ! --- generated with http://ciembor.github.com/4bit
 ! --- special colors ---
-*background: #262626
-*foreground: #d9d9d9
+XTerm*background: #262626
+XTerm*foreground: #d9d9d9
 
 ! --- standard colors ---
 ! black
-*color0: #000000
+XTerm*color0: #000000
 
 ! bright_black
-*color8: #262626
+XTerm*color8: #262626
 
 ! red
-*color1: #c05b69
+XTerm*color1: #c05b69
 
 ! bright_red
-*color9: #cda0ae
+XTerm*color9: #cda0ae
 
 ! green
-*color2: #50cd68
+XTerm*color2: #50cd68
 
 ! bright_green
-*color10: #95d9ad
+XTerm*color10: #95d9ad
 
 ! yellow
-*color3: #c0cb68
+XTerm*color3: #c0cb68
 
 ! bright_yellow
-*color11: #cdd8ad
+XTerm*color11: #cdd8ad
 
 ! blue
-*color4: #4e5dd9
+XTerm*color4: #4e5dd9
 
 ! bright_blue
-*color12: #93a1e6
+XTerm*color12: #93a1e6
 
 ! magenta
-*color5: #be5bd9
+XTerm*color5: #be5bd9
 
 ! bright_magenta
-*color13: #cba0e6
+XTerm*color13: #cba0e6
 
 ! cyan
-*color6: #4ecdd8
+XTerm*color6: #4ecdd8
 
 ! bright_cyan
-*color14: #93d9e5
+XTerm*color14: #93d9e5
 
 ! white
-*color7: #d9d9d9
+XTerm*color7: #d9d9d9
 
 ! bright_white
-*color15: #ffffff
+XTerm*color15: #ffffff
