@@ -15,61 +15,64 @@ XTerm*metaSendsEscape: true
 XTerm*saveLines: 16384
 XTerm*loginShell: true
 XTerm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-XTerm*termName: xterm-256color
+!XTerm*termName: xterm-256color
 XTerm*eightBitInput: false
 XTerm*selectToClipboard: true
 XTerm*visualBell: false
 
-! --- generated with http://ciembor.github.com/4bit
-! --- special colors ---
-XTerm*background: #262626
-XTerm*foreground: #d9d9d9
+XTerm*background: #000000
+XTerm*foreground: #ffffff
 
-! --- standard colors ---
-! black
-XTerm*color0: #000000
-
-! bright_black
-XTerm*color8: #262626
-
-! red
-XTerm*color1: #c05b69
-
-! bright_red
-XTerm*color9: #cda0ae
-
-! green
-XTerm*color2: #50cd68
-
-! bright_green
-XTerm*color10: #95d9ad
-
-! yellow
-XTerm*color3: #c0cb68
-
-! bright_yellow
-XTerm*color11: #cdd8ad
-
-! blue
-XTerm*color4: #4e5dd9
-
-! bright_blue
-XTerm*color12: #93a1e6
-
-! magenta
-XTerm*color5: #be5bd9
-
-! bright_magenta
-XTerm*color13: #cba0e6
-
-! cyan
-XTerm*color6: #4ecdd8
-
-! bright_cyan
-XTerm*color14: #93d9e5
-
-! white
-XTerm*color7: #d9d9d9
-
-! bright_white
-XTerm*color15: #ffffff
+!! --- generated with http://ciembor.github.com/4bit
+!! --- special colors ---
+!XTerm*background: #262626
+!XTerm*foreground: #d9d9d9
+!
+!! --- standard colors ---
+!! black
+!XTerm*color0: #000000
+!
+!! bright_black
+!XTerm*color8: #262626
+!
+!! red
+!XTerm*color1: #c05b69
+!
+!! bright_red
+!XTerm*color9: #cda0ae
+!
+!! green
+!XTerm*color2: #50cd68
+!
+!! bright_green
+!XTerm*color10: #95d9ad
+!
+!! yellow
+!XTerm*color3: #c0cb68
+!
+!! bright_yellow
+!XTerm*color11: #cdd8ad
+!
+!! blue
+!XTerm*color4: #4e5dd9
+!
+!! bright_blue
+!XTerm*color12: #93a1e6
+!
+!! magenta
+!XTerm*color5: #be5bd9
+!
+!! bright_magenta
+!XTerm*color13: #cba0e6
+!
+!! cyan
+!XTerm*color6: #4ecdd8
+!
+!! bright_cyan
+!XTerm*color14: #93d9e5
+!
+!! white
+!XTerm*color7: #d9d9d9
+!
+!! bright_white
+!XTerm*color15: #ffffff
