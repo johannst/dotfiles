@@ -123,20 +123,29 @@ export LS_COLORS='di=94:ln=96:or=96;41:so=0:pi=0:ex=01;92:bd=0;42:cd=0;42:su=0:s
 #}}}
 #{{{ colored printers
 
- function info() {
+function pline() {
+	local col=$1
+	local tag=$2
+	local msg=$3
+	echo -e "$col[$tag]: $msg${BCol_NoColor}"
+}
+ function pinfo() {
 	 local msg=$1
-	 echo -e "${BCol_BrightGreen}[INFO]: ${msg}${BCol_NoColor}"
+	 local tag=${2:-INFO}
+	 pline ${BCol_BrightGreen} $tag ${msg}
  }
 
- function warn () {
+ function pwarn () {
 	 local msg=$1
-	 echo -e "${BCol_YellowOrange}[WARN]: ${msg}${BCol_NoColor}"
+	 local tag=${2:-WARN}
+	 pline ${BCol_YellowOrange} $tag ${msg}
  }
 
- function err() {
+ function perr() {
 	 local msg=$1
 	 local exit=${2:-exit}
-	 echo -e "${BCol_BrightRed}[ERR]: ${msg}${BCol_NoColor}"
+	 local tag=${3:-ERR}
+	 pline ${BCol_BrightRed} $tag ${msg}
 	 [[ "$exit" == "exit" ]] && exit 1 || return 0
  }
 
