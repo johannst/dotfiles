@@ -113,7 +113,7 @@ function pwd_formater() {
 export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
 \[${BCol_NoColor}\][\$(ret=\$?; if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
 
-export PROMPT_COMMAND="echo -e ''"
+#$export PROMPT_COMMAND="echo -e ''"
 
 #}}}
 #{{{ ls colors
@@ -121,3 +121,23 @@ export PROMPT_COMMAND="echo -e ''"
 export LS_COLORS='di=94:ln=96:or=96;41:so=0:pi=0:ex=01;92:bd=0;42:cd=0;42:su=0:sg=0:tw=30;44:ow=30;44'
 
 #}}}
+#{{{ colored printers
+
+ function info() {
+	 local msg=$1
+	 echo -e "${BCol_BrightGreen}[INFO]: ${msg}${BCol_NoColor}"
+ }
+
+ function warn () {
+	 local msg=$1
+	 echo -e "${BCol_YellowOrange}[WARN]: ${msg}${BCol_NoColor}"
+ }
+
+ function err() {
+	 local msg=$1
+	 local exit=${2:-exit}
+	 echo -e "${BCol_BrightRed}[ERR]: ${msg}${BCol_NoColor}"
+	 [[ "$exit" == "exit" ]] && exit 1 || return 0
+ }
+
+ #}}}
