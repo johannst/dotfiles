@@ -133,20 +133,20 @@ function pline() {
 function pinfo() {
 	local msg=$1
 	local tag=${2:-INFO}
-	pline ${BCol_BrightGreen} $tag ${msg}
+	pline ${BCol_BrightGreen} $tag "${msg}"
 }
 
 function pwarn () {
 	local msg=$1
 	local tag=${2:-WARN}
-	pline ${BCol_YellowOrange} $tag ${msg}
+	pline ${BCol_YellowOrange} $tag "${msg}"
 }
 
 function perr() {
 	local msg=$1
 	local exit=${2:-exit}
 	local tag=${3:-ERR}
-	pline ${BCol_BrightRed} $tag ${msg}
+	pline ${BCol_BrightRed} $tag "${msg}"
 	[[ "$exit" == "exit" ]] && exit 1 || return 0
 }
 
