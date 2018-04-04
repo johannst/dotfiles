@@ -56,6 +56,10 @@ alias ll='ls -lF'
 alias la='ls -AF'
 alias grep='grep --color=auto'
 alias pstree="pstree -achpG ${USER}"
+alias ps='ps -fxww --format user,pid,tty,stat,start,bsdtime,command'
+alias pps='ps | grep -i $1'
+alias penv='env | grep -i $1'
+alias rsync='rsync --progress'
 
 #}}}
 #{{{ color definition
