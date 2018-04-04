@@ -244,7 +244,7 @@ augroup end
 augroup aug:FoldMarkerKeymaps
    autocmd!
    autocmd FileType * if exists('b:comment_symbol') | execute "nnoremap <buffer> <leader>fm o". b:comment_symbol . "{{{ <Esc>o" . b:comment_symbol. "}}}<Esc><Up>A" | endif
-   autocmd FileType * if exists('b:comment_symbol') | execute "inoremap <buffer> <leader>fm <Esc>o". b:comment_symbol . "{{{ <Esc>o" . b:comment_symbol. "}}}<Esc><Up>A" | endif
+   "autocmd FileType * if exists('b:comment_symbol') | execute "inoremap <buffer> <leader>fm <Esc>o". b:comment_symbol . "{{{ <Esc>o" . b:comment_symbol. "}}}<Esc><Up>A" | endif
    autocmd FileType * if exists('b:comment_symbol') | execute "vnoremap <buffer> <leader>fm VV'<O". b:comment_symbol . "{{{ <Esc>'>o" . b:comment_symbol. "}}}<Esc>'<<Up>A" | endif
 augroup end
 
