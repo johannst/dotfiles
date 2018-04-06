@@ -94,13 +94,10 @@ BCol_BrightGreen='\e[38;5;40m'
 #✗
 function return_val_formater() {
 	local ret=$1
-	local ret_str
-	if [[ $ret == 0 ]]; then
-		ret_str='${BCol_BrightGreen}';
-	else
-		ret_str='${BCol_BrightRed}';
-	fi
-	ret_str+="$ret${BCol_NoColor}"
+	local ret_str="${ret}${BCol_NoColor}"
+	[[ $ret == 0 ]] \
+		&& ret_str="${BCol_BrightGreen}${ret_str}" \
+		|| ret_str="${BCol_BrightRed}${ret_str}"
 	echo -e "$ret_str";
 }
 
@@ -110,8 +107,26 @@ function pwd_formater() {
 	echo -e "$ret_str";
 }
 
-export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
-\[${BCol_NoColor}\][\$(ret=\$?; if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
+function job_count() {
+	local num_jobs=$(jobs -p | wc -l)
+	echo -e "$num_jobs"
+}
+
+function save_exit_code() {
+	# Used in PS1 computation to store the actual return value of the command run in the shell.
+	# Need to be called as first function in PS1. As we use more commands in the PS1 computations this
+	# would lead to reporting a wrong return value later.
+	echo "$1" > $2
+}
+
+#export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
+#\[${BCol_NoColor}\][\$(ret=\$?; if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
+export PS1="\$(save_exit_code \$? ~/.bash_exit)\
+\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]\
+::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]\
+:\[${BCol_DarkGray}\]$(tty)\[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
+\[${BCol_NoColor}\][\$(return_val_formater \$(cat ~/.bash_exit))\[${BCol_NoColor}\]] \$> "
+#\[${BCol_NoColor}\][\$(ret=\$(cat ~/.bash_exit); if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
 
 #$export PROMPT_COMMAND="echo -e ''"
 
