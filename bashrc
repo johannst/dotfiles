@@ -166,3 +166,28 @@ function perr() {
 }
 
  #}}}
+#{{{ save/restore settings
+
+function save_bash_options() {
+	local backup_file=$1
+	set +o >> $backup_file
+}
+
+function save_bash_exports() {
+	local backup_file=$1
+	export -p >> $backup_file
+}
+
+function save_bash() {
+	local backup=${1:-~/.saved_bash_env}
+	:> $backup
+	save_bash_options $backup
+	save_bash_exports $backup
+}
+
+function restore_bash() {
+	local backup=${1:-~/.saved_bash_env}
+	source $backup
+}
+
+#}}}
