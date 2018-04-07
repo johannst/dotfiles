@@ -119,13 +119,13 @@ function save_exit_code() {
 	echo "$1" > $2
 }
 
-#export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
-#\[${BCol_NoColor}\][\$(ret=\$?; if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
-export PS1="\$(save_exit_code \$? ~/.bash_exit)\
-\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]\
-::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]\
-:\[${BCol_DarkGray}\]$(tty)\[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
-\[${BCol_NoColor}\][\$(return_val_formater \$(cat ~/.bash_exit))\[${BCol_NoColor}\]] \$> "
+export PS1="\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]:\[${BCol_DarkGray}\]$(tty) \[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
+\[${BCol_NoColor}\][\$(ret=\$?; if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
+#export PS1="\$(save_exit_code \$? ~/.bash_exit)\
+#\[${BCol_BrightRed}\]::\[${BCol_MediumGray}\]\u\[${BCol_BrightRed}\]\
+#::\[${BCol_LightGray}\]\H\[${BCol_BrightRed}\]\
+#:\[${BCol_DarkGray}\]$(tty)\[${BCol_LightGray}\] - \[${BCol_DarkBlue}\]\w\n\
+#\[${BCol_NoColor}\][\$(return_val_formater \$(cat ~/.bash_exit))\[${BCol_NoColor}\]] \$> "
 #\[${BCol_NoColor}\][\$(ret=\$(cat ~/.bash_exit); if [[ \$ret == 0 ]]; then echo \"\[${BCol_BrightGreen}\]\$ret\"; else echo \"\[${BCol_BrightRed}\]\$ret\"; fi)\[${BCol_NoColor}\]] \$> "
 
 #$export PROMPT_COMMAND="echo -e ''"
