@@ -61,6 +61,7 @@ alias ups='\ps -fxww --format user,pid,ppid,pgid,tty,stat,start,bsdtime,command'
 alias pps='ps | grep -i $1'
 alias penv='env | grep -i $1'
 alias rsync='rsync --progress'
+alias ts='date +%Y%m%d_%H\h%Mm'
 
 #}}}
 #{{{ color definition
