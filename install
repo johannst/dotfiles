@@ -7,7 +7,7 @@ gInstallConfigFile=install.config
 #"<config_tag>:<dep_binary>:<installer_fct_name>"
 gToolsConfig=(
 "bashrc:bash:bashrcInstaller"
-"gdb:cgdb:gdbrcInstaller"
+"gdb:gdb:gdbrcInstaller"
 "cgdb:cgdb:cgdbrcInstaller"
 "conkyrc:conky:conkyrcInstaller"
 "gitconfig:git:gitConfigInstaller"
