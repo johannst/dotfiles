@@ -58,8 +58,8 @@ alias lt='ll -t --reverse'
 alias grep='grep --color=auto'
 alias pstree="pstree -achpA"
 alias watchpstree='watch -n 2 pstree'
-alias ps="\\ps --forest --format user,pid,ppid,stat,start,command"
-alias ups="\\ps xww --forest --format user,pid,ppid,tty,stat,start,command"
+alias ps="\\ps --forest --format pid,ppid,stat,start,command"
+alias ups="\\ps xww --forest --format pid,ppid,tty,stat,start,command"
 alias pps='ps | grep -i $1'
 alias penv='env | grep -i $1'
 alias rsync='rsync --progress'
