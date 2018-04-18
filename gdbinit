@@ -8,6 +8,8 @@ set prompt do_wizardry>
 
 set disassembly-flavor intel
 
+set breakpoint pending on
+
 define bs
 	save breakpoints ~/.gdb/breakpoint.$arg0.save
 end
