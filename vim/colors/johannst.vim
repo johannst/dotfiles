@@ -11,11 +11,11 @@ if exists("syntax_on")
 endif
 hi clear
 
-"{{{ Vim Basic 
+"{{{ Vim Basic
 
 hi Normal     ctermfg=253 ctermbg=234  cterm=NONE
-hi Search     ctermfg=0   ctermbg=11   cterm=NONE
-hi IncSearch  ctermfg=0   ctermbg=11   cterm=NONE
+hi Search     ctermfg=198 ctermbg=NONE cterm=underline
+hi IncSearch  ctermfg=198 ctermbg=NONE cterm=underline
 hi Folded     ctermfg=146 ctermbg=238  cterm=NONE
 hi FoldColumn ctermfg=122 ctermbg=238  cterm=NONE
 hi Title      ctermfg=230 ctermbg=NONE cterm=bold
@@ -25,19 +25,19 @@ hi SpecialKey ctermfg=238 ctermbg=NONE cterm=NONE
 hi Visual     ctermfg=230 ctermbg=238  cterm=NONE
 hi VertSplit  ctermfg=59  ctermbg=238  cterm=NONE
 hi Directory  ctermfg=39  ctermbg=NONE cterm=NONE
+hi MatchParen ctermfg=0   ctermbg=82   cterm=NONE
 
 "}}}
-"{{{ Cursor & LineNumber 
+"{{{ Cursor & LineNumber
 
 "hi Cursor       ctermfg=NONE  ctermbg=241  cterm=NONE
 hi LineNr       ctermfg=239  ctermbg=234  cterm=NONE
 hi CursorLineNR ctermfg=255  ctermbg=208  cterm=bold
 hi CursorLine   ctermfg=NONE ctermbg=236  cterm=NONE
 hi CursorColumn ctermfg=NONE ctermbg=236  cterm=NONE
-hi MatchParen   ctermfg=208  ctermbg=89   cterm=underline
 
 "}}}
-"{{{ Tabline 
+"{{{ Tabline
 
 hi TabLine     ctermbg=235 ctermfg=244 cterm=none
 hi TabLineSel  ctermbg=208 ctermfg=255 cterm=bold
@@ -47,14 +47,14 @@ if exists('g:buftabline_enable')
 endif
 
 "}}}
-"{{{ Statusline 
+"{{{ Statusline
 
 "hi StatusLine   ctermfg=0   ctermbg=38  cterm=NONE
 hi StatusLine   ctermfg=NONE ctermbg=125 cterm=NONE
 hi StatusLineNC ctermfg=144  ctermbg=238 cterm=NONE
 
 "}}}
-"{{{ Diff 
+"{{{ Diff
 
 hi DiffChange ctermfg=10 ctermbg=17 cterm=NONE
 hi DiffText   ctermfg=10 ctermbg=88 cterm=NONE
@@ -62,7 +62,7 @@ hi DiffAdd    ctermfg=10 ctermbg=17 cterm=NONE
 hi DiffDelete ctermfg=10 ctermbg=17 cterm=NONE
 
 "}}}
-"{{{ Popup Menu 
+"{{{ Popup Menu
 
 hi PMenu      ctermfg=NONE ctermbg=235  cterm=NONE
 hi PMenuSel   ctermfg=255  ctermbg=208  cterm=NONE
@@ -70,7 +70,7 @@ hi PMenuSbar  ctermfg=NONE ctermbg=NONE cterm=NONE
 hi PMenuThumb ctermfg=NONE ctermbg=101  cterm=NONE
 
 "}}}
-"{{{ Language 
+"{{{ Language
 
 hi Comment ctermfg=144 ctermbg=NONE cterm=NONE
 hi Label   ctermfg=221 ctermbg=NONE cterm=NONE
@@ -108,7 +108,7 @@ hi Statement   ctermfg=220 ctermbg=NONE cterm=NONE
 hi Conditional ctermfg=11  ctermbg=NONE cterm=NONE
 
 "}}}
-"{{{ not classified yet 
+"{{{ not classified yet
 "hi Debug ctermfg=194 ctermbg=NONE cterm=NONE
 "hi WildMenu
 "hi SignColumn

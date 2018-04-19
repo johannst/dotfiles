@@ -14,7 +14,7 @@ nnoremap <leader>sv :source ~/.vimrc<CR>
 
 "let $VIMHOME='~/.vim'
 
-"{{{ Plugin Management 
+"{{{ Plugin Management
 
 " to install plugins open vim and run :PluginInstall from within vim OR
 " vim +PluginInstall +qall from cmd line
@@ -41,7 +41,7 @@ Plugin 'w0rp/ale'
 call vundle#end()
 
 "}}}
-"{{{ Plugin Config 
+"{{{ Plugin Config
 
 let s:gEnabledPlugins = []
 function! s:ParseVimrcForEnabledPlugins()
@@ -195,7 +195,7 @@ nnoremap <leader>dw :windo diffthis<CR>
 nnoremap <leader>dn :diffoff!<CR>
 
 "}}}
-"{{{ Default Keymap Shadow 
+"{{{ Default Keymap Shadow
 
 " lookup word under cursor in man pages
 nnoremap <S-k> <NOP>
@@ -203,14 +203,14 @@ nnoremap <S-k> <NOP>
 nnoremap <S-j> <NOP>
 
 "}}}
-"{{{ Basic Movement 
+"{{{ Basic Movement
 
 augroup aug:HelpPageKeyMaps
    autocmd!
    autocmd FileType help nnoremap <buffer> <CR> <C-]>
 augroup end
 
-" ctrl-ae jump to line start/end 
+" ctrl-ae jump to line start/end
 nnoremap <C-a> 0
 nnoremap <C-e> $
 inoremap <C-a> <C-o>0
@@ -226,7 +226,7 @@ cnoremap <C-k> <Up>
 cnoremap <C-l> <Right>
 
 "}}}
-"{{{ Folding 
+"{{{ Folding
 
 set foldlevel=0
 set foldcolumn=1
@@ -249,7 +249,7 @@ augroup aug:FoldMarkerKeymaps
 augroup end
 
 "}}}
-"{{{ Tabwidth 
+"{{{ Tabwidth
 
 "set expandtab                 " expand tabs to spaces
 set tabstop=3                 " number of columns a tab counts
@@ -272,7 +272,7 @@ nnoremap <leader>n :noh<CR>
 execute "vnoremap <leader>r \"hy:%s/<C-r>h/<C-r>h/gc"repeat('<Left>', 4)
 
 "}}}
-"{{{ Buffer & Splits 
+"{{{ Buffer & Splits
 
 set hidden                    " do not unload abandoned buffers
 noremap <leader>q :bd
@@ -302,7 +302,7 @@ nnoremap <C-h>     <C-w>h
 "(deprecated) map <C-h>     <C-w>5>
 
 "}}}
-"{{{ Statusline 
+"{{{ Statusline
 
 set laststatus=2              " always show status line
 
@@ -341,19 +341,12 @@ function! DynamicStatuslineHighlighting()
    return ''
 endfunction
 
-function! GetDiffStatus()
-	if (&diff)
-		return 'diff'
-	else
-		return ''
-endfunction
-
 let &statusline=''
 let &statusline.='%{DynamicStatuslineHighlighting()}'
 let &statusline.='[%{g:ModeMap[mode()]}]'
 let &statusline.=' %t'        " file name
 let &statusline.=' {%M%R%H}'  " modified/read-only/help-page
-let &statusline.=' [%{GetDiffStatus()}]'
+let &statusline.='%{&diff==1?" [diff]":""}'
 let &statusline.=' [%{&ft}]'  "filetype
 
 let &statusline.='%='             " seperator between left and right alignment
@@ -365,7 +358,7 @@ let &statusline.=' [%l/%L -- %c]' " current line/num of lines -- current columen
 let &statusline.=' (%p%%)'        " current line in percent
 
 "}}}
-"{{{ Indentation 
+"{{{ Indentation
 
 nnoremap <leader>ri mzgg=G`z
 set autoindent                " copy indent from current line when starting a new line
@@ -383,7 +376,7 @@ augroup aug:CLangStyle
 augroup end
 
 "}}}
-"{{{ Wildmenu 
+"{{{ Wildmenu
 
 " Vim command completion settings
 set wildmenu                  " turn on the wild menu
@@ -391,7 +384,7 @@ set wildmode=list:longest     " <Tab> print list of all matches and complete til
 set wildignore+=*.o,*.obj,.git,*.pyc,*~ " Ignore these files when completing
 
 "}}}
-"{{{ Save & Restore 
+"{{{ Save & Restore
 
 augroup aug:AutoSaveLastSession
    autocmd!
@@ -402,7 +395,7 @@ augroup end
 nnoremap <F2> :execute "source " . $VIMHOME . "/session.last_quit"<CR>
 
 "}}}
-"{{{ QuickFix 
+"{{{ QuickFix
 
 augroup aug:QuickFixConfig
    autocmd!
@@ -411,7 +404,7 @@ augroup aug:QuickFixConfig
 augroup end
 
 "}}}
-"{{{ SCons Integration 
+"{{{ SCons Integration
 
 function! TriggerSCons(...)
    let l:base_cmd = 'scons'
@@ -427,7 +420,7 @@ endfunction
 command! -nargs=* SCons call TriggerSCons(<f-args>)
 
 "}}}
-"{{{ Tmux Specific 
+"{{{ Tmux Specific
 
 "" tmux will send xterm-style keys when its xterm-keys option is on
 "if &term =~ '^screen'
@@ -438,14 +431,14 @@ command! -nargs=* SCons call TriggerSCons(<f-args>)
 "endif
 
 "}}}
-"{{{ Project Specific vimrc 
+"{{{ Project Specific vimrc
 
 if !empty(glob('.local_vimrc'))
    source .local_vimrc
 endif
 
 "}}}
-"{{{ Sandbox 
+"{{{ Sandbox
 
 let s:sandbox_enable = 1
 if s:sandbox_enable
