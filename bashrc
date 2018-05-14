@@ -38,7 +38,7 @@ function vimode {
 	bind -m vi-command 'Control-e:end-of-line'
 	bind -m vi-insert 'Control-a:beginning-of-line'
 	bind -m vi-insert 'Control-e:end-of-line'
-	bind -m vi-command '"v":""'   # disable opening tmp file
+	#bind -m vi-command '"v":""'   # disable opening tmp file
 }
 
 function normalmode {

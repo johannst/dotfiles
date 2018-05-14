@@ -138,6 +138,7 @@ endif
 
 if s:IsPluginEnabled('johannst/AsyncCmdProcessor.vim')
 	execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
+	 execute "vnoremap <leader>fg \"fy:Async find . -type f -exec grep -nHI <C-r>f {} +"repeat('<Left>', 6)
 endif
 
 if s:IsPluginEnabled('w0rp/ale')
@@ -269,7 +270,8 @@ set matchtime=5               " how many tenths of a second to blink when matchi
 set matchpairs+=<:>           " show matching <> as well
 
 nnoremap <leader>n :noh<CR>
-execute "vnoremap <leader>r \"hy:%s/<C-r>h/<C-r>h/gc"repeat('<Left>', 4)
+execute "vnoremap <leader>r \"ry:%s/<C-r>r/<C-r>r/gc"repeat('<Left>', 4)
+execute "vnoremap <leader>br \"ry:bufdo%s/<C-r>r/<C-r>r/gc"repeat('<Left>', 4)
 
 "}}}
 "{{{ Buffer & Splits
