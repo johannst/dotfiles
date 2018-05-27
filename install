@@ -18,6 +18,7 @@ gToolsConfig=(
 "i3status:i3status:i3statusConfigInstaller"
 "i3blocks:i3blocks:i3blocksConfigInstaller"
 "termite:termite:termiteConfigInstaller"
+"zshrc:zsh:zshrcInstaller"
 )
 
 gMagicNumber=e2718281
@@ -214,6 +215,21 @@ function termiteConfigInstaller() {
 	echo -e "$(cat termite)" >> $tm_conf
 
 	return 0
+}
+
+#}}}
+#{{{ zshrcInstaller
+
+function zshrcInstaller() {
+   local zshrc=~/.zshrc
+   touch $zshrc
+   grep $gMagicNumber $zshrc > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return 1
+   fi
+   echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $zshrc
+   echo -e "source $ABS_BASE_DIR/zshrc" >> $zshrc
+   return 0
 }
 
 #}}}
