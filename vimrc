@@ -31,12 +31,13 @@ Plugin 'ap/vim-buftabline'
 "Plugin 'vim-airline/vim-airline'
 "Plugin 'vim-airline/vim-airline-themes'
 Plugin 'majutsushi/tagbar'
-Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'johannst/Clever-Tabs'
 Plugin 'johannst/AsyncCmdProcessor.vim'
 Plugin 'w0rp/ale'
+Plugin 'junegunn/fzf.vim'
 
 call vundle#end()
 
@@ -150,6 +151,28 @@ if s:IsPluginEnabled('w0rp/ale')
 	let g:ale_change_sign_column_color = 1
 	hi link ALESignColumnWithoutErrors LineNr
 	hi link ALESignColumnWithErrors LineNr
+endif
+
+if s:IsPluginEnabled('junegunn/fzf.vim')
+	nnoremap <leader>ft :BTags<CR>
+	nnoremap <leader>fc :Tags<CR>
+	nnoremap <leader>ff :Files<CR>
+	nnoremap <leader>fp :Files 
+	"nnoremap <leader>f :CtrlPCurFile<CR>
+	nnoremap <leader>fb :Buffers<CR>
+	nnoremap <leader>fs :History/<CR>
+	let g:fzf_action = { 'ctrl-s': 'split',
+	                   \ 'ctrl-v': 'vsplit' }
+
+	"imap <c-x><c-f> <plug>(fzf-complete-path)
+
+	command! -bang -nargs=* Rg
+				\ call fzf#vim#grep(
+				\   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+				\   <bang>0 ? fzf#vim#with_preview('up:60%')
+				\           : fzf#vim#with_preview('right:50%:hidden', '?'),
+				\   <bang>0)
+	nnoremap <leader>rg :Rg 
 endif
 
 "}}}
