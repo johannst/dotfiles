@@ -86,6 +86,10 @@ bindkey -M viins "jj" vi-cmd-mode
 DIRSTACKSIZE=8
 setopt autopushd pushdminus pushdsilent pushdtohome
 alias dh='dirs -v'
+alias d='_goDir'
+function _goDir() {
+   cd -$1
+}
 
 # Prompt
 
