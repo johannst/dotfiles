@@ -158,7 +158,7 @@ if s:IsPluginEnabled('junegunn/fzf.vim')
 	nnoremap <leader>fc :Tags<CR>
 	nnoremap <leader>ff :Files<CR>
 	nnoremap <leader>fp :Files 
-	"nnoremap <leader>f :CtrlPCurFile<CR>
+	nnoremap <leader>fl :Lines<CR>
 	nnoremap <leader>fb :Buffers<CR>
 	nnoremap <leader>fs :History/<CR>
 	let g:fzf_action = { 'ctrl-s': 'split',
