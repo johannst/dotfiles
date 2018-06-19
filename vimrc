@@ -161,6 +161,7 @@ if s:IsPluginEnabled('junegunn/fzf.vim')
 	nnoremap <leader>fl :Lines<CR>
 	nnoremap <leader>fb :Buffers<CR>
 	nnoremap <leader>fs :History/<CR>
+	nnoremap <leader>fh :History:<CR>
 	let g:fzf_action = { 'ctrl-s': 'split',
 	                   \ 'ctrl-v': 'vsplit' }
 
