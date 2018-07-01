@@ -38,6 +38,7 @@ Plugin 'johannst/Clever-Tabs'
 Plugin 'johannst/AsyncCmdProcessor.vim'
 Plugin 'w0rp/ale'
 Plugin 'junegunn/fzf.vim'
+Plugin 'maralla/completor.vim'
 
 call vundle#end()
 
