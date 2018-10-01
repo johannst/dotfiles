@@ -295,6 +295,7 @@ set matchtime=5               " how many tenths of a second to blink when matchi
 set matchpairs+=<:>           " show matching <> as well
 
 nnoremap <leader>n :noh<CR>
+execute "vnoremap <leader>/ \"ry/<C-r>r"
 execute "vnoremap <leader>r \"ry:%s/<C-r>r/<C-r>r/gc"repeat('<Left>', 4)
 execute "vnoremap <leader>br \"ry:bufdo%s/<C-r>r/<C-r>r/gc"repeat('<Left>', 4)
 
