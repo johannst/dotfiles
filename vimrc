@@ -39,6 +39,7 @@ Plugin 'johannst/AsyncCmdProcessor.vim'
 Plugin 'w0rp/ale'
 Plugin 'junegunn/fzf.vim'
 Plugin 'maralla/completor.vim'
+Plugin 'chriskempson/base16-vim'
 
 call vundle#end()
 
