@@ -120,6 +120,10 @@ function vimConfigInstaller() {
    # link ctags
    type ctags >/dev/null 2>&1 && { echo -e "let \$MYCTAGS='$(which ctags)'" >> $vimrc; }
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
+	echo -e 'if filereadable(expand("~/.vimrc_background")) && g:gBase16ColorEnabled == 1' >> $vimrc
+	echo -e '\tlet base16colorspace=256' >> $vimrc
+	echo -e '\tsource ~/.vimrc_background' >> $vimrc
+	echo -e 'endif' >> $vimrc
    git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim || { echo "Vundle not cloned, using existing!"; }
    vim +PluginInstall +qall
    return 0

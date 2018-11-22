@@ -40,6 +40,7 @@ Plugin 'w0rp/ale'
 Plugin 'junegunn/fzf.vim'
 Plugin 'maralla/completor.vim'
 Plugin 'chriskempson/base16-vim'
+Plugin 'osyo-manga/vim-over'
 
 call vundle#end()
 
@@ -181,7 +182,13 @@ endif
 "}}}
 "{{{ Vim Basic
 
-colorscheme johannst
+if s:IsPluginEnabled('chriskempson/base16-vim')
+   let g:gBase16ColorEnabled = 1
+	syntax on
+else
+   let g:gBase16ColorEnabled = 0
+	colorscheme johannst
+endif
 
 filetype plugin indent on       " enable loading indent file for filetype
 set fileformats=unix,dos,mac    " try recognizing dos, unix, and mac line endings.
@@ -296,9 +303,13 @@ set matchtime=5               " how many tenths of a second to blink when matchi
 set matchpairs+=<:>           " show matching <> as well
 
 nnoremap <leader>n :noh<CR>
-execute "vnoremap <leader>/ \"ry/<C-r>r"
-execute "vnoremap <leader>r \"ry:%s/<C-r>r/<C-r>r/gc"repeat('<Left>', 4)
-execute "vnoremap <leader>br \"ry:bufdo%s/<C-r>r/<C-r>r/gc"repeat('<Left>', 4)
+execute "vnoremap <leader>r \"ry:%s/<C-r>r/<C-r>r/gc" . repeat('<Left>', 3)
+execute "vnoremap <leader>rb \"ry:bufdo%s/<C-r>r/<C-r>r/gc" . repeat('<Left>', 3)
+
+if s:IsPluginEnabled('osyo-manga/vim-over')
+	execute "vnoremap <leader>r \"ry:OverCommandLine %s/<C-r>r/<C-r>r/gc<CR>" . repeat('<Left>', 3)
+	"execute "vnoremap <leader>rb \"ry:OverCommandLine bufdo%s/<C-r>r/<C-r>r/gc<CR>" . repeat('<Left>', 3)
+endif
 
 "}}}
 "{{{ Buffer & Splits
