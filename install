@@ -125,7 +125,7 @@ function vimConfigInstaller() {
 	echo -e '\tsource ~/.vimrc_background' >> $vimrc
 	echo -e 'endif' >> $vimrc
    git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim || { echo "Vundle not cloned, using existing!"; }
-   vim +PluginInstall +qall
+   vim +PluginUpdate +qall -c "q"
    return 0
 }
 
