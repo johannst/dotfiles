@@ -255,11 +255,15 @@ function main() {
    done < $gInstallConfigFile
 
    echo "[Info]: List of tags found to install:"
-   for conf in ${configToInstall[@]}; do 
+   for conf in ${configToInstall[@]}; do
       echo -e "\t$conf"
    done
 
-   for conf in ${configToInstall[@]}; do 
+   echo "Install this configs? [yY/nN]"
+   read go_install
+   [[ $go_install =~ ^[^yY]$ ]] && exit 0
+
+   for conf in ${configToInstall[@]}; do
       installConfig $conf
    done
 }
