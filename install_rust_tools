@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if ! which cargo &> /dev/null; then
+    echo "There is no cargo installed, checkout:"
+    echo "    https://rustup.rs/"
+    exit 1
+fi
+
+tools=()
+tools+=("bat")
+tools+=("exa")
+tools+=("fd-find")
+tools+=("ripgrep")
+
+for tool in ${tools[@]}; do
+   installed_vers=$(cargo install --list | grep "^$tool" | awk '{ print $2 }' | sed 's/[v:]//g')
+   [[ ! -z $installed_vers ]] && {
+      update_vers=$(cargo search --limit 1 $tool | awk 'NR==1 { print $3 }' | sed 's/"//g')
+      [[ $installed_vers == $update_vers ]] && { continue; }
+      echo ">>> update $tool $installed_vers -> $update_vers? [yYnN]"
+      read reply
+      [[ $reply  =~ ^[^Yy]$ ]] && { continue; }
+   }
+   cargo install --force $tool
+done
+
