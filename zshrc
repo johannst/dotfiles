@@ -103,6 +103,13 @@ color[pinkRed]='%F{125}'
 color[babyBlue]='%F{38}'
 color[darkBlue]='%F{26}'
 
+function printBase16() {
+   for i in $(seq 0 15); do
+      str=""
+      print -P "%F{$i} Color $i %f";
+   done
+}
+
 function _installMyPrompt() {
    function zle-line-init zle-keymap-select {
        vinorm='n'
@@ -117,6 +124,28 @@ function _installMyPrompt() {
    zle -N zle-keymap-select
 }
 
+function _installMyPromptBase16() {
+   function zle-line-init zle-keymap-select {
+       vinorm='n'
+       viins='i'
+       c_del='%F{7}'
+       c_usr='%F{6}'
+       c_hos='%F{5}'
+       c_tty='%F{8}'
+       c_ret='%F{1}'
+       c_vii='%F{14}'
+       c_vic='%F{16}'
+       vimode="${${KEYMAP/vicmd/$c_vic$vinorm}/(main|viins)/$c_vii$viins}%f"
+       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l%f [$vimode] $c_ret%(?..%? )$c_del%f> "
+       RPS1="%F{4}%~%f"
+       zle reset-prompt
+   }
+
+   zle -N zle-line-init
+   zle -N zle-keymap-select
+}
+
 _installMyPrompt
+#_installMyPromptBase16
 
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
