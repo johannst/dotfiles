@@ -1,6 +1,42 @@
 # dotfiles -- zshrc
 # author: johannst
 
+# zshPlug -- simple GitHub plugin installer
+
+# $1: [req]    github repository
+# $2: [opt]    sub-folder containing *plugin.zsh file
+function zshPlug() {
+   local install=$HOME/.zshplug
+   local git_repo=$1
+
+   # special case: initializa oh-my-zsh
+   [[ $git_repo == 'robbyrussell/oh-my-zsh' && $2 == 'init' ]] && {
+      ZSH=$install/$git_repo && source $ZSH/oh-my-zsh.sh
+      return
+   }
+
+   local plugin=$git_repo/$2
+   # download
+   [[ ! -d $install/$git_repo ]] && {
+      git clone https://github.com/$git_repo $install/$git_repo &> /dev/null
+   }
+
+   # load plugin
+   local init=$(ls $install/$plugin/*plugin.zsh)
+   [[ ! -f $init ]] && {
+      echo "No plugin file found for $plugin, skipping ..."
+   } || {
+      source $init
+   }
+}
+
+# Plugins
+
+zshPlug 'robbyrussell/oh-my-zsh' init
+zshPlug 'zsh-users/zsh-autosuggestions'
+zshPlug 'zsh-users/zsh-syntax-highlighting'
+zshPlug 'robbyrussell/oh-my-zsh' 'plugins/git'
+
 # Key definition
 
 typeset -A key
@@ -21,17 +57,30 @@ setopt hist_ignore_all_dups
 
 # Basic alias
 
-alias ls='\ls --color=auto --classify'
-alias ll='\ls --color=auto --classify -l'
-alias la='\ls --color=auto --classify --almost-all'
-alias lt='\ls --color=auto --classify -l -t --reverse'
+if ! which exa > /dev/null; then
+   alias ls='ls --color=auto'
+   alias ll='ls --color=auto -l'
+   alias la='ls --color=auto -a'
+   alias lt='ls --color=auto -l -t --reverse'
+else
+   alias ls='exa --color=auto --git'
+   alias ll='exa --color=auto --git -l'
+   alias la='exa --color=auto --git -a'
+   alias lt='exa --color=auto --git -l --sort newest'
+fi
 alias grep='\grep --color=auto -HIn'
 alias rgrep='\grep --color=auto -HIrn'
-alias fn='_findName'
-function _findName() {
-   [[ -z $1 ]] && { echo "_findName pattern [path [action]]"; return } || { n=$1; shift }
-   [[ -z $1 ]] && p=. || { p=$1; shift }
-   [[ -z $1 ]] && find $p -name $n || find $p -name $n -exec $@ {} \;
+
+# Colorful man pages
+
+man() {
+    LESS_TERMCAP_md=$'\e[01;35m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;31;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    command man "$@"
 }
 
 # History
@@ -39,11 +88,6 @@ function _findName() {
 HISTFILE=~/.zshist
 HISTSIZE=1000
 SAVEHIST=1000
-
-# Prompt
-
-#autoload -Uz promptinit && promptinit
-#prompt walters
 
 # Completion
 
@@ -66,6 +110,10 @@ autoload -Uz down-line-or-beginning-search && zle -N down-line-or-beginning-sear
 
 bindkey -v
 
+[[ -n "$key[Up]" ]] && bindkey -M vicmd "$key[Up]" up-line-or-beginning-search
+[[ -n "$key[Up]" ]] && bindkey -M viins "$key[Up]" up-line-or-beginning-search
+[[ -n "$key[Down]" ]] && bindkey -M vicmd "$key[Down]" down-line-or-beginning-search
+[[ -n "$key[Down]" ]] && bindkey -M viins "$key[Down]" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
 bindkey -M viins "jj" vi-cmd-mode
@@ -105,7 +153,6 @@ color[darkBlue]='%F{26}'
 
 function printBase16() {
    for i in $(seq 0 15); do
-      str=""
       print -P "%F{$i} Color $i %f";
    done
 }
@@ -116,7 +163,7 @@ function _installMyPrompt() {
        viins='i'
        vimode="${${KEYMAP/vicmd/$color[pinkRed]$vinorm}/(main|viins)/$color[babyBlue]$viins}$color[noColor]"
        PS1="$color[mediumGray]%n$color[brightRed]::$color[lightGray]%m$color[brightRed]:$color[darkGray]%l$color[noColor] [$vimode] $color[brightRed]%(?..%? )$color[noColor]> "
-       RPS1="%F$color[darkBlue]%~%f"
+       RPS1="%F$color[darkBlue]%~$color[noColor]"
        zle reset-prompt
    }
 
@@ -135,9 +182,9 @@ function _installMyPromptBase16() {
        c_ret='%F{1}'
        c_vii='%F{14}'
        c_vic='%F{16}'
-       vimode="${${KEYMAP/vicmd/$c_vic$vinorm}/(main|viins)/$c_vii$viins}%f"
-       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l%f [$vimode] $c_ret%(?..%? )$c_del%f> "
-       RPS1="%F{4}%~%f"
+       vimode="${${KEYMAP/vicmd/$c_vic$vinorm}/(main|viins)/$c_vii$viins}$color[noColor]"
+       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $c_ret%(?..%? )$c_del$color[noColor]> "
+       RPS1="%F{4}%~$color[noColor]"
        zle reset-prompt
    }
 
@@ -145,7 +192,15 @@ function _installMyPromptBase16() {
    zle -N zle-keymap-select
 }
 
-_installMyPrompt
-#_installMyPromptBase16
+function _uninstallMyPrompt() {
+   zle -D zle-line-init
+   zle -D zle-keymap-select
+}
+
+#_installMyPrompt
+_installMyPromptBase16
+
+# post plugins
+zshPlug 'robbyrussell/oh-my-zsh' 'plugins/fzf'
 
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
