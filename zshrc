@@ -38,9 +38,10 @@ function zshPlug() {
 # Plugins
 
 zshPlug 'robbyrussell/oh-my-zsh' init
+zshPlug 'robbyrussell/oh-my-zsh' 'plugins/git'
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'zsh-users/zsh-syntax-highlighting'
-zshPlug 'robbyrussell/oh-my-zsh' 'plugins/git'
+zshPlug 'chriskempson/base16-shell'
 
 # Key definition
 
