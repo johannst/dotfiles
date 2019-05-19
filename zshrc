@@ -185,11 +185,14 @@ function _installMyPromptBase16() {
        c_vic='%F{16}'
        vimode="${${KEYMAP/vicmd/$c_vic$vinorm}/(main|viins)/$c_vii$viins}$color[noColor]"
 
-       c_git='%F{11}'
-       ZSH_THEME_GIT_PROMPT_PREFIX="${c_del}(${c_git}"
-       ZSH_THEME_GIT_PROMPT_SUFFIX="$color[noColor] "
-       ZSH_THEME_GIT_PROMPT_DIRTY="${c_del}) ${c_git}◆"
-       ZSH_THEME_GIT_PROMPT_CLEAN="${c_del})"
+       c_git_branch='%F{5}'
+       c_git_dirty='%F{9}'
+       c_git_ahead='%F{4}'
+       ZSH_THEME_GIT_PROMPT_PREFIX="${c_del}(${c_git_branch}"
+       ZSH_THEME_GIT_PROMPT_DIRTY="${c_del}:${c_git_dirty}Δ"
+       ZSH_THEME_GIT_PROMPT_CLEAN=""
+       ZSH_THEME_GIT_PROMPT_AHEAD="${c_del}:${c_git_ahead}↑" #
+       ZSH_THEME_GIT_PROMPT_SUFFIX="$(git_prompt_ahead)${c_del})$color[noColor] "
 
        PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $(git_prompt_info)$c_ret%(?..%? )$c_del$color[noColor]> "
        RPS1="%F$color[darkBlue]%~$color[noColor]"
