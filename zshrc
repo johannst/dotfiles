@@ -1,6 +1,10 @@
 # dotfiles -- zshrc
 # author: johannst
 
+
+ZDOTDIR=$HOME/.cache/zsh
+[[ ! -d $ZDOTDIR ]] && mkdir -p $ZDOTDIR
+
 # zshPlug -- simple GitHub plugin installer
 
 # $1: [req]    github repository
