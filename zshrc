@@ -9,19 +9,20 @@ function zshPlug() {
    local install=$HOME/.zshplug
    local git_repo=$1
 
+   # download
+   [[ ! -d $install/$git_repo ]] && {
+      echo "[zshPlug]: installing $git_repo"
+      git clone https://github.com/$git_repo $install/$git_repo &> /dev/null
+   }
+
    # special case: initializa oh-my-zsh
    [[ $git_repo == 'robbyrussell/oh-my-zsh' && $2 == 'init' ]] && {
       ZSH=$install/$git_repo && source $ZSH/oh-my-zsh.sh
       return
    }
 
-   local plugin=$git_repo/$2
-   # download
-   [[ ! -d $install/$git_repo ]] && {
-      git clone https://github.com/$git_repo $install/$git_repo &> /dev/null
-   }
-
    # load plugin
+   local plugin=$git_repo/$2
    local init=$(ls $install/$plugin/*plugin.zsh)
    [[ ! -f $init ]] && {
       echo "No plugin file found for $plugin, skipping ..."
@@ -57,7 +58,7 @@ setopt hist_ignore_all_dups
 
 # Basic alias
 
-if ! which exa > /dev/null; then
+if ! which exa &> /dev/null; then
    alias ls='ls --color=auto'
    alias ll='ls --color=auto -l'
    alias la='ls --color=auto -a'
@@ -183,8 +184,15 @@ function _installMyPromptBase16() {
        c_vii='%F{14}'
        c_vic='%F{16}'
        vimode="${${KEYMAP/vicmd/$c_vic$vinorm}/(main|viins)/$c_vii$viins}$color[noColor]"
-       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $c_ret%(?..%? )$c_del$color[noColor]> "
-       RPS1="%F{4}%~$color[noColor]"
+
+       c_git='%F{11}'
+       ZSH_THEME_GIT_PROMPT_PREFIX="${c_del}(${c_git}"
+       ZSH_THEME_GIT_PROMPT_SUFFIX="$color[noColor] "
+       ZSH_THEME_GIT_PROMPT_DIRTY="${c_del}) ${c_git}◆"
+       ZSH_THEME_GIT_PROMPT_CLEAN="${c_del})"
+
+       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $(git_prompt_info)$c_ret%(?..%? )$c_del$color[noColor]> "
+       RPS1="%F$color[darkBlue]%~$color[noColor]"
        zle reset-prompt
    }
 
