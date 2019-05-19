@@ -12,8 +12,6 @@ endif
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
 
-"let $VIMHOME='~/.vim'
-
 "{{{ Plugin Management
 
 " to install plugins open vim and run :PluginInstall from within vim OR
@@ -28,11 +26,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'ap/vim-buftabline'
-"Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
 Plugin 'majutsushi/tagbar'
-"Plugin 'ctrlpvim/ctrlp.vim'
-"Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'johannst/Clever-Tabs'
 Plugin 'johannst/AsyncCmdProcessor.vim'
@@ -40,7 +34,6 @@ Plugin 'w0rp/ale'
 Plugin 'junegunn/fzf.vim'
 Plugin 'maralla/completor.vim'
 Plugin 'chriskempson/base16-vim'
-Plugin 'osyo-manga/vim-over'
 
 call vundle#end()
 
@@ -71,15 +64,6 @@ if s:IsPluginEnabled('jlanzarotta/bufexplorer')
    let g:bufExplorerDisableDefaultKeyMapping=1
 endif
 
-if s:IsPluginEnabled('vim-airline/vim-airline')
-   let g:airline#extensions#tabline#enabled = 1
-   let g:airline#extensions#tabline#fnamemod = ':t'
-   let g:airline_powerline_fonts = 1
-   if !exists('g:airline_symbols')
-      let g:airline_symbols = {}
-   endif
-endif
-
 if s:IsPluginEnabled('majutsushi/tagbar')
    let g:tagbar_ctags_bin=$MYCTAGS
    if !empty(glob(g:tagbar_ctags_bin))
@@ -97,20 +81,6 @@ if s:IsPluginEnabled('majutsushi/tagbar')
    endif
 endif
 
-if s:IsPluginEnabled('ctrlpvim/ctrlp.vim')
-   let g:ctrlp_buftag_ctags_bin=$MYCTAGS
-   let g:ctrlp_extensions = ['buffertag']
-   let g:ctrlp_working_path_mode = 'a'
-   let g:ctrlp_use_caching = 1
-   let g:ctrlp_clear_cache_on_exit = 1
-   let g:ctrlp_cache_dir = $VIMHOME . '/cache/ctrlp'
-
-   nnoremap <leader>t :CtrlPBufTagAll<CR>
-   nnoremap <leader>f :CtrlPCurWD<CR>
-   "nnoremap <leader>f :CtrlPCurFile<CR>
-   nnoremap <leader>b :CtrlPBuffer<CR>
-endif
-
 if s:IsPluginEnabled('vim-scripts/YankRing.vim')
    let g:yankring_max_history= 15
    let g:yankring_persist = 1
@@ -123,26 +93,15 @@ endif
 
 if s:IsPluginEnabled('ap/vim-buftabline')
    let g:buftabline_indicators = 1
-endif
-
-if s:IsPluginEnabled('vim-scripts/OmniCppComplete')
-   set tags+=$VIMHOME/tags/cpp_tags
-   let OmniCpp_NamespaceSearch = 1
-   let OmniCpp_GlobalScopeSearch = 1
-   let OmniCpp_ShowAccess = 1
-   let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-   let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-   let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-   let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-   let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-   " automatically open and close the popup menu / preview window
-   autocmd! CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-   set completeopt=menuone,menu,longest,preview
+   hi TabLine     ctermbg=235 ctermfg=244 cterm=none
+   hi TabLineSel  ctermbg=208 ctermfg=255 cterm=bold
+   hi TabLineFill ctermbg=235 ctermfg=0   cterm=NONE
+   hi BufTabLineActive ctermbg=69
 endif
 
 if s:IsPluginEnabled('johannst/AsyncCmdProcessor.vim')
 	execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
-	 execute "vnoremap <leader>fg \"fy:Async find . -type f -exec grep -nHI <C-r>f {} +"repeat('<Left>', 6)
+	execute "vnoremap <leader>fg \"fy:Async find . -type f -exec grep -nHI <C-r>f {} +"repeat('<Left>', 6)
 endif
 
 if s:IsPluginEnabled('w0rp/ale')
