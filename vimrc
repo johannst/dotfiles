@@ -5,9 +5,9 @@ set nocompatible
 inoremap jj <Esc>
 
 if !exists('&mapleader')
-	"let mapleader=";"
-	" map <Space> as leader
-	let mapleader=" "
+   "let mapleader=";"
+   " map <Space> as leader
+   let mapleader=" "
 endif
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
@@ -144,7 +144,7 @@ set confirm                     " prompt if closing with unsaved changes.
 set shortmess=tTa               " use abbreviations in messages and truncate too long strings
 set showcmd                     " show command at end of cmd line (like keymaps,..)
 
-set scrolloff=3                 " set vertical scroll distance to 3 lines
+set scrolloff=4                 " set vertical scroll distance to 3 lines
 set nowrap                      " dont't wrap text
 
 set backspace=indent,eol,start  " backspace behav in insert mode
@@ -156,38 +156,30 @@ set noautoread                  " don't automatically re-read changed files.
 set number                      " display line numbers
 set relativenumber              " display relative line numbers
 
-"set cursorline                  " cursor line highlighting
-"set cursorcolumn                " cursor column highlighting
 set virtualedit=block
 
 set list                        " show invisible character
 set listchars=tab:>-,trail:-,precedes:<,extends:>
 augroup aug:HighlightTrailingWhitespace
    autocmd!
-   autocmd BufEnter * 2match Error /\m\(\s\+$\|\([^\t]\)\@<=\t\)/
+   "autocmd BufEnter * 2match Error /\m\(\s\+$\|\([^\t]\)\@<=\t\)/
+   autocmd BufEnter * 2match Error /\m\(\s\+$\)/
    autocmd BufLeave * 2match none
 augroup end
 
 set clipboard=unnamed           " additionally use (") register as clipboard to (+) register
 
+nnoremap <leader><space> <C-^>
 nnoremap <leader>w :set wrap!<CR>
 nnoremap <leader>dw :windo diffthis<CR>
 nnoremap <leader>dn :diffoff!<CR>
-
-"}}}
-"{{{ Default Keymap Shadow
-
-" lookup word under cursor in man pages
-nnoremap <S-k> <NOP>
-" move current lint at the end of previous line
-nnoremap <S-j> <NOP>
 
 "}}}
 "{{{ Basic Movement
 
 augroup aug:HelpPageKeyMaps
    autocmd!
-   autocmd FileType help nnoremap <buffer> <CR> <C-]>
+   autocmd FileType help nnoremap <buffer> <CR> g<C-]>
 augroup end
 
 " ctrl-ae jump to line start/end
@@ -232,9 +224,9 @@ augroup end
 "{{{ Tabwidth
 
 "set expandtab                 " expand tabs to spaces
-set tabstop=3                 " number of columns a tab counts
-set shiftwidth=3              " number of columns text is indented
-set softtabstop=3             " number of columns tab counts in insert mode
+set tabstop=4                 " number of columns a tab counts
+set shiftwidth=4              " number of columns text is indented
+set softtabstop=4             " number of columns tab counts in insert mode
 set shiftround                " rounds indent to a multiple of shiftwidth
 
 "}}}
@@ -276,12 +268,6 @@ nnoremap <C-k>     <C-w>k
 nnoremap <C-l>     <C-w>l
 nnoremap <C-h>     <C-w>h
 
-" resize splits
-"(deprecated) map <C-j>     <C-w>5-
-"(deprecated) map <C-k>     <C-w>5+
-"(deprecated) map <C-l>     <C-w>5<
-"(deprecated) map <C-h>     <C-w>5>
-
 "}}}
 "{{{ Statusline
 
@@ -308,16 +294,15 @@ let g:ModeMap={
          \ '!'  : 'Shell',
          \}
 
-" TODO: find nice colors for different modes
 function! DynamicStatuslineHighlighting()
    if (mode() ==# 'n' || mode() ==# 'no' || mode() ==# 'c')
-      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=125 cterm=NONE'
+      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=5 cterm=NONE'
    elseif (mode() ==# 'i')
-      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=38  cterm=NONE'
+      execute 'hi! StatusLine   ctermfg=18   ctermbg=2  cterm=NONE'
    elseif (mode() ==# 'v' || mode() ==# 'V' || g:ModeMap[mode()] ==# 'V-Block')
-      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=33  cterm=NONE'
+      execute 'hi! StatusLine   ctermfg=18   ctermbg=4  cterm=NONE'
    else
-      execute 'hi! StatusLine   ctermfg=NONE   ctermbg=226  cterm=NONE'
+      execute 'hi! StatusLine   ctermfg=18   ctermbg=16  cterm=NONE'
    endif
    return ''
 endfunction
@@ -341,20 +326,8 @@ let &statusline.=' (%p%%)'        " current line in percent
 "}}}
 "{{{ Indentation
 
-nnoremap <leader>ri mzgg=G`z
 set autoindent                " copy indent from current line when starting a new line
 set smartindent               " use smart indent if there is no indent file
-
-augroup aug:VimLangStyle
-   autocmd!
-   autocmd FileType vim setlocal formatoptions-=cro   " disable auto-comment
-augroup end
-
-augroup aug:CLangStyle
-   autocmd!
-   autocmd FileType c,cpp setlocal cinoptions=:1,=2,g1,h2  " switch-case/class-lable indentation
-   autocmd FileType c,cpp setlocal formatoptions-=cro      " disable auto-comment
-augroup end
 
 "}}}
 "{{{ Wildmenu
@@ -365,126 +338,20 @@ set wildmode=list:longest     " <Tab> print list of all matches and complete til
 set wildignore+=*.o,*.obj,.git,*.pyc,*~ " Ignore these files when completing
 
 "}}}
-"{{{ Save & Restore
+"{{{ Filetype specifics
 
-augroup aug:AutoSaveLastSession
+augroup aug:VimLangStyle
    autocmd!
-   "autocmd VimEnter * silent! source .vim_last_session
-   autocmd QuitPre * execute "mksession! " . $VIMHOME . "/session.last_quit"
+   autocmd FileType vim setlocal formatoptions-=cro   " disable auto-comment
 augroup end
 
-nnoremap <F2> :execute "source " . $VIMHOME . "/session.last_quit"<CR>
-
-"}}}
-"{{{ QuickFix
-
-augroup aug:QuickFixConfig
+augroup aug:CLangStyle
    autocmd!
-   autocmd QuickFixCmdPost [^l]* nested botright cwindow
-   autocmd QuickFixCmdPost    l* nested botright lwindow
+   "autocmd FileType c,cpp setlocal cinoptions=:1,=2,g1,h2  " switch-case/class-lable indentation
+   autocmd FileType c,cpp setlocal formatoptions-=cro      " disable auto-comment
 augroup end
 
 "}}}
-"{{{ SCons Integration
 
-function! TriggerSCons(...)
-   let l:base_cmd = 'scons'
-   "let base_cmd = "scons -u"
-   let l:arg_str = ''
-   for k in a:000
-      let l:arg_str = l:arg_str . ' ' . k
-   endfor
-   let &makeprg = l:base_cmd . l:arg_str
-   make
-endfunction
-" use like :SCons -j20 ...
-command! -nargs=* SCons call TriggerSCons(<f-args>)
-
-"}}}
-"{{{ Tmux Specific
-
-"" tmux will send xterm-style keys when its xterm-keys option is on
-"if &term =~ '^screen'
-"   execute "set <xUp>=\e[1;*A"
-"   execute "set <xDown>=\e[1;*B"
-"   execute "set <xRight>=\e[1;*C"
-"   execute "set <xLeft>=\e[1;*D"
-"endif
-
-"}}}
-"{{{ Project Specific vimrc
-
-if !empty(glob('.local_vimrc'))
-   source .local_vimrc
-endif
-
-"}}}
-"{{{ Sandbox
-
-let s:sandbox_enable = 1
-if s:sandbox_enable
-
-" TODO: backup file creation
-"       when opening file (of given filetype? maybe start with c/c++) create copy in this file in file_path/.bak/file_name
-"       filter file creation somehow, that it does not try to create backups when opening for example /usr/include/*.h
-
-	function! s:LineClearPureBlank()
-		execute 'silent! %s#\m^\s\+$##g'
-	endfunction
-	function! s:LineClearTrailingBlank()
-		execute 'silent! %s#\m\s\+$##g'
-	endfunction
-	function! s:ReduceConsecutiveEmptyLines()
-		execute 'silent! %s/\m\(^\n\)\+/\r/g'
-	endfunction
-
-	"function! s:LineDeleteCStyleComment()
-		"execute 'silent! g#\m^\s\{-}//#d'
-	"endfunction
-
-	function! s:LineClearCStyleComment()
-		execute 'silent! %s#\m\(.\{-\}\)//.*#\1#g'
-	endfunction
-
-	function! s:BlockClearCStyleComment()
-		" hack to keep copyright header
-		execute 'silent! 2,$s#\m\s\{-\}\/\*[[:alnum:][:blank:][:graph:]\n]\{-\}\*\/\s*##g'
-		"execute 'silent! %s#\m^\/\*[[:alnum:][:blank:][:graph:]\n]\{-\}\*\/##g'
-	endfunction
-
-	function! s:RemoveCStyleComments()
-		call s:LineClearCStyleComment()
-		call s:BlockClearCStyleComment()
-		call s:LineClearPureBlank()
-		call s:LineClearTrailingBlank()
-		call s:ReduceConsecutiveEmptyLines()
-	endfunction
-	command! CC call s:RemoveCStyleComments()
-
-	" TODO: correctly save/restore open/closed folds
-	let s:gIsFullScreen = 0
-	let s:gSessionFile = $VIMHOME . "/session." . getpid()
-	function! s:ToggelFullScreen()
-		if s:gIsFullScreen
-			let s:gIsFullScreen = 0
-			execute "source" s:gSessionFile
-		else
-			execute "mksession! " s:gSessionFile
-			execute "only"
-			let s:gIsFullScreen = 1
-		endif
-	endfunction
-	nnoremap <C-f> :call <SID>ToggelFullScreen()<CR>
-
-	augroup aug:CleanUpSessionFile
-		autocmd!
-		autocmd QuitPre * call delete(s:gSessionFile)
-	augroup end
-
-
-endif
-
-"}}}
-
-"% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
+"% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:et
 
