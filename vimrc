@@ -24,15 +24,18 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'ap/vim-buftabline'
-Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/YankRing.vim'
-Plugin 'johannst/Clever-Tabs'
-Plugin 'johannst/AsyncCmdProcessor.vim'
-Plugin 'w0rp/ale'
+" editor enhancements
 Plugin 'junegunn/fzf.vim'
 Plugin 'maralla/completor.vim'
+Plugin 'vim-scripts/YankRing.vim'
+Plugin 'johannst/AsyncCmdProcessor.vim'
+
+" coding
+Plugin 'majutsushi/tagbar'
+Plugin 'w0rp/ale'
+Plugin 'johannst/Clever-Tabs'
+
+" sugar
 Plugin 'chriskempson/base16-vim'
 
 call vundle#end()
@@ -54,15 +57,10 @@ function! s:ParseVimrcForEnabledPlugins()
 endfunction
 
 function! s:IsPluginEnabled(plugin)
-	return index(s:gEnabledPlugins, a:plugin)!=-1
+   return index(s:gEnabledPlugins, a:plugin)!=-1
 endfunction
 
 call s:ParseVimrcForEnabledPlugins()
-
-if s:IsPluginEnabled('jlanzarotta/bufexplorer')
-   nnoremap <leader>be :call ToggleBufExplorer()<CR>
-   let g:bufExplorerDisableDefaultKeyMapping=1
-endif
 
 if s:IsPluginEnabled('majutsushi/tagbar')
    let g:tagbar_ctags_bin=$MYCTAGS
@@ -91,60 +89,48 @@ if s:IsPluginEnabled('vim-scripts/YankRing.vim')
    "nnoremap <leader>ys :YRSearch<CR>
 endif
 
-if s:IsPluginEnabled('ap/vim-buftabline')
-   let g:buftabline_indicators = 1
-   hi TabLine     ctermbg=235 ctermfg=244 cterm=none
-   hi TabLineSel  ctermbg=208 ctermfg=255 cterm=bold
-   hi TabLineFill ctermbg=235 ctermfg=0   cterm=NONE
-   hi BufTabLineActive ctermbg=69
-endif
-
 if s:IsPluginEnabled('johannst/AsyncCmdProcessor.vim')
-	execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
-	execute "vnoremap <leader>fg \"fy:Async find . -type f -exec grep -nHI <C-r>f {} +"repeat('<Left>', 6)
+   execute "nnoremap <leader>fg :Async find . -type f -exec grep -nHI  {} +"repeat('<Left>', 6)
+   execute "vnoremap <leader>fg \"fy:Async find . -type f -exec grep -nHI <C-r>f {} +"repeat('<Left>', 6)
 endif
 
 if s:IsPluginEnabled('w0rp/ale')
-	let g:ale_sign_column_always = 1
-	let g:ale_sign_error = '>>'
-	let g:ale_sign_warning = '--'
-	let g:ale_set_highlights = 1
-	"let g:ale_open_list = 1
-	let g:ale_change_sign_column_color = 1
-	hi link ALESignColumnWithoutErrors LineNr
-	hi link ALESignColumnWithErrors LineNr
+   let g:ale_sign_column_always = 1
+   let g:ale_sign_error = '>>'
+   let g:ale_sign_warning = '--'
+   let g:ale_set_highlights = 1
+   "let g:ale_open_list = 1
+   let g:ale_change_sign_column_color = 1
+   hi link ALESignColumnWithoutErrors LineNr
+   hi link ALESignColumnWithErrors LineNr
 endif
 
 if s:IsPluginEnabled('junegunn/fzf.vim')
-	nnoremap <leader>ft :BTags<CR>
-	nnoremap <leader>fc :Tags<CR>
-	nnoremap <leader>ff :Files<CR>
-	nnoremap <leader>fp :Files 
-	nnoremap <leader>fl :Lines<CR>
-	nnoremap <leader>fb :Buffers<CR>
-	nnoremap <leader>fs :History/<CR>
-	nnoremap <leader>fh :History:<CR>
-	let g:fzf_action = { 'ctrl-s': 'split',
-	                   \ 'ctrl-v': 'vsplit' }
+   nnoremap <leader>ft :BTags<CR>
+   nnoremap <leader>fc :Tags<CR>
+   nnoremap <leader>ff :Files<CR>
+   nnoremap <leader>fp :Files 
+   nnoremap <leader>fl :Lines<CR>
+   nnoremap <leader>fb :Buffers<CR>
+   nnoremap <leader>fs :History/<CR>
+   nnoremap <leader>fh :History:<CR>
+   let g:fzf_action = { 'ctrl-s': 'split',
+                      \ 'ctrl-v': 'vsplit' }
 
-	"imap <c-x><c-f> <plug>(fzf-complete-path)
-
-	command! -bang -nargs=* Rg
-				\ call fzf#vim#grep(
-				\   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-				\   <bang>0 ? fzf#vim#with_preview('up:60%')
-				\           : fzf#vim#with_preview('right:50%:hidden', '?'),
-				\   <bang>0)
-	nnoremap <leader>rg :Rg 
+   command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
+   nnoremap <leader>rg :Rg 
 endif
 
 if s:IsPluginEnabled('chriskempson/base16-vim')
-   let g:gBase16ColorEnabled = 1
-	syntax on
-	let base16colorspace=256
+   syntax on
+   let base16colorspace=256
 else
-   let g:gBase16ColorEnabled = 0
-	colorscheme johannst
+   colorscheme johannst
 endif
 
 "}}}
@@ -265,11 +251,6 @@ set matchpairs+=<:>           " show matching <> as well
 nnoremap <leader>n :noh<CR>
 execute "vnoremap <leader>r \"ry:%s/<C-r>r/<C-r>r/gc" . repeat('<Left>', 3)
 execute "vnoremap <leader>rb \"ry:bufdo%s/<C-r>r/<C-r>r/gc" . repeat('<Left>', 3)
-
-if s:IsPluginEnabled('osyo-manga/vim-over')
-	execute "vnoremap <leader>r \"ry:OverCommandLine %s/<C-r>r/<C-r>r/gc<CR>" . repeat('<Left>', 3)
-	"execute "vnoremap <leader>rb \"ry:OverCommandLine bufdo%s/<C-r>r/<C-r>r/gc<CR>" . repeat('<Left>', 3)
-endif
 
 "}}}
 "{{{ Buffer & Splits
