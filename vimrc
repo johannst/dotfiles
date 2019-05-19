@@ -25,10 +25,15 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " editor enhancements
-Plugin 'junegunn/fzf.vim'
+Plugin 'johannst/AsyncCmdProcessor.vim'
 Plugin 'maralla/completor.vim'
 Plugin 'vim-scripts/YankRing.vim'
-Plugin 'johannst/AsyncCmdProcessor.vim'
+Plugin 'machakann/vim-highlightedyank'
+Plugin 'terryma/vim-multiple-cursors'
+
+" fuzzy finder
+Plugin 'airblade/vim-rooter'
+Plugin 'junegunn/fzf.vim'
 
 " coding
 Plugin 'majutsushi/tagbar'
