@@ -179,16 +179,17 @@ if s:IsPluginEnabled('junegunn/fzf.vim')
 	nnoremap <leader>rg :Rg 
 endif
 
-"}}}
-"{{{ Vim Basic
-
 if s:IsPluginEnabled('chriskempson/base16-vim')
    let g:gBase16ColorEnabled = 1
 	syntax on
+	let base16colorspace=256
 else
    let g:gBase16ColorEnabled = 0
 	colorscheme johannst
 endif
+
+"}}}
+"{{{ Vim Basic
 
 filetype plugin indent on       " enable loading indent file for filetype
 set fileformats=unix,dos,mac    " try recognizing dos, unix, and mac line endings.
