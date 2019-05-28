@@ -19,12 +19,6 @@ function zshPlug() {
       git clone https://github.com/$git_repo $install/$git_repo &> /dev/null
    }
 
-   # special case: initializa oh-my-zsh
-   [[ $git_repo == 'robbyrussell/oh-my-zsh' && $2 == 'init' ]] && {
-      ZSH=$install/$git_repo && source $ZSH/oh-my-zsh.sh
-      return
-   }
-
    # load plugin
    local plugin=$git_repo/$2
    local init=$(ls $install/$plugin/*plugin.zsh)
@@ -37,7 +31,6 @@ function zshPlug() {
 
 # Plugins
 
-zshPlug 'robbyrussell/oh-my-zsh' init
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'chriskempson/base16-shell'
 
@@ -143,6 +136,31 @@ function _goDir() {
    cd -$1
 }
 
+# Prompt: git helper
+
+function git_info() {
+   # check if in git repo, can this be cheaper?
+   if ! git rev-parse --git-dir &> /dev/null; then return; fi
+
+   # get current branch
+   local branch=$(command git symbolic-ref --short HEAD 2> /dev/null)
+   # check if tree is dirty
+   local dirty=$(command git status --porcelain 2> /dev/null | wc -l)
+   [[ $dirty -ne 0 ]] && {
+      dirty="$GIT_PROMPT_DIRTY+$dirty"
+   } || {
+      dirty=$GIT_PROMPT_CLEAN
+   }
+   # check if branch is ahead
+   local ahead
+   [[ -n $(command git rev-list origin/${branch}..HEAD 2> /dev/null) ]] && {
+      ahead=$GIT_PROMPT_AHEAD
+   }
+
+   # assemble git prompt info
+   echo -n "${GIT_PROMPT_PREFIX}${branch}${dirty}${ahead}${GIT_PROMPT_SUFFIX}"
+}
+
 # Prompt
 
 typeset -A color
@@ -191,13 +209,13 @@ function _installMyPromptBase16() {
        c_git_branch='%F{5}'
        c_git_dirty='%F{9}'
        c_git_ahead='%F{4}'
-       ZSH_THEME_GIT_PROMPT_PREFIX="${c_del}(${c_git_branch}"
-       ZSH_THEME_GIT_PROMPT_DIRTY="${c_del}:${c_git_dirty}Δ"
-       ZSH_THEME_GIT_PROMPT_CLEAN=""
-       ZSH_THEME_GIT_PROMPT_AHEAD="${c_del}:${c_git_ahead}↑" #
-       ZSH_THEME_GIT_PROMPT_SUFFIX="$(git_prompt_ahead)${c_del})$color[noColor] "
+       GIT_PROMPT_PREFIX="${c_del}(${c_git_branch}"
+       GIT_PROMPT_DIRTY="${c_del}:${c_git_dirty}Δ"
+       GIT_PROMPT_CLEAN=""
+       GIT_PROMPT_AHEAD="${c_del}:${c_git_ahead}↑"
+       GIT_PROMPT_SUFFIX="${c_del})$color[noColor] "
 
-       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $(git_prompt_info)$c_ret%(?..%? )$c_del$color[noColor]> "
+       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
        RPS1="%F$color[darkBlue]%~$color[noColor]"
        zle reset-prompt
    }
@@ -215,7 +233,6 @@ function _uninstallMyPrompt() {
 _installMyPromptBase16
 
 # need to do after compinit
-zshPlug 'robbyrussell/oh-my-zsh' 'plugins/fzf'
 zshPlug 'zsh-users/zsh-syntax-highlighting'
 
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
