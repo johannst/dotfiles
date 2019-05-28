@@ -1,4 +1,6 @@
 #!/bin/bash
+# dotfiles -- install_rust_tools
+# author: johannst
 
 if ! which cargo &> /dev/null; then
     echo "There is no cargo installed, checkout:"
