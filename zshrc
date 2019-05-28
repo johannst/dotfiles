@@ -39,7 +39,6 @@ function zshPlug() {
 
 zshPlug 'robbyrussell/oh-my-zsh' init
 zshPlug 'zsh-users/zsh-autosuggestions'
-zshPlug 'zsh-users/zsh-syntax-highlighting'
 zshPlug 'chriskempson/base16-shell'
 
 # Key definition
@@ -217,5 +216,6 @@ _installMyPromptBase16
 
 # need to do after compinit
 zshPlug 'robbyrussell/oh-my-zsh' 'plugins/fzf'
+zshPlug 'zsh-users/zsh-syntax-highlighting'
 
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
