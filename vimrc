@@ -132,8 +132,10 @@ if s:IsPluginEnabled('junegunn/fzf.vim')
 endif
 
 if s:IsPluginEnabled('chriskempson/base16-vim')
-   syntax on
    let base16colorspace=256
+   colorscheme base16-spacemacs
+   set background=dark
+   syntax on
 else
    colorscheme johannst
 endif
