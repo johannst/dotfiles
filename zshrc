@@ -38,7 +38,6 @@ function zshPlug() {
 # Plugins
 
 zshPlug 'robbyrussell/oh-my-zsh' init
-zshPlug 'robbyrussell/oh-my-zsh' 'plugins/git'
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'zsh-users/zsh-syntax-highlighting'
 zshPlug 'chriskempson/base16-shell'
@@ -216,7 +215,7 @@ function _uninstallMyPrompt() {
 #_installMyPrompt
 _installMyPromptBase16
 
-# post plugins
+# need to do after compinit
 zshPlug 'robbyrussell/oh-my-zsh' 'plugins/fzf'
 
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
