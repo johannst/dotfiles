@@ -17,6 +17,7 @@ tools+=("ripgrep")
 for tool in ${tools[@]}; do
    installed_vers=$(cargo install --list | grep "^$tool" | awk '{ print $2 }' | sed 's/[v:]//g')
    [[ ! -z $installed_vers ]] && {
+      echo "[+] $tool installed, checking version ..."
       update_vers=$(cargo search --limit 1 $tool | awk 'NR==1 { print $3 }' | sed 's/"//g')
       [[ $installed_vers == $update_vers ]] && { continue; }
       echo ">>> update $tool $installed_vers -> $update_vers? [yYnN]"
