@@ -4,7 +4,7 @@
 set history filename ~/.gdb/gdb_history
 set history save on
 
-set prompt do_wizardry> 
+set prompt \033[31mdo_wizardry> \033[0m
 
 set disassembly-flavor intel
 
@@ -17,16 +17,6 @@ end
 define br
 	source ~/.gdb/breakpoint.$arg0.save
 end
-
-# gdb hooks -- just define a macro with hook-<cmd_name>, eg:
-# define foo
-#    # do sth ...
-# end
-# define hook-foo
-#    # do sth ...
-# end
-#
-# run foo in gdb, then hook-foo will be executed prior
 
 define hook-quit
 	bs q
