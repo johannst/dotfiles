@@ -255,9 +255,11 @@ function main() {
       echo -e "\t$conf"
    done
 
-   echo "Install this configs? [yY/nN]"
-   read go_install
-   [[ $go_install =~ ^[^yY]$ ]] && exit 0
+   [[ $1 != '-y' ]] && {
+      echo "Install this configs? [yY/nN]"
+      read go_install
+      [[ $go_install =~ ^[^yY]$ ]] && exit 0
+   }
 
    for conf in ${configToInstall[@]}; do
       installConfig $conf
@@ -330,4 +332,4 @@ isInstallerDefined () {
 
 #}}}
 
-main
+main $1
