@@ -2,7 +2,7 @@
 # author: johannst
 
 [user]
-   email = johannes.stoelp@gmail.de
+   email = johannes.stoelp@gmail.com
    name = johannst
 [diff]
    tool = vimdiff
