@@ -51,6 +51,7 @@ key[BackSpace]="\C?"
 
 setopt correctall
 setopt hist_ignore_all_dups
+setopt interactivecomments
 
 # Basic alias
 
