@@ -13,6 +13,7 @@ gToolsConfig=(
 "gitconfig:git:gitConfigInstaller"
 "tmux.conf:tmux:tmuxConfigInstaller"
 "vimrc:vim:vimConfigInstaller"
+"emacs:emacs:emacsInstaller"
 "Xresources:xterm:xtermConfigInstaller"
 "i3config:i3:i3ConfigInstaller"
 "i3status:i3status:i3statusConfigInstaller"
@@ -122,6 +123,22 @@ function vimConfigInstaller() {
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
    git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim &> /dev/null || { echo "Vundle not cloned, using existing!"; }
    vim +PluginUpdate +qall -c "q"
+   return 0
+}
+
+#}}}
+#{{{ emacsInstaller
+
+function emacsInstaller() {
+   local emacsrc=~/.emacs
+   touch $emacsrc
+   grep $gMagicNumber $emacsrc > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return 1
+   fi
+   echo -e "\n;; $gMagicNumber - Auto generated, do not delete or modify!" >> $emacsrc
+   echo -e "(load \"$ABS_BASE_DIR/emacs\")" >> $emacsrc
+   echo -e "(require 'johannst)" >> $emacsrc
    return 0
 }
 
