@@ -173,6 +173,7 @@ color[brightRed]='%F{196}'
 color[pinkRed]='%F{125}'
 color[babyBlue]='%F{38}'
 color[darkBlue]='%F{26}'
+color[green]='%F{2}'
 
 function printBase16() {
    for i in $(seq 0 15); do
@@ -232,6 +233,26 @@ function _uninstallMyPrompt() {
 
 #_installMyPrompt
 _installMyPromptBase16
+
+# hooks see man zshmisc(1)
+
+function preexec_cmdTime() {
+    timer=$SECONDS
+}
+
+function precmd_cmdTime() {
+    [[ ! -z $timer ]] &&  print -P "\-> $color[green]$(($SECONDS - $timer))$color[noColor]s"
+}
+
+function enableCmdTime() {
+    preexec_functions+=(preexec_cmdTime)
+    precmd_functions+=(precmd_cmdTime)
+}
+
+function disableCmdTime() {
+    preexec_functions=(${preexec_functions#preexec_cmdTime})
+    precmd_functions=(${precmd_functions#precmd_cmdTime})
+}
 
 # need to do after compinit
 zshPlug 'zsh-users/zsh-syntax-highlighting'
