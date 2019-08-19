@@ -18,6 +18,7 @@
  '(package-selected-packages (quote (spacemacs-theme evil magit rust-mode cargo)))
  '(semantic-mode t)
  '(tool-bar-mode nil)
+ '(indent-tabs-mode nil)
 )
 
 ;; theme
