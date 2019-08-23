@@ -48,6 +48,13 @@
 (use-package org
   :config
   (setq org-log-done t)
+  :bind
+  (:map org-mode-map
+        ("M-j" . org-metadown)
+        ("M-h" . org-metaleft)
+        ("M-l" . org-metaright)
+        ("M-k" . org-metaup)
+        )
   )
 
 ;; help
