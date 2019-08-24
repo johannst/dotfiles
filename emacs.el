@@ -69,6 +69,13 @@
   :ensure t
   )
 
+;; company
+(use-package company
+  :ensure t
+  :config
+  (setq company-tooltip-align-annotations t)
+  )
+
 ;; rust-mode
 (use-package rust-mode
   :ensure t
@@ -78,7 +85,22 @@
 ;; cargo
 (use-package cargo
   :ensure t
-  :hook (rust-mode . cargo-minor-mode)
   :after (rust-mode)
+  :hook (rust-mode . cargo-minor-mode)
   )
 
+;; racer
+(use-package racer
+  :ensure t
+  :requires (company)
+  :after (rust-mode)
+  :hook (
+         (rust-mode . racer-mode)
+         (racer-mode . company-mode)
+         (racer-mode . eldoc-mode)
+         )
+  :bind
+  (:map rust-mode-map
+        ("TAB" . company-indent-or-complete-common)
+        )
+  )
