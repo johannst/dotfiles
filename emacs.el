@@ -57,28 +57,28 @@
         )
   )
 
-;; help
+;; helm
 (use-package helm
   :ensure t
   :config
   (helm-mode t)
   )
 
+;; magit
+(use-package magit
+  :ensure t
+  )
+
 ;; rust-mode
 (use-package rust-mode
   :ensure t
-  :config
-  (helm-mode t)
+  :mode ("\\.rs\\'" . rust-mode)
   )
 
 ;; cargo
 (use-package cargo
   :ensure t
-  :config
-  (add-hook 'rust-mode-hook 'cargo-minor-mode)
+  :hook (rust-mode . cargo-minor-mode)
+  :after (rust-mode)
   )
 
-;; magit
-(use-package magit
-  :ensure t
-  )
