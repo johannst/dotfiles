@@ -61,7 +61,14 @@
 (use-package helm
   :ensure t
   :config
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+  (define-key helm-map (kbd "C-z")  'helm-select-action)
   (helm-mode t)
+  )
+
+;; helm
+(use-package helm-projectile
+  :ensure t
   )
 
 ;; magit
