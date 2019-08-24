@@ -254,6 +254,10 @@ function zshrcInstaller() {
 #{{{ Installer Main Loop
 
 function main() {
+   [[ -f $gInstallConfigFile ]] || {
+      generateInstallConfigFile $gInstallConfigFile
+   }
+
    # parse gInstallConfigFile to see what should be installed
    local configToInstall=()
    while read line; do
@@ -285,6 +289,23 @@ function main() {
 
 #}}}
 #{{{ Installer Core
+
+generateInstallConfigFile () {
+    local config_fname=$1
+    : > $config_fname
+
+    echo "No config found, about to generate new config >> $config_fname <<"
+    for conf in ${gToolsConfig[@]}; do
+        local conf=$(echo $conf | cut -d':' -f1)
+        echo "Install $conf? [yY/nN]"
+        read install
+        [[ $install =~ ^[^yY]?$ ]] && {
+            echo "n - $conf" >> $config_fname
+        } || {
+            echo "y - $conf" >> $config_fname
+        }
+    done
+}
 
 installConfig() {
    local config=$1
