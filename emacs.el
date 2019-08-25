@@ -42,6 +42,10 @@
   :ensure t
   :config
   (evil-mode t)
+  ;; leader key
+  (defvar leader-map (make-sparse-keymap)
+    "Keymap for <leader> key.")
+  (define-key evil-normal-state-map (kbd "SPC") leader-map)
   )
 
 ;; org
@@ -63,6 +67,7 @@
   :config
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z")  'helm-select-action)
+  (define-key leader-map "ff" 'helm-projectile)
   (helm-mode t)
   )
 
@@ -110,4 +115,6 @@
   (:map rust-mode-map
         ("TAB" . company-indent-or-complete-common)
         )
+  :config
+  (evil-local-set-key 'normal (kbd "C-]") 'racer-find-definition)
   )
