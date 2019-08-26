@@ -50,8 +50,6 @@
 
 ;; org
 (use-package org
-  :config
-  (setq org-log-done t)
   :bind
   (:map org-mode-map
         ("M-j" . org-metadown)
@@ -59,6 +57,10 @@
         ("M-l" . org-metaright)
         ("M-k" . org-metaup)
         )
+  :config
+  (setq org-log-done t)
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-todo-keywords '((sequence "TODO" "WAIT" "DONE")))
   )
 
 ;; helm
