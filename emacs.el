@@ -12,6 +12,9 @@
  '(whitespace-style '(trailing tabs newline tab-mark newline-mark))
  )
 
+;; only y/n prompt (no RET needed)
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 ;; fix 'bad request' on package-refresh-contents (should be fixed with emcas 26.3)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
