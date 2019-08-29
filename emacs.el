@@ -54,16 +54,20 @@
 ;; org
 (use-package org
   :bind
-  (:map org-mode-map
-        ("M-j" . org-metadown)
-        ("M-h" . org-metaleft)
-        ("M-l" . org-metaright)
-        ("M-k" . org-metaup)
-        )
+  (("\C-cc" . org-capture)
+   :map org-mode-map
+   ("M-j" . org-metadown)
+   ("M-h" . org-metaleft)
+   ("M-l" . org-metaright)
+   ("M-k" . org-metaup)
+   )
   :config
+  (setq org-directory "~/org")
+  (setq org-default-notes-file (concat org-directory "/capture.org"))
   (setq org-log-done t)
   (setq org-confirm-babel-evaluate nil)
   (setq org-todo-keywords '((sequence "TODO" "WAIT" "DONE")))
+  (setq org-hide-leading-stars t)
   )
 
 ;; helm
