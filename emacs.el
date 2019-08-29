@@ -76,7 +76,7 @@
   :config
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z")  'helm-select-action)
-  (define-key leader-map "ff" 'helm-projectile)
+  (define-key leader-map "pf" 'helm-projectile-find-file)
   (helm-mode t)
   )
 
