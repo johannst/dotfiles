@@ -13,6 +13,9 @@
  '(backup-directory-alist `(("." . "~/.emacs.saves")))
  )
 
+;; global kbd maps
+(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
+
 ;; only y/n prompt (no RET needed)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -50,6 +53,9 @@
   (defvar leader-map (make-sparse-keymap)
     "Keymap for <leader> key.")
   (define-key evil-normal-state-map (kbd "SPC") leader-map)
+  ;; scrolling
+  (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
+  (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
   )
 
 ;; org
