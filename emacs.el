@@ -10,6 +10,7 @@
  '(inhibit-startup-screen t)
  '(tool-bar-mode nil)
  '(whitespace-style '(trailing tabs newline tab-mark newline-mark))
+ '(backup-directory-alist `(("." . "~/.emacs.saves")))
  )
 
 ;; only y/n prompt (no RET needed)
