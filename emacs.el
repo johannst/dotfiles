@@ -101,7 +101,24 @@
 (use-package company
   :ensure t
   :config
-  (setq company-tooltip-align-annotations t)
+  (global-company-mode t)
+  (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-dabbrev-code-modes 'c++-mode)))
+  (setq company-idle-delay                0
+        company-minimum-prefix-length     1
+        company-show-numbers              t
+        company-dabbrev-downcase          nil
+        company-tooltip-align-annotations t
+        )
+  )
+
+;; company-c-headers
+(use-package company-c-headers
+  :ensure t
+  :requires (company)
+  :config
+  (add-to-list 'company-backends 'company-c-headers)
+  ;; simple heuristic to find latest c++ headers installed on system
+  (add-to-list 'company-c-headers-path-system (concat "/usr/include/c++/" (car (last (directory-files "/usr/include/c++" nil "^[1-9]")))))
   )
 
 ;; rust-mode
