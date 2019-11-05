@@ -186,7 +186,7 @@ function _installMyPrompt() {
        vinorm='n'
        viins='i'
        vimode="${${KEYMAP/vicmd/$color[pinkRed]$vinorm}/(main|viins)/$color[babyBlue]$viins}$color[noColor]"
-       PS1="$color[mediumGray]%n$color[brightRed]::$color[lightGray]%m$color[brightRed]:$color[darkGray]%l$color[noColor] [$vimode] $color[brightRed]%(?..%? )$color[noColor]> "
+       PS1="$color[mediumGray]%n$color[brightRed]::$color[lightGray]%m$color[brightRed]:$color[darkGray]%2~$color[noColor] [$vimode] $color[brightRed]%(?..%? )$color[noColor]> "
        RPS1="%F$color[darkBlue]%~$color[noColor]"
        zle reset-prompt
    }
@@ -203,6 +203,7 @@ function _installMyPromptBase16() {
        c_usr='%F{6}'
        c_hos='%F{5}'
        c_tty='%F{8}'
+       c_dir='%F{11}'
        c_ret='%F{1}'
        c_vii='%F{14}'
        c_vic='%F{16}'
@@ -217,8 +218,8 @@ function _installMyPromptBase16() {
        GIT_PROMPT_AHEAD="${c_del}:${c_git_ahead}↑"
        GIT_PROMPT_SUFFIX="${c_del})$color[noColor] "
 
-       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_tty%l$color[noColor] [$vimode] $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
-       RPS1="%F$color[darkBlue]%~$color[noColor]"
+       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_dir%2~$color[noColor] [$vimode] $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
+       RPS1="%F$c_dir%~$color[noColor]"
        zle reset-prompt
    }
 
