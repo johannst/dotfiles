@@ -203,7 +203,8 @@ function _installMyPromptBase16() {
        c_usr='%F{6}'
        c_hos='%F{5}'
        c_tty='%F{8}'
-       c_dir='%F{11}'
+       c_dir='%F{14}'
+       c_dir2='%F{242}'
        c_ret='%F{1}'
        c_vii='%F{14}'
        c_vic='%F{16}'
@@ -219,7 +220,7 @@ function _installMyPromptBase16() {
        GIT_PROMPT_SUFFIX="${c_del})$color[noColor] "
 
        PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_dir%2~$color[noColor] [$vimode] $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
-       RPS1="%F$c_dir%~$color[noColor]"
+       RPS1="%F$c_dir2%~$color[noColor]"
        zle reset-prompt
    }
 
