@@ -47,6 +47,21 @@ key[CtrlS]="\Cs"
 key[CtrlW]="\Cw"
 key[BackSpace]="\C?"
 
+# Color definition
+
+typeset -A color
+color[noColor]='%f'
+color[darkGray]='%F{242}'
+color[mediumGray]='%F{246}'
+color[lightGray]='%F{252}'
+color[brightRed]='%F{196}'
+color[pinkRed]='%F{125}'
+color[babyBlue]='%F{38}'
+color[darkBlue]='%F{26}'
+color[green]='%F{2}'
+color[lightOrange]='%F{222}'
+
+
 # Basic settings
 
 setopt correctall
@@ -92,6 +107,10 @@ SAVEHIST=1000
 autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
+# keep matches of same type in separate lists
+zstyle ':completion:*' group-name ''
+# description for each match list (%d expdanded to short desc)
+zstyle ':completion:*:descriptions' format "$color[lightOrange] -- %d --$color[noColor]"
 
 zmodload zsh/complist
 bindkey -M menuselect "$key[ShiftTab]" reverse-menu-complete
@@ -163,17 +182,6 @@ function git_info() {
 }
 
 # Prompt
-
-typeset -A color
-color[noColor]='%f'
-color[darkGray]='%F{242}'
-color[mediumGray]='%F{246}'
-color[lightGray]='%F{252}'
-color[brightRed]='%F{196}'
-color[pinkRed]='%F{125}'
-color[babyBlue]='%F{38}'
-color[darkBlue]='%F{26}'
-color[green]='%F{2}'
 
 function printBase16() {
    for i in $(seq 0 15); do
