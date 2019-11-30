@@ -12,6 +12,17 @@ endif
 nnoremap <leader>ev :edit ~/.vimrc<CR>
 nnoremap <leader>sv :source ~/.vimrc<CR>
 
+"{{{ Vundle bootstrap
+
+let s:needBootstrapVundle=0
+if !filereadable(expand('$VIMHOME/bundle/Vundle.vim/README.md'))
+    echo "Installing Vundle...\n"
+    silent !mkdir -p $VIMHOME/bundle
+    silent !git clone https://github.com/VundleVim/Vundle.vim.git $VIMHOME/bundle/Vundle.vim
+    let s:needBootstrapVundle=1
+endif
+
+"}}}
 "{{{ Plugin Management
 
 " to install plugins open vim and run :PluginInstall from within vim OR
@@ -44,6 +55,10 @@ Plugin 'johannst/Clever-Tabs'
 Plugin 'chriskempson/base16-vim'
 
 call vundle#end()
+
+if s:needBootstrapVundle == 1
+  :PluginUpdate
+endif
 
 "}}}
 "{{{ Plugin Config

@@ -121,8 +121,6 @@ function vimConfigInstaller() {
    # link ctags
    type ctags >/dev/null 2>&1 && { echo -e "let \$MYCTAGS='$(which ctags)'" >> $vimrc; }
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
-   git clone https://github.com/VundleVim/Vundle.vim.git $vim_home/bundle/Vundle.vim &> /dev/null || { echo "Vundle not cloned, using existing!"; }
-   vim +PluginUpdate +qall -c "q"
    return 0
 }
 
