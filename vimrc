@@ -197,6 +197,15 @@ nnoremap <leader>dw :windo diffthis<CR>
 nnoremap <leader>dn :diffoff!<CR>
 
 "}}}
+"{{{ undodir
+
+if !isdirectory($HOME . "/.vimundo")
+    call mkdir($HOME . "/.vimundo", "", 0700)
+endif
+set undodir=$HOME/.vimundo
+set undofile
+
+"}}}
 "{{{ Basic Movement
 
 augroup aug:HelpPageKeyMaps
