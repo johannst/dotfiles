@@ -81,8 +81,10 @@ else
    alias la='exa --color=auto --git -a'
    alias lt='exa --color=auto --git -l --sort newest'
 fi
-alias grep='\grep --color=auto -HIn'
-alias rgrep='\grep --color=auto -HIrn'
+alias grep='\grep --color=auto -Hn'
+
+alias fd="fd --color auto --no-ignore"
+alias rg="rg --color auto --no-ignore"
 
 # Colorful man pages
 
