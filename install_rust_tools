@@ -13,6 +13,7 @@ tools+=("bat")
 tools+=("exa")
 tools+=("fd-find")
 tools+=("ripgrep")
+tools+=("zoxide")
 
 for tool in ${tools[@]}; do
    installed_vers=$(cargo install --list | grep "^$tool" | awk '{ print $2 }' | sed 's/[v:]//g')

@@ -33,6 +33,9 @@ function zshPlug() {
 
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'chriskempson/base16-shell'
+if which zoxide &> /dev/null; then
+    zshPlug 'ajeetdsouza/zoxide'
+fi
 
 # Key definition
 
