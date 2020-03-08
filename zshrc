@@ -272,4 +272,30 @@ function disableCmdTime() {
 # need to do after compinit
 zshPlug 'zsh-users/zsh-syntax-highlighting'
 
+# fzf
+function load_fzf() {
+    [[ $- == *i* ]] || return
+
+    local fzf_dir=(
+        /usr/share/fzf
+        $FZF_BASE
+        $FZF_BASE/shell
+    )
+
+    local found=0
+    for dir in $fzf_dir; do
+        [[ -f $dir/key-bindings.zsh ]] && {
+            source "$dir/key-bindings.zsh"
+            source "$dir/completion.zsh"
+            found=1
+            break
+        }
+    done
+    [[ $found == 0 ]] && echo "[WARN]: Failed to setup fzf, try setting FZF_BASE"
+}
+
+if which fzf &> /dev/null; then
+    load_fzf
+fi
+
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
