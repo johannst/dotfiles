@@ -2,16 +2,16 @@
 # author: johannst
 
 [user]
-   email = johannes.stoelp@gmail.com
-   name = johannst
+    email = johannes.stoelp@gmail.com
+    name = johannst
 [core]
-   editor = vim
+    editor = vim
 [color]
-   ui = true
+    ui = true
 [diff]
-   tool = vimdiff
+    tool = vimdiff
 [difftool]
-   prompt = false
+    prompt = false
 [log]
     date = short
 [blame]
@@ -27,4 +27,4 @@
     # %<(N)  set width, padd space on the right
     pretty = format:%C(auto)%h %C(blue)%>(10)%ad %C(green)%>(8)%aN %C(auto)%d %Creset%s
 [alias]
-   graph = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    graph = log --graph --decorate --pretty=oneline --abbrev-commit --all
