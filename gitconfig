@@ -4,14 +4,27 @@
 [user]
    email = johannes.stoelp@gmail.com
    name = johannst
-[diff]
-   tool = vimdiff
-[difftool]
-   prompt = false
-[alias]
-   lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
-   vimdiff = difftool
 [core]
    editor = vim
 [color]
    ui = true
+[diff]
+   tool = vimdiff
+[difftool]
+   prompt = false
+[log]
+    date = short
+[blame]
+    date = relative
+    coloring = highlightRecent
+[format]
+    # %h     abbreviated commit hash
+    # %ad    author date (respects date format)
+    # %aN    author name
+    # %d     ref names, like the --decorate option
+    # %s     commit message subject
+    # %>(N)  set width, padd space on the left
+    # %<(N)  set width, padd space on the right
+    pretty = format:%C(auto)%h %C(blue)%>(10)%ad %C(green)%>(8)%aN %C(auto)%d %Creset%s
+[alias]
+   graph = log --graph --decorate --pretty=oneline --abbrev-commit --all
