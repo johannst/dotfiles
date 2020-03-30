@@ -198,6 +198,11 @@ function printBase16() {
    done
 }
 
+# https://github.com/ohmyzsh/ohmyzsh/issues/5068
+function shpwd() {
+  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+}
+
 function _installMyPrompt() {
    function zle-line-init zle-keymap-select {
        vinorm='n'
@@ -217,8 +222,7 @@ function _installMyPromptBase16() {
        vinorm='n'
        viins='i'
        c_del='%F{7}'
-       c_usr='%F{6}'
-       c_hos='%F{5}'
+       c_usr='%F{2}'
        c_tty='%F{8}'
        c_dir='%F{14}'
        c_dir2='%F{242}'
@@ -236,7 +240,7 @@ function _installMyPromptBase16() {
        GIT_PROMPT_AHEAD="${c_del}:${c_git_ahead}↑"
        GIT_PROMPT_SUFFIX="${c_del})$color[noColor] "
 
-       PS1="$c_usr%n$c_del::$c_hos%m$c_del:$c_dir%2~$color[noColor] [$vimode] $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
+       PS1="$c_usr%n@%m:$c_dir$(shpwd)$color[noColor] ::<$vimode> $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
        RPS1="%F$c_dir2%~$color[noColor]"
        zle reset-prompt
    }
