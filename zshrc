@@ -89,6 +89,10 @@ alias grep='\grep --color=auto -Hn'
 alias fd="fd --color auto --no-ignore"
 alias rg="rg --color auto --no-ignore"
 
+# Basic environment
+
+export PS_FORMAT='pid,pgid,etime,user,comm'
+
 # Colorful man pages
 
 man() {
