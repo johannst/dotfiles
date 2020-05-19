@@ -3,7 +3,15 @@
 # author: johannst
 
 bat="${BLOCK_INSTANCE:-BAT0}"
-[[ ! -f "/sys/class/power_supply/$bat/type" ]] && exit 0
+[[ ! -f "/sys/class/power_supply/$bat/type" ]] && exit 1
+
+# Auto-detect file prefix for battery files
+for prefix in energy charge; do
+	[[ -f "/sys/class/power_supply/$bat/${prefix}_now" ]] && {
+		file_prefix=$prefix
+		break
+	}
+done && test -n $file_prefix || exit 1
 
 show_bat_use_design_capacity=0
 show_bat_status=0
@@ -23,11 +31,11 @@ done
 
 # Unknown, Charging, Discharging, Full
 BAT_STATUS=$(cat /sys/class/power_supply/$bat/status)
-BAT_NOW=$(cat /sys/class/power_supply/$bat/charge_now)
-[[ $show_bat_use_design_capacity == 1 ]] \
-	&& BAT_FULL=$(cat /sys/class/power_supply/$bat/charge_full_design) \
-	|| BAT_FULL=$(cat /sys/class/power_supply/$bat/charge_full)
 
+BAT_NOW=$(cat /sys/class/power_supply/$bat/${file_prefix}_now)
+[[ $show_bat_use_design_capacity == 1 ]] \
+	&& BAT_FULL=$(cat /sys/class/power_supply/$bat/${file_prefix}_full_design) \
+	|| BAT_FULL=$(cat /sys/class/power_supply/$bat/${file_prefix}_full)
 BAT_POWER=$(echo $BAT_NOW $BAT_FULL | awk '{ print int($1 * 100 / $2); }')
 
 OUT="$BAT_POWER%"
@@ -41,9 +49,9 @@ OUT="$BAT_POWER%"
 
 echo "$OUT"
 
-[[ $show_bat_color_output == 1 ]] && \
+[[ $show_bat_color_output == 1 ]] && {
 	# print twice, else colors not working?!
-	echo "$OUT"
+	echo ""
 	if [[ $BAT_POWER -ge 80 ]]; then
 		# green
 		echo "#00FF00"
@@ -57,4 +65,5 @@ echo "$OUT"
 		# red
 		echo "#FF0000"
 	fi
+}
 
