@@ -10,8 +10,6 @@
 
 prefix=${PASSWORD_STORE_DIR:-~/.password-store}
 
-echo "1: $1" >> ~/ROFI
-
 password=$1
 if [ -z $password ]; then
     shopt -s nullglob globstar
