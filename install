@@ -20,6 +20,7 @@ gToolsConfig=(
 "i3blocks:i3blocks:i3blocksConfigInstaller"
 "termite:termite:termiteConfigInstaller"
 "zshrc:zsh:zshrcInstaller"
+"rofi:rofi:rofiConfigInstaller"
 )
 
 gMagicNumber=e2718281
@@ -152,13 +153,13 @@ function xtermConfigInstaller() {
 #{{{ i3ConfigInstaller
 
 function i3ConfigInstaller() {
-   local i3_home=~/.i3
+   local i3_home=~/.config/i3
    local i3_conf=$i3_home/config
 	mkdir $i3_home 2> /dev/null
 	if [ -f $i3_conf ]; then
 		return 1
 	fi
-	cp i3wm.conf $i3_conf
+	cp $ABS_BASE_DIR/i3wm.conf $i3_conf
 	return 0
 }
 
@@ -166,13 +167,13 @@ function i3ConfigInstaller() {
 #{{{ i3statusConfigInstaller
 
 function i3statusConfigInstaller() {
-   local i3_home=~/.i3
+   local i3_home=~/config/.i3
    local i3_status_conf=$i3_home/i3status.conf
 	mkdir $i3_home 2> /dev/null
 	if [ -f $i3_status_conf ]; then
 		return 1
 	fi
-	cp i3status.conf $i3_status_conf
+	cp $ABS_BASE_DIR/i3status.conf $i3_status_conf
 
 	local nif=$(ip link show | grep ^[1-9] | grep -v LOOPBACK | sed 's/ //g' | cut -d ':' -f 2)
 
@@ -203,13 +204,13 @@ function i3statusConfigInstaller() {
 #{{{ i3blocksConfigInstaller
 
 function i3blocksConfigInstaller() {
-   local i3_home=~/.i3
+   local i3_home=~/.config/i3
    local i3_blocks_conf=$i3_home/i3blocks.conf
 	mkdir $i3_home 2> /dev/null
 	if [ -f $i3_blocks_conf ]; then
 		return 1
 	fi
-	cp i3blocks.conf $i3_blocks_conf
+	cp $ABS_BASE_DIR/i3blocks.conf $i3_blocks_conf
 
 	return 0
 }
@@ -245,6 +246,21 @@ function zshrcInstaller() {
    echo -e "\n# $gMagicNumber - Auto generated, do not delete or modify!" >> $zshrc
    echo -e "source $ABS_BASE_DIR/zshrc" >> $zshrc
    return 0
+}
+
+#}}}
+#{{{ i3blocksConfigInstaller
+
+function rofiConfigInstaller() {
+   local rofi_home=~/.config/rofi
+   local rofi_conf=$rofi_home/config.rasi
+	mkdir $rofi_home 2> /dev/null
+	if [ -f $rofi_conf ]; then
+		return 1
+	fi
+	ln -s $ABS_BASE_DIR/rofi.rasi $rofi_conf
+
+	return 0
 }
 
 #}}}
