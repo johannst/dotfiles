@@ -59,6 +59,13 @@
   (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
   )
 
+;; undo-tree (optional dependency for evil to get vim like undo/redo)
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode t)
+  )
+
 ;; org
 (use-package org
   :bind
