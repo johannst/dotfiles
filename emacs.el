@@ -14,6 +14,7 @@
  )
 
 ;; global kbd maps
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
 
 ;; only y/n prompt (no RET needed)
@@ -24,8 +25,8 @@
 
 ;; ELPA & MELPA
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 (setq package-enable-at-startup nil)
 (package-initialize)
 
@@ -97,18 +98,44 @@
   :ensure t
   )
 
+;; lsp
+(use-package lsp-mode
+  :ensure t
+  :config
+  (setq lsp-rust-server 'rust-analyzer)
+  :hook
+    (rust-mode . (lambda ()
+                   (lsp)
+                   (lsp-rust-analyzer-inlay-hints-mode)))
+  )
+
 ;; company
 (use-package company
   :ensure t
   :config
-  (global-company-mode t)
-  (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-dabbrev-code-modes 'c++-mode)))
+;  (global-company-mode t)
   (setq company-idle-delay                0
         company-minimum-prefix-length     1
         company-show-numbers              t
         company-dabbrev-downcase          nil
         company-tooltip-align-annotations t
         )
+  :hook (
+    (rust-mode . company-mode)
+    (c-mode . company-mode)
+    (c++-mode . (lambda ()
+                   (company-mode)
+                   (add-to-list 'company-dabbrev-code-modes 'c++-mode)))
+    )
+  :bind (
+    :map company-mode-map
+    ("<tab>" . company-indent-or-complete-common)
+    :map company-active-map
+    ("C-p" . 'company-select-previous-or-abort)
+    ("C-n" . 'company-select-next-or-abort)
+    ("<backtab>" . 'company-select-previous-or-abort)
+    ("<tab>"   . 'company-select-next-or-abort)
+    )
   )
 
 ;; company-c-headers
@@ -127,27 +154,7 @@
   :mode ("\\.rs\\'" . rust-mode)
   )
 
-;; cargo
-(use-package cargo
+;; clang-format
+(use-package clang-format
   :ensure t
-  :after (rust-mode)
-  :hook (rust-mode . cargo-minor-mode)
-  )
-
-;; racer
-(use-package racer
-  :ensure t
-  :requires (company)
-  :after (rust-mode)
-  :hook (
-         (rust-mode . racer-mode)
-         (racer-mode . company-mode)
-         (racer-mode . eldoc-mode)
-         )
-  :bind
-  (:map rust-mode-map
-        ("TAB" . company-indent-or-complete-common)
-        )
-  :config
-  (evil-local-set-key 'normal (kbd "C-]") 'racer-find-definition)
   )
