@@ -39,16 +39,22 @@ fi
 
 # Key definition
 
+# Use `Ctrl-v` + key-combination of interest to find key codes.
 typeset -A key
 key[Up]="\e[A"
 key[Down]="\e[B"
+key[CtrlLeft]="\e[1;5D"
+key[CtrlRight]="\e[1;5C"
+key[AltLeft]="\e[1;3D"
+key[AltRight]="\e[1;3C"
 key[ShiftTab]="\e[Z"
 key[CtrlA]="\Ca"
 key[CtrlE]="\Ce"
 key[CtrlR]="\Cr"
 key[CtrlS]="\Cs"
 key[CtrlW]="\Cw"
-key[BackSpace]="\C?"
+key[Backspace]="\C?"
+key[CtrlBackspace]="\CH"
 
 # Color definition
 
@@ -126,15 +132,24 @@ bindkey -M menuselect "$key[ShiftTab]" reverse-menu-complete
 
 # Key mappings
 
+# Set vim as default mode
+bindkey -v
+
 autoload -Uz up-line-or-beginning-search && zle -N up-line-or-beginning-search
 autoload -Uz down-line-or-beginning-search && zle -N down-line-or-beginning-search
 
-[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search || echo FALE
-[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search || echo FALE
+[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
+[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
+
+# Emacs mode
+
+[[ -n "$key[CtrlLeft]" ]] && bindkey -M emacs "$key[CtrlLeft]" backward-word
+[[ -n "$key[AltLeft]" ]] && bindkey -M emacs "$key[AltLeft]" backward-word
+[[ -n "$key[CtrlRight]" ]] && bindkey -M emacs "$key[CtrlRight]" forward-word
+[[ -n "$key[AltRight]" ]] && bindkey -M emacs "$key[AltRight]" forward-word
+[[ -n "$key[CtrlBackspace]" ]] && bindkey -M emacs "$key[CtrlBackspace]" backward-kill-word
 
 # Vi mode
-
-bindkey -v
 
 [[ -n "$key[Up]" ]] && bindkey -M vicmd "$key[Up]" up-line-or-beginning-search
 [[ -n "$key[Up]" ]] && bindkey -M viins "$key[Up]" up-line-or-beginning-search
@@ -153,7 +168,7 @@ bindkey -M viins "jj" vi-cmd-mode
 [[ -n "$key[CtrlS]" ]] && bindkey -M viins "$key[CtrlS]" history-incremental-search-forward
 
 [[ -n "$key[CtrlW]" ]] && bindkey -M viins "$key[CtrlW]" backward-kill-word
-[[ -n "$key[BackSpace]" ]] && bindkey -M viins "$key[BackSpace]" backward-delete-char
+[[ -n "$key[Backspace]" ]] && bindkey -M viins "$key[Backspace]" backward-delete-char
 
 # Dirstack
 
