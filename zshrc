@@ -138,37 +138,36 @@ bindkey -v
 autoload -Uz up-line-or-beginning-search && zle -N up-line-or-beginning-search
 autoload -Uz down-line-or-beginning-search && zle -N down-line-or-beginning-search
 
-[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
-[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
+bindkey -- "$key[Up]" up-line-or-beginning-search
+bindkey -- "$key[Down]" down-line-or-beginning-search
 
 # Emacs mode
 
-[[ -n "$key[CtrlLeft]" ]] && bindkey -M emacs "$key[CtrlLeft]" backward-word
-[[ -n "$key[AltLeft]" ]] && bindkey -M emacs "$key[AltLeft]" backward-word
-[[ -n "$key[CtrlRight]" ]] && bindkey -M emacs "$key[CtrlRight]" forward-word
-[[ -n "$key[AltRight]" ]] && bindkey -M emacs "$key[AltRight]" forward-word
-[[ -n "$key[CtrlBackspace]" ]] && bindkey -M emacs "$key[CtrlBackspace]" backward-kill-word
+bindkey -M emacs "$key[AltLeft]" backward-word
+bindkey -M emacs "$key[CtrlRight]" forward-word
+bindkey -M emacs "$key[AltRight]" forward-word
+bindkey -M emacs "$key[CtrlBackspace]" backward-kill-word
 
 # Vi mode
 
-[[ -n "$key[Up]" ]] && bindkey -M vicmd "$key[Up]" up-line-or-beginning-search
-[[ -n "$key[Up]" ]] && bindkey -M viins "$key[Up]" up-line-or-beginning-search
-[[ -n "$key[Down]" ]] && bindkey -M vicmd "$key[Down]" down-line-or-beginning-search
-[[ -n "$key[Down]" ]] && bindkey -M viins "$key[Down]" down-line-or-beginning-search
+bindkey -M vicmd "$key[Up]" up-line-or-beginning-search
+bindkey -M viins "$key[Up]" up-line-or-beginning-search
+bindkey -M vicmd "$key[Down]" down-line-or-beginning-search
+bindkey -M viins "$key[Down]" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
 bindkey -M viins "jj" vi-cmd-mode
 
-[[ -n "$key[CtrlA]" ]] && bindkey -M vicmd "$key[CtrlA]" vi-digit-or-beginning-of-line
-[[ -n "$key[CtrlA]" ]] && bindkey -M viins "$key[CtrlA]" vi-digit-or-beginning-of-line
-[[ -n "$key[CtrlE]" ]] && bindkey -M vicmd "$key[CtrlE]" vi-end-of-line
-[[ -n "$key[CtrlE]" ]] && bindkey -M viins "$key[CtrlE]" vi-end-of-line
+bindkey -M vicmd "$key[CtrlA]" vi-digit-or-beginning-of-line
+bindkey -M viins "$key[CtrlA]" vi-digit-or-beginning-of-line
+bindkey -M vicmd "$key[CtrlE]" vi-end-of-line
+bindkey -M viins "$key[CtrlE]" vi-end-of-line
 
-[[ -n "$key[CtrlR]" ]] && bindkey -M viins "$key[CtrlR]" history-incremental-search-backward
-[[ -n "$key[CtrlS]" ]] && bindkey -M viins "$key[CtrlS]" history-incremental-search-forward
+bindkey -M viins "$key[CtrlR]" history-incremental-search-backward
+bindkey -M viins "$key[CtrlS]" history-incremental-search-forward
 
-[[ -n "$key[CtrlW]" ]] && bindkey -M viins "$key[CtrlW]" backward-kill-word
-[[ -n "$key[Backspace]" ]] && bindkey -M viins "$key[Backspace]" backward-delete-char
+bindkey -M viins "$key[CtrlW]" backward-kill-word
+bindkey -M viins "$key[Backspace]" backward-delete-char
 
 # Dirstack
 
