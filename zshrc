@@ -143,10 +143,22 @@ bindkey -- "$key[Down]" down-line-or-beginning-search
 
 # Emacs mode
 
+# Backward delete word without treating '/' as part of a word. Convenient when deleting paths.
+function emacs-backward-kill-word() {
+    # WORDCHARS
+    #   A list of non-alphanumeric characters considered part of a word by the line editor.
+
+    # Remove '/' from WORDCHARS
+    local WORDCHARS=${WORDCHARS/\//}
+    zle backward-kill-word
+}
+zle -N emacs-backward-kill-word
+
+bindkey -M emacs "$key[CtrlLeft]" backward-word
 bindkey -M emacs "$key[AltLeft]" backward-word
 bindkey -M emacs "$key[CtrlRight]" forward-word
 bindkey -M emacs "$key[AltRight]" forward-word
-bindkey -M emacs "$key[CtrlBackspace]" backward-kill-word
+bindkey -M emacs "$key[CtrlBackspace]" emacs-backward-kill-word
 
 # Vi mode
 
@@ -168,6 +180,7 @@ bindkey -M viins "$key[CtrlS]" history-incremental-search-forward
 
 bindkey -M viins "$key[CtrlW]" backward-kill-word
 bindkey -M viins "$key[Backspace]" backward-delete-char
+bindkey -M viins "$key[CtrlBackspace]" emacs-backward-kill-word
 
 # Dirstack
 
