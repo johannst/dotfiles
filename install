@@ -13,6 +13,7 @@ gToolsConfig=(
 "gitconfig:git:gitConfigInstaller"
 "tmux.conf:tmux:tmuxConfigInstaller"
 "vimrc:vim:vimConfigInstaller"
+"nvim:nvim:nvimConfigInstaller"
 "emacs:emacs:emacsInstaller"
 "Xresources:xterm:xtermConfigInstaller"
 "i3config:i3:i3ConfigInstaller"
@@ -122,6 +123,21 @@ function vimConfigInstaller() {
    # link ctags
    type ctags >/dev/null 2>&1 && { echo -e "let \$MYCTAGS='$(which ctags)'" >> $vimrc; }
    echo -e "source $ABS_BASE_DIR/vimrc" >> $vimrc
+   return 0
+}
+
+#}}}
+#{{{ nvimConfigInstaller
+
+function nvimConfigInstaller() {
+   local vimrc=~/.config/nvim/init.vim
+   touch $vimrc
+   grep $gMagicNumber $vimrc > /dev/null 2>&1
+   if [[ $? = 0 ]]; then
+      return 1
+   fi
+   echo -e "\n\" $gMagicNumber - Auto generated, do not delete or modify!" >> $vimrc
+   echo -e "source $ABS_BASE_DIR/nvim.init.vim" >> $vimrc
    return 0
 }
 
