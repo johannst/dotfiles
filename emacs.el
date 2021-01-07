@@ -9,8 +9,10 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(tool-bar-mode nil)
- '(whitespace-style '(trailing tabs newline tab-mark newline-mark))
+ '(whitespace-style '(face trailing space-before-tab newline indentation empty space-after-tab tab-mark))
+ '(global-whitespace-mode t)
  '(backup-directory-alist `(("." . "~/.emacs.saves")))
+ '(display-line-numbers 'relative)
  )
 
 ;; global kbd maps
@@ -109,11 +111,20 @@
 (use-package lsp-mode
   :ensure t
   :config
-  (setq lsp-rust-server 'rust-analyzer)
-  :hook
-    (rust-mode . (lambda ()
-                   (lsp)
-                   (lsp-rust-analyzer-inlay-hints-mode)))
+  (setq lsp-rust-server                              'rust-analyzer
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-display-chaining-hints     t
+        lsp-rust-analyzer-display-parameter-hints    t
+        )
+  )
+
+;; lsp ui
+(use-package lsp-ui
+  :ensure t
+   :config (setq
+                 lsp-ui-doc-enable nil
+                 lsp-ui-sideline-enable t
+                 )
   )
 
 ;; company
@@ -159,6 +170,8 @@
 (use-package rust-mode
   :ensure t
   :mode ("\\.rs\\'" . rust-mode)
+  :hook
+  (rust-mode . lsp)
   )
 
 ;; clang-format
