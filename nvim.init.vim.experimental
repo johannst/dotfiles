@@ -1,0 +1,92 @@
+let mapleader=" "
+
+" -----------------
+" Plugins.
+" -----------------
+
+call plug#begin('~/.nvim/plugged')
+    Plug 'gruvbox-community/gruvbox'
+    Plug 'neovim/nvim-lspconfig'
+call plug#end()
+
+" -----------------
+" Setters.
+" -----------------
+
+set termguicolors
+set background=dark
+colorscheme gruvbox
+
+set relativenumber
+set number
+set expandtab
+set signcolumn=yes
+
+set mouse=a
+set scrolloff=8
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smartindent
+set expandtab
+
+set list
+set listchars=tab:>-,trail:-
+
+set hidden
+set nobackup
+set noswapfile
+
+set hlsearch
+set incsearch
+
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+endif
+
+" -----------------
+" LSP & Complete.
+" -----------------
+
+set completeopt=menuone,noinsert,noselect
+
+lua << EOF
+local on_attach = function(_client, bufnr)
+    -- Install `omnifunc` completion handler, get completion with <C-x><C-o>.
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+    -- Key mappings.
+    local opts = { noremap=true, silent=true }
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>r", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>i", "<Cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+end
+
+-- Setup rust-analyzer.
+require'lspconfig'.rust_analyzer.setup {
+    on_attach = on_attach,
+}
+
+-- Setup clangd.
+require'lspconfig'.clangd.setup {
+    cmd = { "clangd", "--background-index", "--completion-style=detailed" },
+    on_attach = on_attach,
+}
+EOF
+
+" -----------------
+" Mappings.
+" -----------------
+
+vnoremap <leader>p "_dP
+
+" -----------------
+" Autogroups.
+" -----------------
+
+augroup AG_highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 300})
+augroup END
