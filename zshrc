@@ -29,6 +29,7 @@ function zshPlug() {
    }
 }
 
+
 # Plugins
 
 zshPlug 'zsh-users/zsh-autosuggestions'
@@ -36,6 +37,7 @@ zshPlug 'chriskempson/base16-shell'
 if which zoxide &> /dev/null; then
     zshPlug 'ajeetdsouza/zoxide'
 fi
+
 
 # Key definition
 
@@ -55,6 +57,7 @@ key[CtrlS]="\Cs"
 key[CtrlW]="\Cw"
 key[Backspace]="\C?"
 key[CtrlBackspace]="\CH"
+
 
 # Color definition
 
@@ -77,6 +80,7 @@ setopt correctall
 setopt hist_ignore_all_dups
 setopt interactivecomments
 
+
 # Basic alias
 
 if ! which exa &> /dev/null; then
@@ -95,9 +99,11 @@ alias grep='\grep --color=auto -Hn'
 alias fd="fd --color auto --no-ignore"
 alias rg="rg --color auto --no-ignore"
 
+
 # Basic environment
 
 export PS_FORMAT='pid,pgid,etime,user,comm'
+
 
 # Colorful man pages
 
@@ -111,11 +117,13 @@ man() {
     command man "$@"
 }
 
+
 # History
 
 HISTFILE=~/.zshist
 HISTSIZE=1000
 SAVEHIST=1000
+
 
 # Completion
 
@@ -129,6 +137,7 @@ zstyle ':completion:*:descriptions' format "$color[lightOrange] -- %d --$color[n
 
 zmodload zsh/complist
 bindkey -M menuselect "$key[ShiftTab]" reverse-menu-complete
+
 
 # Key mappings
 
@@ -182,6 +191,7 @@ bindkey -M viins "$key[CtrlW]" backward-kill-word
 bindkey -M viins "$key[Backspace]" backward-delete-char
 bindkey -M viins "$key[CtrlBackspace]" emacs-backward-kill-word
 
+
 # Dirstack
 
 DIRSTACKSIZE=8
@@ -191,6 +201,7 @@ alias d='_goDir'
 function _goDir() {
    cd -$1
 }
+
 
 # Prompt: git helper
 
@@ -216,6 +227,7 @@ function git_info() {
    # assemble git prompt info
    echo -n "${GIT_PROMPT_PREFIX}${branch}${dirty}${ahead}${GIT_PROMPT_SUFFIX}"
 }
+
 
 # Prompt
 
@@ -284,6 +296,7 @@ function _uninstallMyPrompt() {
 #_installMyPrompt
 _installMyPromptBase16
 
+
 # hooks see man zshmisc(1)
 
 function preexec_cmdTime() {
@@ -304,8 +317,10 @@ function disableCmdTime() {
     precmd_functions=(${precmd_functions#precmd_cmdTime})
 }
 
+
 # need to do after compinit
 zshPlug 'zsh-users/zsh-syntax-highlighting'
+
 
 # fzf
 function load_fzf() {
