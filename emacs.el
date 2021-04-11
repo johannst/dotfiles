@@ -102,6 +102,12 @@
 ;  :ensure t
 ;  )
 
+
+;; ivy-xref
+(use-package ivy-xref
+  :ensure t
+  )
+
 ;; magit
 (use-package magit
   :ensure t
@@ -116,6 +122,10 @@
         lsp-rust-analyzer-display-chaining-hints     t
         lsp-rust-analyzer-display-parameter-hints    t
         )
+  :hook (
+    (c-mode . lsp)
+    (c++-mode . lsp)
+    )
   )
 
 ;; lsp ui
