@@ -7,11 +7,16 @@ ZDOTDIR=$HOME/.cache/zsh
 
 # zshPlug -- simple GitHub plugin installer
 
-# $1: [req]    github repository
-# $2: [opt]    sub-folder containing *plugin.zsh file
 function zshPlug() {
    local install=$HOME/.zshplug
+
+   # Positinal:
+   #   $1:            Github repository.
+   # Arguments:
+   #   -i <fname>     Init file name (optional).
+   zparseopts -D -E -- i:=init
    local git_repo=$1
+   local init_file=${init[2]:-*plugin.zsh}
 
    # download
    [[ ! -d $install/$git_repo ]] && {
@@ -20,10 +25,9 @@ function zshPlug() {
    }
 
    # load plugin
-   local plugin=$git_repo/$2
-   local init=$(ls $install/$plugin/*plugin.zsh)
+   local init=$(ls $install/$git_repo/$~init_file)
    [[ ! -f $init ]] && {
-      echo "No plugin file found for $plugin, skipping ..."
+      echo "No plugin file found for $git_repo, skipping ..."
    } || {
       source $init
    }
@@ -34,9 +38,7 @@ function zshPlug() {
 
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'chriskempson/base16-shell'
-if which zoxide &> /dev/null; then
-    zshPlug 'ajeetdsouza/zoxide'
-fi
+zshPlug 'romkatv/powerlevel10k.git' -i powerlevel10k.zsh-theme
 
 
 # Key definition
@@ -76,7 +78,7 @@ color[lightOrange]='%F{222}'
 
 # Basic settings
 
-setopt correctall
+#setopt correctall
 setopt hist_ignore_all_dups
 setopt interactivecomments
 
@@ -231,29 +233,9 @@ function git_info() {
 
 # Prompt
 
-function printBase16() {
-   for i in $(seq 0 15); do
-      print -P "%F{$i} Color $i %f";
-   done
-}
-
 # https://github.com/ohmyzsh/ohmyzsh/issues/5068
 function shpwd() {
   echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
-}
-
-function _installMyPrompt() {
-   function zle-line-init zle-keymap-select {
-       vinorm='n'
-       viins='i'
-       vimode="${${KEYMAP/vicmd/$color[pinkRed]$vinorm}/(main|viins)/$color[babyBlue]$viins}$color[noColor]"
-       PS1="$color[mediumGray]%n$color[brightRed]::$color[lightGray]%m$color[brightRed]:$color[darkGray]%2~$color[noColor] [$vimode] $color[brightRed]%(?..%? )$color[noColor]> "
-       RPS1="%F$color[darkBlue]%~$color[noColor]"
-       zle reset-prompt
-   }
-
-   zle -N zle-line-init
-   zle -N zle-keymap-select
 }
 
 function _installMyPromptBase16() {
@@ -293,29 +275,7 @@ function _uninstallMyPrompt() {
    zle -D zle-keymap-select
 }
 
-#_installMyPrompt
-_installMyPromptBase16
-
-
-# hooks see man zshmisc(1)
-
-function preexec_cmdTime() {
-    timer=$SECONDS
-}
-
-function precmd_cmdTime() {
-    [[ ! -z $timer ]] &&  print -P "\-> $color[green]$(($SECONDS - $timer))$color[noColor]s"
-}
-
-function enableCmdTime() {
-    preexec_functions+=(preexec_cmdTime)
-    precmd_functions+=(precmd_cmdTime)
-}
-
-function disableCmdTime() {
-    preexec_functions=(${preexec_functions#preexec_cmdTime})
-    precmd_functions=(${precmd_functions#precmd_cmdTime})
-}
+#_installMyPromptBase16
 
 
 # need to do after compinit
@@ -347,5 +307,6 @@ function load_fzf() {
 if which fzf &> /dev/null; then
     load_fzf
 fi
+
 
 #% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
