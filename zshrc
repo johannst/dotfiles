@@ -5,7 +5,8 @@
 ZDOTDIR=$HOME/.cache/zsh
 [[ ! -d $ZDOTDIR ]] && mkdir -p $ZDOTDIR
 
-# zshPlug -- simple GitHub plugin installer
+
+# {{{ func: zshPlug -- simple GitHub plugin installer.
 
 function zshPlug() {
    local install=$HOME/.zshplug
@@ -18,23 +19,48 @@ function zshPlug() {
    local git_repo=$1
    local init_file=${init[2]:-*plugin.zsh}
 
-   # download
-   [[ ! -d $install/$git_repo ]] && {
-      echo "[zshPlug]: installing $git_repo"
-      git clone https://github.com/$git_repo $install/$git_repo &> /dev/null
-   }
+   # Download plugin.
+   if [[ ! -d $install/$git_repo ]]; then
+      echo "[zshPlug]: Installing $git_repo ..."
+      git clone https://github.com/$git_repo $install/$git_repo
+   fi
 
-   # load plugin
-   local init=$(ls $install/$git_repo/$~init_file)
-   [[ ! -f $init ]] && {
-      echo "No plugin file found for $git_repo, skipping ..."
-   } || {
+   # Load plugin.
+   local init=($install/$git_repo/$~init_file)
+   if [[ -f $init ]]; then
       source $init
-   }
+   else
+      echo "No plugin file found for $git_repo, skipping ..."
+   fi
 }
 
+# }}}
+# {{{ func: executable -- check if executable is available.
 
-# Plugins
+function executable() {
+    which $1 &> /dev/null
+    return $?
+}
+
+# }}}
+# {{{ func: man -- colored man pages.
+
+function man() {
+    # md/me   start/stop bold
+    # so/se   start/stop standout
+    # us/ue   start/stop underline
+    LESS_TERMCAP_md=$'\e[01;35m'    \
+    LESS_TERMCAP_me=$'\e[0m'        \
+    LESS_TERMCAP_so=$'\e[01;31;33m' \
+    LESS_TERMCAP_se=$'\e[0m'        \
+    LESS_TERMCAP_us=$'\e[01;32m'    \
+    LESS_TERMCAP_ue=$'\e[0m'        \
+    command man "$@"
+}
+
+# }}}
+
+# {{{ Plugins.
 
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'chriskempson/base16-shell'
@@ -42,8 +68,8 @@ zshPlug 'chriskempson/base16-shell'
 #   eg: wget -P ~/.fonts https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
 zshPlug 'romkatv/powerlevel10k.git' -i powerlevel10k.zsh-theme
 
-
-# Key definition
+# }}}
+# {{{ Key definitions.
 
 # Use `Ctrl-v` + key-combination of interest to find key codes.
 typeset -A key
@@ -62,8 +88,8 @@ key[CtrlW]="\Cw"
 key[Backspace]="\C?"
 key[CtrlBackspace]="\CH"
 
-
-# Color definition
+# }}}
+# {{{ Color definitions.
 
 typeset -A color
 color[noColor]='%f'
@@ -77,63 +103,52 @@ color[darkBlue]='%F{26}'
 color[green]='%F{2}'
 color[lightOrange]='%F{222}'
 
-
-# Basic settings
+# }}}
+# {{{ Basic settings.
 
 #setopt correctall
 setopt hist_ignore_all_dups
 setopt interactivecomments
 
+HISTFILE=$ZDOTDIR/zshist
+HISTSIZE=1000
+SAVEHIST=1000
 
-# Basic alias
+# Dirstack
+DIRSTACKSIZE=8
+setopt autopushd pushdminus pushdsilent pushdtohome
 
-if ! which exa &> /dev/null; then
-   alias ls='ls --color=auto'
-   alias ll='ls --color=auto -l'
-   alias la='ls --color=auto -a'
-   alias lt='ls --color=auto -l -t --reverse'
-else
+# }}}
+# {{{ Alias.
+
+if executable exa; then
    alias ls='exa --color=auto --git'
    alias ll='exa --color=auto --git -l'
    alias la='exa --color=auto --git -a'
    alias lt='exa --color=auto --git -l --sort newest'
+else
+   alias ls='ls --color=auto'
+   alias ll='ls --color=auto -l'
+   alias la='ls --color=auto -a'
+   alias lt='ls --color=auto -l -t --reverse'
 fi
+
 alias grep='\grep --color=auto -Hn'
 
 alias fd="fd --color auto --no-ignore"
 alias rg="rg --color auto --no-ignore"
 
-if which nvim &> /dev/null; then
+if executable nvim; then
     alias vim='nvim'
 fi
 
-
-# Basic environment
+# }}}
+# {{{ Environment.
 
 export PS_FORMAT='pid,pgid,etime,user,comm'
 
-
-# Colorful man pages
-
-man() {
-    LESS_TERMCAP_md=$'\e[01;35m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;31;33m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[01;32m' \
-    command man "$@"
-}
-
-
-# History
-
-HISTFILE=~/.zshist
-HISTSIZE=1000
-SAVEHIST=1000
-
-
-# Completion
+# }}}
+# {{{ Completion.
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
@@ -146,19 +161,22 @@ zstyle ':completion:*:descriptions' format "$color[lightOrange] -- %d --$color[n
 zmodload zsh/complist
 bindkey -M menuselect "$key[ShiftTab]" reverse-menu-complete
 
+# Needs to be initialized after `compinit`.
+zshPlug 'zsh-users/zsh-syntax-highlighting'
 
-# Key mappings
+# }}}
+# {{{ Key mappings.
 
 # Set vim as default mode
 bindkey -v
 
+# Up/Down only complete history items matching current prefix.
 autoload -Uz up-line-or-beginning-search && zle -N up-line-or-beginning-search
 autoload -Uz down-line-or-beginning-search && zle -N down-line-or-beginning-search
-
 bindkey -- "$key[Up]" up-line-or-beginning-search
 bindkey -- "$key[Down]" down-line-or-beginning-search
 
-# Emacs mode
+# {{{ func: emacs-backward-kill-word -- backward kill word with custom excluded `WORDCHARS`.
 
 # Backward delete word without treating '/' as part of a word. Convenient when deleting paths.
 function emacs-backward-kill-word() {
@@ -171,13 +189,17 @@ function emacs-backward-kill-word() {
 }
 zle -N emacs-backward-kill-word
 
+#}}}
+# {{{ Emacs mode.
+
 bindkey -M emacs "$key[CtrlLeft]" backward-word
 bindkey -M emacs "$key[AltLeft]" backward-word
 bindkey -M emacs "$key[CtrlRight]" forward-word
 bindkey -M emacs "$key[AltRight]" forward-word
 bindkey -M emacs "$key[CtrlBackspace]" emacs-backward-kill-word
 
-# Vi mode
+# }}}
+# {{{ Vi mode.
 
 bindkey -M vicmd "$key[Up]" up-line-or-beginning-search
 bindkey -M viins "$key[Up]" up-line-or-beginning-search
@@ -199,97 +221,13 @@ bindkey -M viins "$key[CtrlW]" backward-kill-word
 bindkey -M viins "$key[Backspace]" backward-delete-char
 bindkey -M viins "$key[CtrlBackspace]" emacs-backward-kill-word
 
+# }}}
 
-# Dirstack
+# }}}
+# {{{ fzf.
 
-DIRSTACKSIZE=8
-setopt autopushd pushdminus pushdsilent pushdtohome
-alias dh='dirs -v'
-alias d='_goDir'
-function _goDir() {
-   cd -$1
-}
-
-
-# Prompt: git helper
-
-function git_info() {
-   # check if in git repo, can this be cheaper?
-   if ! git rev-parse --git-dir &> /dev/null; then return; fi
-
-   # get current branch
-   local branch=$(command git symbolic-ref --short HEAD 2> /dev/null)
-   # check if tree is dirty
-   local dirty=$(command git status --porcelain 2> /dev/null | wc -l)
-   [[ $dirty -ne 0 ]] && {
-      dirty="$GIT_PROMPT_DIRTY+$dirty"
-   } || {
-      dirty=$GIT_PROMPT_CLEAN
-   }
-   # check if branch is ahead
-   local ahead
-   [[ -n $(command git rev-list origin/${branch}..HEAD 2> /dev/null) ]] && {
-      ahead=$GIT_PROMPT_AHEAD
-   }
-
-   # assemble git prompt info
-   echo -n "${GIT_PROMPT_PREFIX}${branch}${dirty}${ahead}${GIT_PROMPT_SUFFIX}"
-}
-
-
-# Prompt
-
-# https://github.com/ohmyzsh/ohmyzsh/issues/5068
-function shpwd() {
-  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
-}
-
-function _installMyPromptBase16() {
-   function zle-line-init zle-keymap-select {
-       vinorm='n'
-       viins='i'
-       c_del='%F{7}'
-       c_usr='%F{2}'
-       c_tty='%F{8}'
-       c_dir='%F{14}'
-       c_dir2='%F{242}'
-       c_ret='%F{1}'
-       c_vii='%F{14}'
-       c_vic='%F{16}'
-       vimode="${${KEYMAP/vicmd/$c_vic$vinorm}/(main|viins)/$c_vii$viins}$color[noColor]"
-
-       c_git_branch='%F{5}'
-       c_git_dirty='%F{9}'
-       c_git_ahead='%F{4}'
-       GIT_PROMPT_PREFIX="${c_del}(${c_git_branch}"
-       GIT_PROMPT_DIRTY="${c_del}:${c_git_dirty}Δ"
-       GIT_PROMPT_CLEAN=""
-       GIT_PROMPT_AHEAD="${c_del}:${c_git_ahead}↑"
-       GIT_PROMPT_SUFFIX="${c_del})$color[noColor] "
-
-       PS1="$c_usr%n@%m:$c_dir$(shpwd)$color[noColor] ::<$vimode> $(git_info)$c_ret%(?..%? )$c_del$color[noColor]> "
-       RPS1="%F$c_dir2%~$color[noColor]"
-       zle reset-prompt
-   }
-
-   zle -N zle-line-init
-   zle -N zle-keymap-select
-}
-
-function _uninstallMyPrompt() {
-   zle -D zle-line-init
-   zle -D zle-keymap-select
-}
-
-#_installMyPromptBase16
-
-
-# need to do after compinit
-zshPlug 'zsh-users/zsh-syntax-highlighting'
-
-
-# fzf
-function load_fzf() {
+if executable fzf; then
+    # Only in interactive shells.
     [[ $- == *i* ]] || return
 
     local fzf_dir=(
@@ -308,11 +246,8 @@ function load_fzf() {
         }
     done
     [[ $found == 0 ]] && echo "[WARN]: Failed to setup fzf, try setting FZF_BASE"
-}
-
-if which fzf &> /dev/null; then
-    load_fzf
 fi
 
+# }}}
 
-#% vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
+# vim:et:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
