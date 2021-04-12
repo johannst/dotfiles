@@ -38,6 +38,8 @@ function zshPlug() {
 
 zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'chriskempson/base16-shell'
+# MesloLGS font: https://github.com/romkatv/powerlevel10k#manual-font-installation
+#   eg: wget -P ~/.fonts https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
 zshPlug 'romkatv/powerlevel10k.git' -i powerlevel10k.zsh-theme
 
 
@@ -100,6 +102,10 @@ alias grep='\grep --color=auto -Hn'
 
 alias fd="fd --color auto --no-ignore"
 alias rg="rg --color auto --no-ignore"
+
+if which nvim &> /dev/null; then
+    alias vim='nvim'
+fi
 
 
 # Basic environment
