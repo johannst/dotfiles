@@ -1,3 +1,6 @@
+" dotfiles -- nvim.init.vim.experimental
+" author: johannst
+
 let mapleader=" "
 
 " -----------------
@@ -19,7 +22,6 @@ colorscheme gruvbox
 
 set relativenumber
 set number
-set expandtab
 set signcolumn=yes
 
 set mouse=a
@@ -90,3 +92,5 @@ augroup AG_highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 300})
 augroup END
+
+" vim:ft=vim
