@@ -15,9 +15,10 @@ call plug#begin('~/.nvim/plugged')
     Plug 'neovim/nvim-lspconfig'
     Plug 'hrsh7th/nvim-compe'
 
-    " FZF.
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
+    " Telescope.
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 call plug#end()
 
 " -----------------
@@ -61,7 +62,7 @@ endif
 " LSP & Complete.
 " -----------------
 
-set completeopt=menuone,noinsert,noselect
+"set completeopt=menuone,noinsert,noselect
 
 lua << EOF
 local on_attach = function(_client, bufnr)
@@ -124,6 +125,19 @@ vim.o.completeopt = "menuone,noselect"
 vim.api.nvim_set_keymap("i", "<C-Space>", "compe#complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", {expr = true})
 vim.api.nvim_set_keymap("i", "<C-e>", "compe#close('<C-e>')", {expr = true})
+
+-- Telescope.
+local picker_cfg = { theme = "ivy" }
+
+require('telescope').setup{
+  pickers = {
+    buffers     = picker_cfg,
+    find_files  = picker_cfg,
+    man_pages   = picker_cfg,
+  },
+}
+-- Telescope: load fzf-native.
+require('telescope').load_extension('fzf')
 EOF
 
 " -----------------
@@ -131,6 +145,15 @@ EOF
 " -----------------
 
 vnoremap <leader>p "_dP
+
+" Telescope
+nnoremap <leader>fb  <cmd>Telescope buffers<cr>
+nnoremap <leader>ff  <cmd>Telescope find_files<cr>
+nnoremap <leader>fe  <cmd>Telescope file_browser<cr>
+nnoremap <leader>fg  <cmd>Telescope live_grep<cr>
+nnoremap <leader>fm  <cmd>Telescope man_pages sections={"2","3"}<cr>
+nnoremap <leader>ft  <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>fwt <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
 
 " -----------------
 " Autogroups.
