@@ -3,9 +3,9 @@
 
 [user]
     email = johannes.stoelp@gmail.com
-    name = johannst
-[core]
-    editor = vim
+    name = Johannes Stoelp
+[init]
+    defaultBranch = main
 [color]
     ui = true
 [diff]
