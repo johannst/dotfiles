@@ -1,95 +1,167 @@
-" dotfiles -- nvim.init.vim
+" dotfiles -- nvim.init.vim.experimental
 " author: johannst
 
-" {{{ Basic vim
+let mapleader=" "
 
-if !exists('&mapleader')
-    let mapleader=" "
-endif
+" -----------------
+" Plugins.
+" -----------------
 
-" disable preview window in completion
-set completeopt-=preview
+call plug#begin('~/.nvim/plugged')
+    " Colors.
+    Plug 'chriskempson/base16-vim'
 
-" allow modified buffers in the background
-set hidden
+    " LSP & Completion.
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-compe'
 
-" make cmdprompt 2 lines high -> used for echodoc to display signature
-set cmdheight=2
+    " Telescope.
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+call plug#end()
 
-" enable mouse
+" -----------------
+" Setters.
+" -----------------
+
+set termguicolors
+set background=dark
+colorscheme base16-default-dark
+
+set relativenumber
+set number
+set signcolumn=yes
+
 set mouse=a
+set scrolloff=8
 
-" render `listchars` chars
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smartindent
+set expandtab
+
 set list
 set listchars=tab:>-,trail:-
 
-" highlight search results
+set hidden
+set nobackup
+set noswapfile
+
 set hlsearch
+set incsearch
 
-" }}}
-" {{{ Plugins
-call plug#begin(stdpath('data') . '/plugged')
+set nowrap
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+endif
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" -----------------
+" LSP & Complete.
+" -----------------
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/echodoc.vim'
+"set completeopt=menuone,noinsert,noselect
 
-call plug#end()
+lua << EOF
+local on_attach = function(_client, bufnr)
+    -- Install `omnifunc` completion handler, get completion with <C-x><C-o>.
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-" }}}
-" {{{ LanguageClient
+    -- Key mappings.
+    local opts = { noremap=true, silent=true }
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>r", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>i", "<Cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+end
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rust-analyzer'],
-    \ 'cpp': ['clangd', '--completion-style=detailed'],
-    \ 'c': ['clangd', '--completion-style=detailed'],
-    \ }
+-- Setup rust-analyzer.
+require'lspconfig'.rust_analyzer.setup {
+    on_attach = on_attach,
+}
 
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_selectionUI = "fzf"
+-- Setup clangd.
+require'lspconfig'.clangd.setup {
+    cmd = { "clangd", "--background-index", "--completion-style=detailed" },
+    on_attach = on_attach,
+}
 
-function ConfigureLSP()
-  nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+-- Setup pyright.
+require'lspconfig'.pyright.setup {
+    on_attach = on_attach,
+}
 
-  " set LSP formatting for 'gq'
-  set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
-endfunction()
+-- Setup nvim-compe.
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
 
-augroup LSP
-  autocmd!
-  autocmd FileType rust,c,cpp call ConfigureLSP()
+  source = {
+    path = true;
+    buffer = false;
+    calc = false;
+    nvim_lsp = true;
+    nvim_lua = false;
+    vsnip = false;
+    ultisnips = false;
+  };
+}
+
+vim.o.completeopt = "menuone,noselect"
+
+vim.api.nvim_set_keymap("i", "<C-Space>", "compe#complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", {expr = true})
+vim.api.nvim_set_keymap("i", "<C-e>", "compe#close('<C-e>')", {expr = true})
+
+-- Telescope.
+local picker_cfg = { theme = "ivy" }
+
+require('telescope').setup{
+  pickers = {
+    buffers     = picker_cfg,
+    find_files  = picker_cfg,
+    man_pages   = picker_cfg,
+  },
+}
+-- Telescope: load fzf-native.
+require('telescope').load_extension('fzf')
+EOF
+
+" -----------------
+" Mappings.
+" -----------------
+
+vnoremap <leader>p "_dP
+
+" Telescope
+nnoremap <leader>fb  <cmd>Telescope buffers<cr>
+nnoremap <leader>ff  <cmd>Telescope find_files<cr>
+nnoremap <leader>fe  <cmd>Telescope file_browser<cr>
+nnoremap <leader>fg  <cmd>Telescope live_grep<cr>
+nnoremap <leader>fm  <cmd>Telescope man_pages sections={"2","3"}<cr>
+nnoremap <leader>ft  <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>fwt <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+
+" -----------------
+" Autogroups.
+" -----------------
+
+augroup AG_highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 300})
 augroup END
 
-augroup LSP_autofmt
-  autocmd!
-  autocmd BufWritePre *.rs,*.h,,*.c,*.hh,*.cc,*.hpp,*.cpp call LanguageClient#textDocument_formatting()
-augroup END
-
-" }}}
-" {{{ Deoplete
-
-let g:deoplete#enable_at_startup = 1
-
-" }}}
-" {{{ Echodoc
-
-let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'signature'
-
-" }}}
+" vim:ft=vim
