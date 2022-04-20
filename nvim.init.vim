@@ -11,9 +11,20 @@ call plug#begin('~/.nvim/plugged')
     " Colors.
     Plug 'chriskempson/base16-vim'
 
-    " LSP & Completion.
+    " vsnip manager.
+    Plug 'hrsh7th/vim-vsnip'
+
+    " LSP.
     Plug 'neovim/nvim-lspconfig'
-    Plug 'hrsh7th/nvim-compe'
+    " Completion framework.
+    Plug 'hrsh7th/nvim-cmp'
+    " Completion sources.
+    Plug 'hrsh7th/cmp-vsnip'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
 
     " Telescope.
     Plug 'nvim-lua/plenary.nvim'
@@ -62,69 +73,66 @@ endif
 " LSP & Complete.
 " -----------------
 
-"set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noselect
 
 lua << EOF
+
+-- Setup nvim-cmp.
+local cmp = require'cmp'
+
+cmp.setup({
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
+  }, {
+    { name = 'vsnip' },
+    { name = 'buffer' },
+    { name = 'path' }
+  })
+})
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- Disable LSP snippet completion.
+capabilities.textDocument.completion.completionItem.snippetSupport = false
+--print(vim.inspect(capabilities))
+
 local on_attach = function(_client, bufnr)
     -- Install `omnifunc` completion handler, get completion with <C-x><C-o>.
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-    -- Key mappings.
-    local opts = { noremap=true, silent=true }
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>r", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>i", "<Cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
 -- Setup rust-analyzer.
 require'lspconfig'.rust_analyzer.setup {
     on_attach = on_attach,
+    capabilities = capabilities,
 }
 
 -- Setup clangd.
 require'lspconfig'.clangd.setup {
     cmd = { "clangd", "--background-index", "--completion-style=detailed" },
     on_attach = on_attach,
+    capabilities = capabilities,
 }
 
 -- Setup pyright.
 require'lspconfig'.pyright.setup {
     on_attach = on_attach,
+    capabilities = capabilities,
 }
-
--- Setup nvim-compe.
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    buffer = false;
-    calc = false;
-    nvim_lsp = true;
-    nvim_lua = false;
-    vsnip = false;
-    ultisnips = false;
-  };
-}
-
-vim.o.completeopt = "menuone,noselect"
-
-vim.api.nvim_set_keymap("i", "<C-Space>", "compe#complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", {expr = true})
-vim.api.nvim_set_keymap("i", "<C-e>", "compe#close('<C-e>')", {expr = true})
 
 -- Telescope.
 local picker_cfg = { theme = "ivy" }
@@ -145,6 +153,18 @@ EOF
 " -----------------
 
 vnoremap <leader>p "_dP
+
+" LSP
+nnoremap <silent> <C-]>         <cmd>lua vim.lsp.buf.definition()<cr>
+nnoremap <silent> <leader><C-]> <cmd>lua vim.lsp.buf.type_definition()<cr>
+nnoremap <silent> K             <cmd>lua vim.lsp.buf.hover()<cr>
+nnoremap <silent> <C-k>         <cmd>lua vim.lsp.buf.signature_help()<cr>
+inoremap <silent> <C-k>         <cmd>lua vim.lsp.buf.signature_help()<cr>
+nnoremap <silent> <leader>r     <cmd>lua vim.lsp.buf.references()<cr>
+nnoremap <silent> <leader>i     <cmd>lua vim.lsp.buf.implementation()<cr>
+nnoremap <silent> <leader>f     <cmd>lua vim.lsp.buf.formatting()<cr>
+nnoremap <silent> <leader>a     <cmd>lua vim.lsp.buf.code_action()<cr>
+nnoremap <silent> <leader>n     <cmd>lua vim.lsp.buf.rename()<cr>
 
 " Telescope
 nnoremap <leader>fb  <cmd>Telescope buffers<cr>
