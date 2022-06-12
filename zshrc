@@ -222,6 +222,10 @@ bindkey -M vicmd "$key[CtrlA]" vi-digit-or-beginning-of-line
 bindkey -M viins "$key[CtrlA]" vi-digit-or-beginning-of-line
 bindkey -M vicmd "$key[CtrlE]" vi-end-of-line
 bindkey -M viins "$key[CtrlE]" vi-end-of-line
+bindkey -M viins "$key[CtrlLeft]" backward-word
+bindkey -M vicmd "$key[CtrlLeft]" backward-word
+bindkey -M viins "$key[CtrlRight]" forward-word
+bindkey -M vicmd "$key[CtrlRight]" forward-word
 
 bindkey -M viins "$key[CtrlR]" history-incremental-search-backward
 bindkey -M viins "$key[CtrlS]" history-incremental-search-forward
