@@ -11,6 +11,15 @@ ZDOTDIR=$HOME/.cache/zsh
 function zshPlug() {
    local install=$HOME/.zshplug
 
+   if [[ $1 == "update" ]]; then
+       for dir in $install/**/.git; do
+           local repo=$(dirname $dir)
+           echo "=> Updating $repo"
+           git -C $repo pull
+       done
+       return
+   fi
+
    # Positinal:
    #   $1:            Github repository.
    # Arguments:
