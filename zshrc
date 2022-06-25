@@ -75,7 +75,7 @@ zshPlug 'zsh-users/zsh-autosuggestions'
 zshPlug 'chriskempson/base16-shell'
 # MesloLGS font: https://github.com/romkatv/powerlevel10k#manual-font-installation
 #   eg: wget -P ~/.fonts https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
-zshPlug 'romkatv/powerlevel10k.git' -i powerlevel10k.zsh-theme
+#zshPlug 'romkatv/powerlevel10k.git' -i powerlevel10k.zsh-theme
 
 # }}}
 # {{{ Key definitions.
@@ -260,6 +260,50 @@ if executable fzf; then
     done
     [[ $found == 0 ]] && echo "[WARN]: Failed to setup fzf, try setting FZF_BASE"
 fi
+
+# }}}
+
+# {{{ vcs_info.
+
+autoload -Uz vcs_info
+precmd () { vcs_info }
+
+zstyle ':vcs_info:*' enable git
+# Enable feature to initialize %u/%c format variables to report unstaged/staged changes.
+zstyle ':vcs_info:*' check-for-changes true
+
+## Format vcs_info_msg_0_ variable.
+zstyle ':vcs_info:git:*' formats       '[%F{magenta}%b%f] %F{red}%u%F{green}%c%f'
+zstyle ':vcs_info:git:*' actionformats '[%F{magenta}%b%f] (%F{red}%a%f) %F{red}%u%F{green}%c%f'
+
+# Taken from: https://github.com/zsh-users/zsh/blob/cb59dfb3a6f6cce414c5b852c138d5f6bea6d563/Misc/vcs_info-examples#L157
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+
++vi-git-untracked() {
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep -q '^?? ' 2> /dev/null; then
+        hook_com[staged]+='%F{yellow}N%f'
+    fi
+}
+
+# }}}
+# {{{ Prompt.
+
+# Expand variables in $PROMPT.
+setopt prompt_subst
+
+# Prompt utils:
+#   %F{<color} / %f             - change color / clear color
+#   %(<cond>.<Y txt>.<N txt>)   - print text conditionally
+#
+#   %?      - last exit code
+#   %n      - user name
+#   %m      - short hostname
+#   %~      - current path (subst $HONE with ~)
+#
+# Reference: 'SIMPLE PROMPT ESCAPES' in zshmisc(1).
+
+PROMPT=$'%n@%m:%F{cyan}%~%f%(?.. %F{red}%?%f) ${vcs_info_msg_0_}\n$ '
 
 # }}}
 
