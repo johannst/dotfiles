@@ -41,29 +41,38 @@ BAT_POWER=$(echo $BAT_NOW $BAT_FULL | awk '{ print int($1 * 100 / $2); }')
 OUT="$BAT_POWER%"
 [[ $show_bat_status == 1 ]] && \
 	case $BAT_STATUS in
-		Charging) OUT="$OUT (Charging)"
+		Charging) OUT="$OUT (charging)"
+		          # Disable status colors when charging.
+		          show_bat_color_output=0
+			;;
+		Discharging) OUT="$OUT (on battery)"
 			;;
 		*) # only show charging state for now
 			;;
 	esac
 
-echo "$OUT"
+# i3bar protocol:
+#   - line 1: full_text
+#   - line 2: short_text
+#   - line 3: fg-color
+#   - line 4: bg-color
+
+echo "$OUT" # full txt
 
 [[ $show_bat_color_output == 1 ]] && {
-	# print twice, else colors not working?!
-	echo ""
-	if [[ $BAT_POWER -ge 80 ]]; then
-		# green
-		echo "#00FF00"
-	elif [[ $BAT_POWER -ge 60 ]]; then
-		# yellow
-		echo "#FFF600"
-	elif [[ $BAT_POWER -ge 40 ]]; then
-		# dark orange
-		echo "#FFAE00"
-	else
+	echo "" # short txt
+	if [[ $BAT_POWER -lt 10 ]]; then
 		# red
-		echo "#FF0000"
+		echo "#000000" # fg
+		echo "#FF0000" # bg
+	elif [[ $BAT_POWER -lt 15 ]]; then
+		# dark orange
+		echo "#000000" # fg
+		echo "#FFAE00" # bg
+	elif [[ $BAT_POWER -lt 20 ]]; then
+		# yellow
+		echo "#000000" # fg
+		echo "#FFF600" # bg
 	fi
 }
 
