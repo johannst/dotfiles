@@ -25,6 +25,6 @@
     # %s     commit message subject
     # %>(N)  set width, padd space on the left
     # %<(N)  set width, padd space on the right
-    pretty = format:%C(auto)%h %C(blue)%>(10)%ad %C(green)%>(8)%aN %C(auto)%d %Creset%s
+    pretty = format:%C(auto)%h %C(cyan)%>(10)%ad %C(green)%>(8)%aN %C(auto)%d %Creset%s
 [alias]
     graph = log --graph --decorate --pretty=oneline --abbrev-commit --all

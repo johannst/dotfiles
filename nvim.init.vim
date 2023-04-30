@@ -32,15 +32,22 @@ call plug#begin('~/.nvim/plugged')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+    " Treesitter
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter-context'
 call plug#end()
 
 " -----------------
 " Setters.
 " -----------------
 
-set termguicolors
+"set termguicolors
 set background=dark
-colorscheme base16-default-dark
+"colorscheme base16-default-dark
+"colorscheme base16-onedark
+highlight Pmenu    ctermbg=DarkGray guibg=DarkGrey
+highlight PmenuSel ctermfg=Black guifg=Black ctermbg=LightGray guibg=LightGray
 
 set relativenumber
 set number
@@ -90,8 +97,8 @@ cmp.setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
@@ -107,14 +114,17 @@ cmp.setup({
 })
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 -- Disable LSP snippet completion.
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 --print(vim.inspect(capabilities))
 
-local on_attach = function(_client, bufnr)
+local on_attach = function(client, bufnr)
     -- Install `omnifunc` completion handler, get completion with <C-x><C-o>.
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    -- Disable LSP highlighting.
+    client.server_capabilities.semanticTokensProvider = nil
 end
 
 -- Setup rust-analyzer.
