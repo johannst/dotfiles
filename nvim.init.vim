@@ -174,7 +174,7 @@ nnoremap <silent> <C-k>         <cmd>lua vim.lsp.buf.signature_help()<cr>
 inoremap <silent> <C-k>         <cmd>lua vim.lsp.buf.signature_help()<cr>
 nnoremap <silent> <leader>r     <cmd>lua vim.lsp.buf.references()<cr>
 nnoremap <silent> <leader>i     <cmd>lua vim.lsp.buf.implementation()<cr>
-nnoremap <silent> <leader>f     <cmd>lua vim.lsp.buf.formatting()<cr>
+nnoremap <silent> <leader>f     <cmd>lua vim.lsp.buf.format()<cr>
 nnoremap <silent> <leader>a     <cmd>lua vim.lsp.buf.code_action()<cr>
 nnoremap <silent> <leader>n     <cmd>lua vim.lsp.buf.rename()<cr>
 
