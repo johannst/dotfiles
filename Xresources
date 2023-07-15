@@ -1,78 +1,105 @@
 ! dotfiles -- Xresources
 ! author: johannst
 
-!XTerm*font: 9x15
-!XTerm*renderFont: true
-!XTerm*faceName: Vera Serif Mono
-!XTerm*faceName: Liberation Mono
-!XTerm*faceName: Droid Sans Mono
-!XTerm*faceName: Terminess Powerline
-XTerm*faceName: xos4 Terminus
-XTerm*faceSize: 12
+! -- COLORSCHEME: MANJARO ------------------------------------------------------
 
-XTerm*scaleHeight: 1.1
-XTerm*metaSendsEscape: true
-XTerm*saveLines: 16384
-XTerm*loginShell: true
-XTerm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-!XTerm*termName: xterm-256color
-XTerm*eightBitInput: false
+*background:                      #222D31
+*foreground:                      #d8d8d8
+*cursorColor:                     #1ABB9B
+
+! black dark/light
+*color0:                          #222D31
+*color8:                          #585858
+! red dark/light
+*color1:                          #ab4642
+*color9:                          #ab4642
+! green dark/light
+*color2:                          #7E807E
+*color10:                         #8D8F8D
+! yellow dark/light
+*color3:                          #f7ca88
+*color11:                         #f7ca88
+! blue dark/light
+*color4:                          #7cafc2
+*color12:                         #7cafc2
+! magenta dark/light
+*color5:                          #ba8baf
+*color13:                         #ba8baf
+! cyan dark/light
+*color6:                          #1ABB9B
+*color14:                         #1ABB9B
+! white dark/light
+*color7:                          #d8d8d8
+*color15:                         #f8f8f8
+
+! -- GLOBAL --------------------------------------------------------------------
+
+*fading:                 8
+*fadeColor:              black
+*pointerColorBackground: #2B2C2B
+*pointerColorForeground: #16A085
+
+! -- XFT -----------------------------------------------------------------------
+
+Xft.dpi:       96
+Xft.antialias: true
+Xft.hinting:   true
+Xft.rgba:      rgb
+Xft.autohint:  false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
+! -- XCURSOR -------------------------------------------------------------------
+
+Xcursor.theme: xcursor-breeze
+Xcursor.size:  0
+
+! -- XTERM ---------------------------------------------------------------------
+
+XTerm*faceName:          xos4 Terminus
+XTerm*faceSize:          10
+!XTerm*reverseVideo:      on
 XTerm*selectToClipboard: true
-XTerm*visualBell: false
+XTerm*charClass:         33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+XTerm*saveLines:         5000
+!XTerm*scaleHeight: 1.1
+!XTerm*metaSendsEscape: true
 
-XTerm*background: #000000
-XTerm*foreground: #ffffff
+! -- URXVT ---------------------------------------------------------------------
 
-!! --- generated with http://ciembor.github.com/4bit
-!! --- special colors ---
-!XTerm*background: #262626
-!XTerm*foreground: #d9d9d9
-!
-!! --- standard colors ---
-!! black
-!XTerm*color0: #000000
-!
-!! bright_black
-!XTerm*color8: #262626
-!
-!! red
-!XTerm*color1: #c05b69
-!
-!! bright_red
-!XTerm*color9: #cda0ae
-!
-!! green
-!XTerm*color2: #50cd68
-!
-!! bright_green
-!XTerm*color10: #95d9ad
-!
-!! yellow
-!XTerm*color3: #c0cb68
-!
-!! bright_yellow
-!XTerm*color11: #cdd8ad
-!
-!! blue
-!XTerm*color4: #4e5dd9
-!
-!! bright_blue
-!XTerm*color12: #93a1e6
-!
-!! magenta
-!XTerm*color5: #be5bd9
-!
-!! bright_magenta
-!XTerm*color13: #cba0e6
-!
-!! cyan
-!XTerm*color6: #4ecdd8
-!
-!! bright_cyan
-!XTerm*color14: #93d9e5
-!
-!! white
-!XTerm*color7: #d9d9d9
-!
-!! bright_white
-!XTerm*color15: #ffffff
+! List of fonts (with optional fallback fonts).
+! * xcore fonts can just be listed, xft fonts must be prefixed with 'xft:'.
+! * Use 'fc-match "pattern"' to validate font pattern, eg
+!   fc-match 'MesloLGS NF:style=Italic'
+URxvt.font:       7x14,xft:Terminess Nerd Font Mono
+URxvt.italicFont: 7x13bold,xft:MesloLGS NF:style=Italic
+
+! Custom background, [N] gives opacity.
+!URxvt.background:                 [100]#222D31
+
+URxvt.depth:                32
+URxvt*scrollBar:            false
+URxvt*mouseWheelScrollPage: false
+URxvt*cursorBlink:          false
+URxvt*saveLines:            5000
+
+! Normal copy-paste keybindings without perls.
+URxvt.iso14755:                   false
+URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
+URxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
+! Xterm escape codes, word by word movement.
+URxvt.keysym.Control-Left:        \033[1;5D
+URxvt.keysym.Shift-Control-Left:  \033[1;6D
+URxvt.keysym.Control-Right:       \033[1;5C
+URxvt.keysym.Shift-Control-Right: \033[1;6C
+URxvt.keysym.Control-Up:          \033[1;5A
+URxvt.keysym.Shift-Control-Up:    \033[1;6A
+URxvt.keysym.Control-Down:        \033[1;5B
+URxvt.keysym.Shift-Control-Down:  \033[1;6B
+
+! Open links with Ctrl-LeftMouse click.
+URxvt.perl-ext:       default,matcher
+URxvt.url-launcher:   firefox
+URxvt.matcher.button: C-1
+
+! vim:cc=80:et
