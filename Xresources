@@ -1,6 +1,9 @@
 ! dotfiles -- Xresources
 ! author: johannst
 
+! Online color scheme creator tool
+!   terminal.sexy/
+
 ! -- COLORSCHEME: MANJARO ------------------------------------------------------
 
 *background:                      #222D31
