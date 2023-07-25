@@ -13,20 +13,16 @@ call plug#begin('~/.nvim/plugged')
     " Colors.
     Plug 'chriskempson/base16-vim'
 
-    " vsnip manager.
-    Plug 'hrsh7th/vim-vsnip'
-
     " LSP.
     Plug 'neovim/nvim-lspconfig'
     " Completion framework.
     Plug 'hrsh7th/nvim-cmp'
     " Completion sources.
-    Plug 'hrsh7th/cmp-vsnip'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-cmdline'
+    "Plug 'hrsh7th/cmp-path'
+    "Plug 'hrsh7th/cmp-cmdline'
 
     " Telescope.
     Plug 'nvim-lua/plenary.nvim'
@@ -90,27 +86,23 @@ lua << EOF
 local cmp = require'cmp'
 
 cmp.setup({
-  snippet = {
-    -- REQUIRED - you must specify a snippet engine
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
   mapping = cmp.mapping.preset.insert({
     ['<C-u>'] = cmp.mapping.scroll_docs(-4),
     ['<C-d>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'nvim_lsp_signature_help' },
   }, {
-    { name = 'vsnip' },
     { name = 'buffer' },
-    { name = 'path' }
-  })
+  --  { name = 'path' }
+  }),
+  experimental = {
+    ghost_text = true
+  },
 })
 
 -- Setup lspconfig.
@@ -171,7 +163,6 @@ nnoremap <silent> <C-]>         <cmd>lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> <leader><C-]> <cmd>lua vim.lsp.buf.type_definition()<cr>
 nnoremap <silent> K             <cmd>lua vim.lsp.buf.hover()<cr>
 nnoremap <silent> <C-k>         <cmd>lua vim.lsp.buf.signature_help()<cr>
-inoremap <silent> <C-k>         <cmd>lua vim.lsp.buf.signature_help()<cr>
 nnoremap <silent> <leader>r     <cmd>lua vim.lsp.buf.references()<cr>
 nnoremap <silent> <leader>i     <cmd>lua vim.lsp.buf.implementation()<cr>
 nnoremap <silent> <leader>f     <cmd>lua vim.lsp.buf.format()<cr>
