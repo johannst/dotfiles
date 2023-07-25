@@ -191,6 +191,16 @@ nnoremap <leader>do :DiffviewOpen --untracked-files=no
 nnoremap <leader>dc <cmd>DiffviewClose<cr>
 nnoremap <leader>dh :DiffviewFileHistory %
 
+" Location list
+nnoremap <leader>lo <cmd>lopen<cr>
+nnoremap <leader>lc <cmd>lclose<cr>
+nnoremap <leader>lg :lgrep <c-r><c-w>
+nnoremap <leader>ln <cmd>lnext<cr>
+nnoremap <leader>lp <cmd>lprev<cr>
+packadd cfilter
+nnoremap <leader>lf :Lfilter <c-r><c-w>
+nnoremap <leader>lfn :Lfilter! <c-r><c-w>
+
 " -----------------
 " Autogroups.
 " -----------------
