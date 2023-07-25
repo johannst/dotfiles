@@ -32,6 +32,9 @@ call plug#begin('~/.nvim/plugged')
     " Treesitter
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-context'
+
+    " Diffview
+    Plug 'sindrets/diffview.nvim'
 call plug#end()
 
 " -----------------
@@ -150,6 +153,11 @@ require('telescope').setup{
 }
 -- Telescope: load fzf-native.
 require('telescope').load_extension('fzf')
+
+-- Diffview
+require('diffview').setup({
+  use_icons = false,
+})
 EOF
 
 " -----------------
@@ -177,6 +185,11 @@ nnoremap <leader>fg  <cmd>Telescope live_grep<cr>
 nnoremap <leader>fm  <cmd>Telescope man_pages sections={"2","3"}<cr>
 nnoremap <leader>ft  <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>fwt <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+
+" Diffview
+nnoremap <leader>do :DiffviewOpen --untracked-files=no
+nnoremap <leader>dc <cmd>DiffviewClose<cr>
+nnoremap <leader>dh :DiffviewFileHistory %
 
 " -----------------
 " Autogroups.
