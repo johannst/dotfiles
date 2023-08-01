@@ -131,6 +131,7 @@ function vimConfigInstaller() {
 
 function nvimConfigInstaller() {
    local vimrc=~/.config/nvim/init.vim
+   mkdir -p ~/.config/nvim
    touch $vimrc
    grep $gMagicNumber $vimrc > /dev/null 2>&1
    if [[ $? = 0 ]]; then
@@ -138,6 +139,8 @@ function nvimConfigInstaller() {
    fi
    echo -e "\n\" $gMagicNumber - Auto generated, do not delete or modify!" >> $vimrc
    echo -e "source $ABS_BASE_DIR/nvim.init.vim" >> $vimrc
+   # install plug pkg manager
+   curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
    return 0
 }
 
