@@ -28,8 +28,15 @@
 ;; place backup of all files in single directory
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
 
+;; always show trailing whitespace (no mode needed)
+;; variable is buffer local, hence we overwrite the global default
+(setq-default show-trailing-whitespace t)
 ;; whitespace style (when whitespace-mode is enabled)
 (setq whitespace-style '(face trailing tabs lines tab-mark))
+
+;; -- ibuffer -------------------------------------------------------------------
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; -- isearch -------------------------------------------------------------------
 
@@ -62,6 +69,15 @@
 (evil-define-key '(normal motion) 'global (kbd "C-j") 'evil-scroll-down)
 
 (evil-define-key 'motion compilation-mode-map "gr" 'recompile)
+(evil-define-key 'motion compilation-mode-map "n" 'next-error-no-select)
+(evil-define-key 'motion compilation-mode-map "p" 'previous-error-no-select)
+
+(evil-define-key 'motion grep-mode-map "n" 'next-error-no-select)
+(evil-define-key 'motion grep-mode-map "p" 'previous-error-no-select)
+
+(evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") 'xref-goto-xref)
+(evil-define-key 'normal xref--xref-buffer-mode-map "n" 'xref-next-line)
+(evil-define-key 'normal xref--xref-buffer-mode-map "p" 'xref-prev-line)
 
 ;; -- magit ---------------------------------------------------------------------
 
