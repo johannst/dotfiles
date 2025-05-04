@@ -1,5 +1,6 @@
 (setq custom-file "~/.emacs.d/emacs-custom.el")
-(load-file custom-file)
+(when (file-exists-p custom-file)
+  (load-file custom-file))
 
 ;; -- utils ---------------------------------------------------------------------
 
@@ -24,6 +25,12 @@
 ;; line numbers
 ;(setq display-line-numbers-type 'relative)
 ;(display-line-numbers-mode 0)
+;; column numbers (mode-line)
+;(column-number-mode 1)
+
+;; fill column
+;(setq fill-column 80)
+;(display-fill-column-indicator-mode 1)
 
 ;; place backup of all files in single directory
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
@@ -78,6 +85,13 @@
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") 'xref-goto-xref)
 (evil-define-key 'normal xref--xref-buffer-mode-map "n" 'xref-next-line)
 (evil-define-key 'normal xref--xref-buffer-mode-map "p" 'xref-prev-line)
+
+(evil-define-key 'motion Info-mode-map (kbd "TAB") 'Info-next-reference)
+(evil-define-key 'motion Info-mode-map (kbd "RET") 'Info-follow-nearest-node)
+(evil-define-key 'motion Info-mode-map "n" 'Info-next)
+(evil-define-key 'motion Info-mode-map "p" 'Info-prev)
+(evil-define-key 'motion Info-mode-map "[" 'Info-backward-node)
+(evil-define-key 'motion Info-mode-map "]" 'Info-forward-node)
 
 ;; -- magit ---------------------------------------------------------------------
 
