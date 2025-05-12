@@ -66,7 +66,7 @@
 
 (install-once 'evil)
 
-;; need to be set before require-ing evil
+;; need to be set before requiring evil
 (setq evil-undo-system 'undo-redo)
 
 (require 'evil)
@@ -97,3 +97,11 @@
 
 (install-once 'magit)
 (require 'magit)
+
+;; -- eglot ---------------------------------------------------------------------
+
+;; overwrite default clangd cmdline
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd" "--completion-style=detailed" "--header-insertion=never"))))
+
