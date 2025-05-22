@@ -41,6 +41,10 @@
 ;; whitespace style (when whitespace-mode is enabled)
 (setq whitespace-style '(face trailing tabs lines tab-mark))
 
+;; -- windowing -----------------------------------------------------------------
+
+(setq split-height-threshold nil)
+
 ;; -- ibuffer -------------------------------------------------------------------
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -92,6 +96,31 @@
 (evil-define-key 'motion Info-mode-map "p" 'Info-prev)
 (evil-define-key 'motion Info-mode-map "[" 'Info-backward-node)
 (evil-define-key 'motion Info-mode-map "]" 'Info-forward-node)
+
+(evil-define-key nil completion-in-region-mode-map (kbd "M-p") 'minibuffer-previous-completion)
+(evil-define-key nil completion-in-region-mode-map (kbd "M-n") 'minibuffer-next-completion)
+
+(evil-define-key nil minibuffer-mode-map (kbd "M-p") 'minibuffer-previous-completion)
+(evil-define-key nil minibuffer-mode-map (kbd "M-n") 'minibuffer-next-completion)
+
+;; -- experimental leader key stuff ---------------------------------------------
+
+(evil-set-leader '(normal motion) (kbd "SPC"))
+
+(evil-define-key 'normal 'global (kbd "<leader>ff") 'find-file)
+(evil-define-key 'normal 'global (kbd "<leader>g") 'magit)
+(evil-define-key 'normal 'global (kbd "<leader>b") 'switch-to-buffer)
+(evil-define-key nil 'global (kbd "<leader>mm") 'switch-to-minibuffer)
+
+(defun switch-to-compile ()
+  (interactive)
+  (let ((compilation-window (get-buffer-window "*compilation*" t)))
+    (if compilation-window
+        (select-window compilation-window)
+      (switch-to-buffer-other-window "*compilation*"))))
+
+(evil-define-key '(normal motion) 'global (kbd "<leader>cc") 'compile)
+(evil-define-key '(normal motion) 'global (kbd "<leader>cb") 'switch-to-compile)
 
 ;; -- magit ---------------------------------------------------------------------
 
