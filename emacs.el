@@ -45,32 +45,11 @@
 
 (setq split-height-threshold nil)
 
-;; -- ibuffer -------------------------------------------------------------------
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
-;; -- isearch -------------------------------------------------------------------
-
-;; show number of matches
-(setq isearch-lazy-count t)
-
-;; -- ansi-color ----------------------------------------------------------------
-
-(require 'ansi-color)
-(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
-
-;; -- oderless ------------------------------------------------------------------
-
-(install-once 'orderless)
-(require 'orderless)
-(setq completion-styles '(orderless basic)
-      completion-category-overrides '((file (styles basic partial-completion))))
-
 ;; -- evil ----------------------------------------------------------------------
 
 (install-once 'evil)
 
-;; need to be set before requiring evil
+;; need to be set before loading evil
 (setq evil-undo-system 'undo-redo)
 
 (require 'evil)
@@ -79,37 +58,13 @@
 (evil-define-key '(normal motion) 'global (kbd "C-k") 'evil-scroll-up)
 (evil-define-key '(normal motion) 'global (kbd "C-j") 'evil-scroll-down)
 
-(evil-define-key 'motion compilation-mode-map "gr" 'recompile)
-(evil-define-key 'motion compilation-mode-map "n" 'next-error-no-select)
-(evil-define-key 'motion compilation-mode-map "p" 'previous-error-no-select)
-
-(evil-define-key 'motion grep-mode-map "n" 'next-error-no-select)
-(evil-define-key 'motion grep-mode-map "p" 'previous-error-no-select)
-
-(evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") 'xref-goto-xref)
-(evil-define-key 'normal xref--xref-buffer-mode-map "n" 'xref-next-line)
-(evil-define-key 'normal xref--xref-buffer-mode-map "p" 'xref-prev-line)
-
-(evil-define-key 'motion Info-mode-map (kbd "TAB") 'Info-next-reference)
-(evil-define-key 'motion Info-mode-map (kbd "RET") 'Info-follow-nearest-node)
-(evil-define-key 'motion Info-mode-map "n" 'Info-next)
-(evil-define-key 'motion Info-mode-map "p" 'Info-prev)
-(evil-define-key 'motion Info-mode-map "[" 'Info-backward-node)
-(evil-define-key 'motion Info-mode-map "]" 'Info-forward-node)
-
-(evil-define-key nil completion-in-region-mode-map (kbd "M-p") 'minibuffer-previous-completion)
-(evil-define-key nil completion-in-region-mode-map (kbd "M-n") 'minibuffer-next-completion)
-
-(evil-define-key nil minibuffer-mode-map (kbd "M-p") 'minibuffer-previous-completion)
-(evil-define-key nil minibuffer-mode-map (kbd "M-n") 'minibuffer-next-completion)
-
-;; -- experimental leader key stuff ---------------------------------------------
+;; -- evil - leader -------------------------------------------------------------
 
 (evil-set-leader '(normal motion) (kbd "SPC"))
 
-(evil-define-key 'normal 'global (kbd "<leader>ff") 'find-file)
-(evil-define-key 'normal 'global (kbd "<leader>g") 'magit)
-(evil-define-key 'normal 'global (kbd "<leader>b") 'switch-to-buffer)
+(evil-define-key '(normal motion) 'global (kbd "<leader>ff") 'find-file)
+(evil-define-key '(normal motion) 'global (kbd "<leader>g") 'magit)
+(evil-define-key '(normal motion) 'global (kbd "<leader>b") 'switch-to-buffer)
 (evil-define-key nil 'global (kbd "<leader>mm") 'switch-to-minibuffer)
 
 (defun switch-to-compile ()
@@ -122,10 +77,66 @@
 (evil-define-key '(normal motion) 'global (kbd "<leader>cc") 'compile)
 (evil-define-key '(normal motion) 'global (kbd "<leader>cb") 'switch-to-compile)
 
-;; -- magit ---------------------------------------------------------------------
+;; -- info ----------------------------------------------------------------------
 
-(install-once 'magit)
-(require 'magit)
+(evil-define-key 'motion Info-mode-map (kbd "TAB") 'Info-next-reference)
+(evil-define-key 'motion Info-mode-map (kbd "RET") 'Info-follow-nearest-node)
+(evil-define-key 'motion Info-mode-map "n" 'Info-next)
+(evil-define-key 'motion Info-mode-map "p" 'Info-prev)
+(evil-define-key 'motion Info-mode-map "[" 'Info-backward-node)
+(evil-define-key 'motion Info-mode-map "]" 'Info-forward-node)
+
+;; -- which-key -----------------------------------------------------------------
+
+(install-once 'which-key)
+(require 'which-key)
+(which-key-mode t)
+
+;; -- ibuffer -------------------------------------------------------------------
+
+(evil-define-key nil 'global (kbd "C-x C-b") 'ibuffer)
+
+;; -- dired ---------------------------------------------------------------------
+
+;; remove space mapping when dired is loaded in favor of <leader> key
+(with-eval-after-load 'dired
+  (evil-define-key nil dired-mode-map (kbd "SPC") nil))
+
+;; -- isearch -------------------------------------------------------------------
+
+;; show number of matches
+(setq isearch-lazy-count t)
+
+;; -- grep ----------------------------------------------------------------------
+
+(evil-define-key 'motion grep-mode-map "n" 'next-error-no-select)
+(evil-define-key 'motion grep-mode-map "p" 'previous-error-no-select)
+
+;; -- compile -------------------------------------------------------------------
+
+(evil-define-key 'motion compilation-mode-map "gr" 'recompile)
+(evil-define-key 'motion compilation-mode-map "n" 'next-error-no-select)
+(evil-define-key 'motion compilation-mode-map "p" 'previous-error-no-select)
+
+;; ansi-color
+(add-hook 'compilation-filter-hook
+          (lambda ()
+            (require 'ansi-color)
+            (ansi-color-compilation-filter)))
+
+;; -- xref ----------------------------------------------------------------------
+
+(evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") 'xref-goto-xref)
+(evil-define-key 'normal xref--xref-buffer-mode-map "n" 'xref-next-line)
+(evil-define-key 'normal xref--xref-buffer-mode-map "p" 'xref-prev-line)
+
+;; -- minibuffer completion -----------------------------------------------------
+
+(evil-define-key nil completion-in-region-mode-map (kbd "M-p") 'minibuffer-previous-completion)
+(evil-define-key nil completion-in-region-mode-map (kbd "M-n") 'minibuffer-next-completion)
+
+(evil-define-key nil minibuffer-mode-map (kbd "M-p") 'minibuffer-previous-completion)
+(evil-define-key nil minibuffer-mode-map (kbd "M-n") 'minibuffer-next-completion)
 
 ;; -- eglot ---------------------------------------------------------------------
 
@@ -134,3 +145,14 @@
   (add-to-list 'eglot-server-programs
                '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd" "--completion-style=detailed" "--header-insertion=never"))))
 
+;; -- magit ---------------------------------------------------------------------
+
+(install-once 'magit)
+(require 'magit)
+
+;; -- oderless ------------------------------------------------------------------
+
+(install-once 'orderless)
+(require 'orderless)
+(setq completion-styles '(orderless basic)
+      completion-category-overrides '((file (styles basic partial-completion))))
