@@ -112,7 +112,14 @@
 (evil-define-key 'motion grep-mode-map "n" 'next-error-no-select)
 (evil-define-key 'motion grep-mode-map "p" 'previous-error-no-select)
 
+(evil-define-key 'motion grep-mode-map "D" (lambda ()
+                                             (interactive)
+                                             (read-only-mode -1)
+                                             (call-interactively 'delete-matching-lines)))
+
 ;; -- compile -------------------------------------------------------------------
+
+(setq compilation-scroll-output t)
 
 (evil-define-key 'motion compilation-mode-map "gr" 'recompile)
 (evil-define-key 'motion compilation-mode-map "n" 'next-error-no-select)
@@ -132,11 +139,11 @@
 
 ;; -- minibuffer completion -----------------------------------------------------
 
-(evil-define-key nil completion-in-region-mode-map (kbd "M-p") 'minibuffer-previous-completion)
-(evil-define-key nil completion-in-region-mode-map (kbd "M-n") 'minibuffer-next-completion)
+(evil-define-key nil completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(evil-define-key nil completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
 
-(evil-define-key nil minibuffer-mode-map (kbd "M-p") 'minibuffer-previous-completion)
-(evil-define-key nil minibuffer-mode-map (kbd "M-n") 'minibuffer-next-completion)
+(evil-define-key nil minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(evil-define-key nil minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
 
 ;; -- eglot ---------------------------------------------------------------------
 
@@ -156,3 +163,10 @@
 (require 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
+
+;; -- ediff ---------------------------------------------------------------------
+
+;; split ediffs buffers side-by-side
+(setq ediff-split-window-function 'split-window-horizontally)
+;; open ediff control window in the same frame
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
