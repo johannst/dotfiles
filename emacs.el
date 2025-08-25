@@ -77,6 +77,12 @@
 (evil-define-key '(normal motion) 'global (kbd "<leader>cc") 'compile)
 (evil-define-key '(normal motion) 'global (kbd "<leader>cb") 'switch-to-compile)
 
+(defun file-name-line-number ()
+  (interactive)
+  (kill-new (concat (buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
+
+(evil-define-key '(normal motion) 'global (kbd "<leader>l") 'file-name-line-number)
+
 ;; -- info ----------------------------------------------------------------------
 
 (evil-define-key 'motion Info-mode-map (kbd "TAB") 'Info-next-reference)
