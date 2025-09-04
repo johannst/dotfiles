@@ -101,6 +101,7 @@
 ;; -- ibuffer -------------------------------------------------------------------
 
 (evil-define-key nil 'global (kbd "C-x C-b") 'ibuffer)
+(add-hook 'ibuffer-mode-hook 'hl-line-mode)
 
 ;; -- dired ---------------------------------------------------------------------
 
@@ -162,6 +163,10 @@
 
 (install-once 'magit)
 (require 'magit)
+
+;; -- project -------------------------------------------------------------------
+
+(setq project-buffers-viewer 'project-list-buffers-ibuffer)
 
 ;; -- oderless ------------------------------------------------------------------
 
