@@ -75,6 +75,7 @@
       (switch-to-buffer-other-window "*compilation*"))))
 
 (evil-define-key '(normal motion) 'global (kbd "<leader>cc") 'compile)
+(evil-define-key '(normal motion) 'global (kbd "<leader>cr") 'recompile)
 (evil-define-key '(normal motion) 'global (kbd "<leader>cb") 'switch-to-compile)
 
 (defun file-name-line-number ()
@@ -82,6 +83,8 @@
   (kill-new (concat (buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
 
 (evil-define-key '(normal motion) 'global (kbd "<leader>l") 'file-name-line-number)
+
+(evil-define-key '(normal motion) 'global (kbd "<leader>p") project-prefix-map)
 
 ;; -- info ----------------------------------------------------------------------
 
@@ -97,6 +100,12 @@
 (install-once 'which-key)
 (require 'which-key)
 (which-key-mode t)
+
+(which-key-add-key-based-replacements
+  "SPC c" "compile"
+  "SPC f" "file"
+  "SPC m" "minibuffer"
+  "SPC p" "project")
 
 ;; -- ibuffer -------------------------------------------------------------------
 
