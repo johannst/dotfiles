@@ -168,6 +168,10 @@
   (add-to-list 'eglot-server-programs
                '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd" "--completion-style=detailed" "--header-insertion=never"))))
 
+(install-once 'eglot-inactive-regions)
+(require 'eglot-inactive-regions)
+(eglot-inactive-regions-mode 1)
+
 ;; -- magit ---------------------------------------------------------------------
 
 (install-once 'magit)
