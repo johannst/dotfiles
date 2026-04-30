@@ -1,39 +1,64 @@
 ! dotfiles -- Xresources
 ! author: johannst
-
-! Online color scheme creator tool
-!   terminal.sexy/
+!
+! DPI
+!   Sometime the font may be rendered too large too small according to the
+!   selected font size. This typically means that the dpi value is off.
+!   There are two dpi settings
+!   (1) Xft.dpi (Xresources; font rendering)
+!   (2) xserver
+!
+!   (2) can be set for example with xrandr:
+!     - Get dpi settings of xserver
+!       xdpyinfo | grep dots
+!     - Set dpi settings of xserver
+!       xrander --dpi 96
+!
+! FONTS
+!   * xcore fonts, x logical font description (xlfd)
+!     https://wiki.archlinux.org/title/X_Logical_Font_Description
+!     - font names are described by 14 elements, eg -misc-fixed-medium--r-normal--14-*-*-*-*-*-*-*
+!     - aliases exist, eg 9x15
+!   -> xfd -fn "<font>"
+!   -> xfontsel                 # interactive selection
+!   -> xlsfonts -ll -fn "9x15"  # detailed font description
+!
+!   * xft (x free type) fontx, uses fontconfig
+!   -> xfd -fa "<font>"
+!   -> fc-list
+!   -> fc-match
+!   -> fc-cache
 
 ! -- COLORSCHEME: MANJARO ------------------------------------------------------
 
-*background:                      #222D31
-*foreground:                      #d8d8d8
-*cursorColor:                     #1ABB9B
+!*background:                      #222D31
+!*foreground:                      #d8d8d8
+!*cursorColor:                     #1ABB9B
 
-! black dark/light
-*color0:                          #222D31
-*color8:                          #585858
-! red dark/light
-*color1:                          #ab4642
-*color9:                          #ab4642
-! green dark/light
-*color2:                          #7E807E
-*color10:                         #8D8F8D
-! yellow dark/light
-*color3:                          #f7ca88
-*color11:                         #f7ca88
-! blue dark/light
-*color4:                          #7cafc2
-*color12:                         #7cafc2
-! magenta dark/light
-*color5:                          #ba8baf
-*color13:                         #ba8baf
-! cyan dark/light
-*color6:                          #1ABB9B
-*color14:                         #1ABB9B
-! white dark/light
-*color7:                          #d8d8d8
-*color15:                         #f8f8f8
+!! black dark/light
+!*color0:                          #222D31
+!*color8:                          #314843
+!! red dark/light
+!*color1:                          #ab4642
+!*color9:                          #ab4642
+!! green dark/light
+!*color2:                          #7E807E
+!*color10:                         #8D8F8D
+!! yellow dark/light
+!*color3:                          #f7ca88
+!*color11:                         #f7ca88
+!! blue dark/light
+!*color4:                          #7cafc2
+!*color12:                         #7cafc2
+!! magenta dark/light
+!*color5:                          #ba8baf
+!*color13:                         #ba8baf
+!! cyan dark/light
+!*color6:                          #00d992
+!*color14:                         #00d992
+!! white dark/light
+!*color7:                          #d8d8d8
+!*color15:                         #f8f8f8
 
 ! -- GLOBAL --------------------------------------------------------------------
 
@@ -67,6 +92,16 @@ XTerm*charClass:         33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
 XTerm*saveLines:         5000
 !XTerm*scaleHeight: 1.1
 !XTerm*metaSendsEscape: true
+
+! -- UXTERM --------------------------------------------------------------------
+
+! xcore font
+!UXTerm*font:              9x15
+! xft cont
+UXTerm*faceName:          xos4 Terminus
+UXTerm*faceSize:          10
+UXTerm*selectToClipboard: true
+UXTerm*charClass:         33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
 
 ! -- URXVT ---------------------------------------------------------------------
 
