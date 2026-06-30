@@ -1,12 +1,19 @@
+;;; project.el --- Personal emacs config -*- lexical-binding: t; -*-
+;;
+;; author: johannst
+
+(require 'package)
+
 (setq custom-file "~/.emacs.d/emacs-custom.el")
 (when (file-exists-p custom-file)
   (load-file custom-file))
 
 ;; -- utils ---------------------------------------------------------------------
 
-(defun install-once (pkg)
+(defun make-avail (pkg)
   (unless (package-installed-p pkg)
-    (package-install pkg)))
+    (package-install pkg))
+  (require pkg))
 
 ;; -- emacs ---------------------------------------------------------------------
 
@@ -29,7 +36,7 @@
 ;(column-number-mode 1)
 
 ;; fill column
-;(setq fill-column 80)
+(setq-default fill-column 80)
 ;(display-fill-column-indicator-mode 1)
 
 ;; place backup of all files in single directory
@@ -47,12 +54,10 @@
 
 ;; -- evil ----------------------------------------------------------------------
 
-(install-once 'evil)
-
 ;; need to be set before loading evil
 (setq evil-undo-system 'undo-redo)
 
-(require 'evil)
+(make-avail 'evil)
 (evil-mode 1)
 
 (evil-define-key '(normal motion) 'global (kbd "C-k") 'evil-scroll-up)
@@ -97,10 +102,10 @@
 
 ;; -- which-key -----------------------------------------------------------------
 
-(install-once 'which-key)
-(require 'which-key)
-(which-key-mode t)
+(make-avail 'which-key)
+(which-key-mode 1)
 
+;; attach names to sub menus
 (which-key-add-key-based-replacements
   "SPC c" "compile"
   "SPC f" "file"
@@ -116,7 +121,7 @@
 
 ;; remove space mapping when dired is loaded in favor of <leader> key
 (with-eval-after-load 'dired
-  (evil-define-key nil dired-mode-map (kbd "SPC") nil))
+  (evil-define-key nil dired-mode-map (kbd "<leader>") nil))
 
 ;; -- isearch -------------------------------------------------------------------
 
@@ -168,14 +173,12 @@
   (add-to-list 'eglot-server-programs
                '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd" "--completion-style=detailed" "--header-insertion=never"))))
 
-(install-once 'eglot-inactive-regions)
-(require 'eglot-inactive-regions)
+(make-avail 'eglot-inactive-regions)
 (eglot-inactive-regions-mode 1)
 
 ;; -- magit ---------------------------------------------------------------------
 
-(install-once 'magit)
-(require 'magit)
+(make-avail 'magit)
 
 ;; -- project -------------------------------------------------------------------
 
@@ -183,8 +186,7 @@
 
 ;; -- oderless ------------------------------------------------------------------
 
-(install-once 'orderless)
-(require 'orderless)
+(make-avail 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
 
@@ -194,3 +196,8 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 ;; open ediff control window in the same frame
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; -- vertico -------------------------------------------------------------------
+
+(make-avail 'vertico)
+(vertico-mode 1)
