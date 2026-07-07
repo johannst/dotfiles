@@ -48,6 +48,9 @@
 ;; whitespace style (when whitespace-mode is enabled)
 (setq whitespace-style '(face trailing tabs lines tab-mark))
 
+;; enable fold minor mode in programming modes
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+
 ;; -- windowing -----------------------------------------------------------------
 
 (setq split-height-threshold nil)
@@ -184,7 +187,7 @@
 
 (setq project-buffers-viewer 'project-list-buffers-ibuffer)
 
-;; -- oderless ------------------------------------------------------------------
+;; -- orderless -----------------------------------------------------------------
 
 (make-avail 'orderless)
 (setq completion-styles '(orderless basic)
